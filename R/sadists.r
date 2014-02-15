@@ -16,16 +16,20 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with sadists.  If not, see <http://www.gnu.org/licenses/>.
 
-# Created: 2014.01.31
+# Created: 2014.02.13
 # Copyright: Steven E. Pav, 2014
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-#' Inference on the Markowitz portfolio.
-#' 
-#' @section Markowitz Portfolio:
+#' Some Auxiliary Distributions.
 #'
-#' foo.
+#' A collection of distributions not apparently available in R.
+#' 
+#' @section Doubly Noncentral t
+#'
+#' @section Doubly Noncentral F
+#'
+#' @section Lambda Prime
 #'
 #' @section Legal Mumbo Jumbo:
 #'
@@ -35,19 +39,15 @@
 #' GNU Lesser General Public License for more details.
 #'
 #' @template etc
+#' @template ref-IP
+#' @template ref-kprime
 #'
-#' @references
-#'
-#' Brandt, Michael W. "Portfolio Choice Problems." Handbook of Financial
-#' Econometrics 1 (2009): 269--336. 
-#' \url{http://shr.receptidocs.ru/docs/5/4748/conv_1/file1.pdf#page=298}
-#'
-#' @import matrixcalc sandwich gtools
+#' @import hypergeo
 #'
 #' @name sadists
 #' @rdname sadists
 #' @docType package
-#' @title statistics concerning the Markowitz portfolio
+#' @title Some Auxiliary Distributions
 #' @keywords package
 #' 
 #' This package is maintained as a hobby. 
