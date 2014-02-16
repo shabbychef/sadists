@@ -27,9 +27,48 @@
 #' 
 #' @section Doubly Noncentral t
 #'
+#' The doubly noncentral t distribution generalizes the (singly)
+#' noncentral t distribution to the case where the numerator is
+#' the square root of a scaled noncentral chi-square distribution.
+#' That is, if 
+#' \eqn{X \sim \mathcal{N}\left(\mu,1\right)}{X ~ N(u,1)} independently
+#' of \eqn{Y \sim \chi^2\left(k,\theta\right)}{Y ~ x^2(k,theta)}, then
+#' the random variable
+#' \deqn{T = \frac{X}{\sqrt{Y/k}}}{T = X / sqrt(Y/k)}
+#' takes a doubly non-central t distribution with parameters
+#' \eqn{k, \mu, \theta}{k, mu, theta}.
+#'
 #' @section Doubly Noncentral F
 #'
-#' @section Lambda Prime
+#' The doubly noncentral F distribution generalizes the (singly)
+#' noncentral F distribution to the case where the numerator is
+#' a scaled noncentral chi-square distribution.
+#' That is, if 
+#' \eqn{X \sim \chi^2\left(n_1,\theta_1\right)}{X ~ x^2(n1,theta1)} independently 
+#' of \eqn{Y \sim \chi^2\left(n_2,\theta_2\right)}{Y ~ x^2(n2,theta2)}, then
+#' the random variable
+#' \deqn{T = \frac{X / n_1}{Y / n_2}}{T = (X/n1) / (Y/n2)}
+#' takes a doubly non-central F distribution with parameters
+#' \eqn{n_1, n_2, \theta_1, \theta_2}{n1, n2, theta1, theta2}. 
+#'
+#' @section K Prime
+#'
+#' Introduced by Lecoutre, the K prime family of distributions generalize
+#' the (singly) non-central t, and lambda prime distributions. 
+#' Suppose \eqn{y \sim \chi^2\left(q\right)}{y ~ x^2(k)}, and
+#' \eqn{x \sim t \left(r, a\sqrt{y/q}/b\right){x ~ t(r,(a/b) sqrt(y/q))}.
+#' Then the random variable
+#' \deqn{Z = b x}{Z = b x}
+#' takes a K prime distribution with parameters q, r, a, b.
+#'
+#' @section K Square
+#'
+#' Introduced by Lecoutre, the K square family of distributions generalize
+#' the (singly) non-central F, and lambda square distributions.
+#' Suppose \eqn{y \sim \chi^2\left(q\right)}{y ~ x^2(k)}, and
+#' \eqn{x \sim F \left(m, r, a^2 y/q\right){x ~ F(m, r, a^2 y / q)}.
+#' Then the random variable \eqn{x}{x}
+#' takes a K square distribution with parameters m, q, r, a.
 #'
 #' @section Legal Mumbo Jumbo:
 #'

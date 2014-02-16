@@ -27,7 +27,7 @@
 #' @description 
 #'
 #' Density, distribution function, quantile function and random
-#' generation for the doubly non-central t-distribution.
+#' generation for the doubly non-central t distribution.
 #'
 #' @details
 #'
@@ -35,7 +35,7 @@
 #' of \eqn{Y \sim \chi^2\left(k,\theta\right)}{Y ~ x^2(k,theta)}. The 
 #' random variable
 #' \deqn{T = \frac{X}{\sqrt{Y/k}}}{T = X / sqrt(Y/k)}
-#' takes a \emph{doubly non-central t-distribution} with parameters
+#' takes a \emph{doubly non-central t distribution} with parameters
 #' \eqn{k, \mu, \theta}{k, mu, theta}.
 #'
 #' @usage
@@ -54,7 +54,7 @@
 #' @param k the degrees of freedom in the denominator.
 #' @param mu the numerator non-centrality parameter, \eqn{\mu}{mu}.
 #' @param theta the denominator non-centrality parameter, \eqn{\theta}{theta}.
-#' When equal to zero, we recover the singly non-central t-distribution.
+#' When equal to zero, we recover the singly non-central t distribution.
 #' @param log logical; if TRUE, densities \eqn{f} are given 
 #'  as \eqn{\mbox{log}(f)}{log(f)}.
 #' @param log.p logical; if TRUE, probabilities p are given 
@@ -73,7 +73,7 @@
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
 #' @aliases pdnt qdnt rdnt
-#' @seealso t-distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}}
+#' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}}
 #' @note
 #' This is a thin wrapper on the t distribution. 
 #' The functions \code{\link{dt}, \link{pt}, \link{qt}} can accept ncp from
