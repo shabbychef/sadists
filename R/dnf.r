@@ -21,13 +21,19 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-# ddnt, pdnt, qdnt, rdnt#FOLDUP
-#' @title The doubly non-central t distribution.
+# see also:
+#
+# http://www.statsresearch.co.nz/robert/QF.htm
+# http://www.jstor.org/stable/2347725
+# Pan's algo
+#
+# ddnf, pdnf, qdnf, rdnf#FOLDUP
+#' @title The doubly non-central f distribution.
 #'
 #' @description 
 #'
 #' Density, distribution function, quantile function and random
-#' generation for the doubly non-central t distribution.
+#' generation for the doubly non-central f distribution.
 #'
 #' @details
 #'
@@ -35,18 +41,18 @@
 #' of \eqn{Y \sim \chi^2\left(k,\theta\right)}{Y ~ x^2(k,theta)}. The 
 #' random variable
 #' \deqn{T = \frac{X}{\sqrt{Y/k}}}{T = X / sqrt(Y/k)}
-#' takes a \emph{doubly non-central t distribution} with parameters
+#' takes a \emph{doubly non-central f distribution} with parameters
 #' \eqn{k, \mu, \theta}{k, mu, theta}.
 #'
 #' @usage
 #'
-#' ddnt(x, k, mu, theta, log = FALSE)
+#' ddnf(x, k, mu, theta, log = FALSE)
 #'
-#' pdnt(q, k, mu, theta, lower.tail = TRUE, log.p = FALSE)
+#' pdnf(q, k, mu, theta, lower.tail = TRUE, log.p = FALSE)
 #'
-#' qdnt(p, k, mu, theta, lower.tail = TRUE, log.p = FALSE)
+#' qdnf(p, k, mu, theta, lower.tail = TRUE, log.p = FALSE)
 #'
-#' rdnt(n, k, mu, theta)
+#' rdnf(n, k, mu, theta)
 #'
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
@@ -54,7 +60,7 @@
 #' @param k the degrees of freedom in the denominator.
 #' @param mu the numerator non-centrality parameter, \eqn{\mu}{mu}.
 #' @param theta the denominator non-centrality parameter, \eqn{\theta}{theta}.
-#' When equal to zero, we recover the singly non-central t distribution.
+#' When equal to zero, we recover the singly non-central f distribution.
 #' @param log logical; if TRUE, densities \eqn{f} are given 
 #'  as \eqn{\mbox{log}(f)}{log(f)}.
 #' @param log.p logical; if TRUE, probabilities p are given 
@@ -67,40 +73,40 @@
 #' @inheritParams rt
 #'
 #' @keywords distribution 
-#' @return \code{ddnt} gives the density, \code{pdnt} gives the 
-#' distribution function, \code{qdnt} gives the quantile function, 
-#' and \code{rdnt} generates random deviates.
+#' @return \code{ddnf} gives the density, \code{pdnf} gives the 
+#' distribution function, \code{qdnf} gives the quantile function, 
+#' and \code{rdnf} generates random deviates.
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
-#' @aliases pdnt qdnt rdnt
-#' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}}
+#' @aliases pdnf qdnf rdnf
+#' @seealso f distribution functions, \code{\link{df}, \link{pf}, \link{qf}, \link{rf}}
 #' @note
 #' This is a thin wrapper on the t distribution. 
 #' The functions \code{\link{dt}, \link{pt}, \link{qt}} can accept ncp from
 #' limited range (\eqn{|\delta|\le 37.62}{delta <= 37.62}). Some corrections
 #' may have to be made here for large \code{zeta}.
 #' @template etc
-#' @template dnt
+#' @template dnf
 #' @examples 
-#' rvs <- rdnt(128, 20, 1, 1)
-#' dvs <- ddnt(rvs, 20, 1, 1)
-#' pvs.H0 <- pdnt(rvs, 20, 0, 1)
-#' pvs.HA <- pdnt(rvs, 20, 1, 1)
+#' rvs <- rdnf(128, 20, 1, 1)
+#' dvs <- ddnf(rvs, 20, 1, 1)
+#' pvs.H0 <- pdnf(rvs, 20, 0, 1)
+#' pvs.HA <- pdnf(rvs, 20, 1, 1)
 #' \dontrun{
 #' plot(ecdf(pvs.H0))
 #' plot(ecdf(pvs.HA))
 #' }
 #' # compare to singly non-central
-#' dv1 <- ddnt(1, k=10, mu=5, theta=0, log=FALSE)
+#' dv1 <- ddnf(1, k=10, mu=5, theta=0, log=FALSE)
 #' dv2 <- dt(1, df=10, ncp=5, log=FALSE)
-#' pv1 <- pdnt(1, k=10, mu=5, theta=0, log.p=FALSE)
-#' pv11 <- pdnt(1, k=10, mu=5, theta=0.001, log.p=FALSE)
+#' pv1 <- pdnf(1, k=10, mu=5, theta=0, log.p=FALSE)
+#' pv11 <- pdnf(1, k=10, mu=5, theta=0.001, log.p=FALSE)
 #' v2 <- pt(1, df=10, ncp=5, log.p=FALSE)
 #'
-#' q1 <- qdnt(pv1, k=10, mu=5, theta=0, log.p=FALSE)
+#' q1 <- qdnf(pv1, k=10, mu=5, theta=0, log.p=FALSE)
 #'
 # listing 10.13
-.ddnt <- function(x, k, mu, theta, log=FALSE) {
+.ddnf <- function(x, k, mu, theta, log=FALSE) {
 	aterm <- x * mu * sqrt(2/k)
 	kon <- (-(theta + mu^2)/2) - log(pi*k)/2;
 	w <- (1+(x^2/k))
@@ -129,11 +135,11 @@
 	return(kum)
 }
 #' @export 
-ddnt <- Vectorize(.ddnt,
+ddnf <- Vectorize(.ddnf,
 									vectorize.args = c("x","k","mu","theta"),
 									SIMPLIFY = TRUE)
-# listing 10.15
-.pdnt <- function(q, k, mu, theta, lower.tail = TRUE, log.p = FALSE) {
+#' listing 10.15
+.pdnf <- function(q, k, mu, theta, lower.tail = TRUE, log.p = FALSE) {
 	if (theta == 0)
 		return(pt(q,df=k,ncp=mu,lower.tail=lower.tail,log.p=log.p))
 	partsum <- 0
@@ -161,18 +167,18 @@ ddnt <- Vectorize(.ddnt,
 	return(cdf)
 }
 #' @export 
-pdnt <- Vectorize(.pdnt,
+pdnf <- Vectorize(.pdnf,
 									vectorize.args = c("q","k","mu","theta"),
 									SIMPLIFY = TRUE)
-# uh, invert it? numerically?
-.qdnt <- function(p, k, mu, theta, lower.tail = TRUE, log.p = FALSE) {
+#' uh, invert it? numerically?
+.qdnf <- function(p, k, mu, theta, lower.tail = TRUE, log.p = FALSE) {
 	if (lower.tail) 
 		zerf <- function(q) {
-			.pdnt(q,k,mu,theta,lower.tail=lower.tail,log.p=log.p) - p
+			.pdnf(q,k,mu,theta,lower.tail=lower.tail,log.p=log.p) - p
 		}
 	else
 		zerf <- function(q) {
-			p - .pdnt(q,k,mu,theta,lower.tail=lower.tail,log.p=log.p)
+			p - .pdnf(q,k,mu,theta,lower.tail=lower.tail,log.p=log.p)
 		}
 	q0 <- qt(p, df=k, ncp=mu, lower.tail=lower.tail, log.p=log.p)
 	v0 <- zerf(q0)
@@ -209,11 +215,11 @@ pdnt <- Vectorize(.pdnt,
 	return(rfnd$root)
 }
 #' @export 
-qdnt <- Vectorize(.qdnt,
+qdnf <- Vectorize(.qdnf,
 									vectorize.args = c("p","k","mu","theta"),
 									SIMPLIFY = TRUE)
 #' @export 
-rdnt <- function(n, k, mu, theta) {
+rdnf <- function(n, k, mu, theta) {
 	X <- rnorm(n,mean=mu,sd=1)
 	Y <- rchisq(n,df=k,ncp=theta)
 	Z <- X / sqrt(Y / k)

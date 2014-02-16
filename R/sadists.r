@@ -55,17 +55,19 @@
 #'
 #' Introduced by Lecoutre, the K prime family of distributions generalize
 #' the (singly) non-central t, and lambda prime distributions. 
-#' Suppose \eqn{y \sim \chi^2\left(q\right)}{y ~ x^2(k)}, and
-#' \eqn{x \sim t \left(r, a\sqrt{y/q}/b\right){x ~ t(r,(a/b) sqrt(y/q))}.
+#' Suppose \eqn{y \sim \chi^2\left(\nu_2\right)}{y ~ x^2(v2)}, and
+#' \eqn{x \sim t \left(\nu_1, a\sqrt{y/\nu_2}/b\right){x ~ t(v1,(a/b) sqrt(y/v2))}.
 #' Then the random variable
 #' \deqn{Z = b x}{Z = b x}
-#' takes a K prime distribution with parameters q, r, a, b.
+#' takes a K prime distribution with parameters 
+#' \eqn{\nu_2, \nu_1, a, b}{v2, v1, a, b}. In Lecoutre's terminology,
+#' \eqn{Z \sim K'_{\nu_2, \nu_1}\left(a, b\right)}{Z ~ K'_v2,v1(a,b)}
 #'
 #' @section K Square
 #'
 #' Introduced by Lecoutre, the K square family of distributions generalize
 #' the (singly) non-central F, and lambda square distributions.
-#' Suppose \eqn{y \sim \chi^2\left(q\right)}{y ~ x^2(k)}, and
+#' Suppose \eqn{y \sim \chi^2\left(q\right)}{y ~ x^2(q)}, and
 #' \eqn{x \sim F \left(m, r, a^2 y/q\right){x ~ F(m, r, a^2 y / q)}.
 #' Then the random variable \eqn{x}{x}
 #' takes a K square distribution with parameters m, q, r, a.
