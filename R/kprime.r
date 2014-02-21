@@ -86,35 +86,80 @@
 #' @template etc
 #' @template kprime
 #' @examples 
+#' d1 <- dkprime(1, 20, 50, a=0.01)
+#' d2 <- dkprime(1, 20, 50, a=0.0001)
+#' d3 <- dkprime(1, 20, 50, a=0)
+#' d4 <- dkprime(1, 20, 10000, a=1)
+#' d5 <- dkprime(1, 20, Inf, a=1)
 .dkprime <- function(x, v1, v2, a, b = 1, log = FALSE) {
+#2FIX: check sane values of v1, v2, a, b?
+
 	# first scale out b;
 	x <- x / b
 	if (is.infinite(v2)) {
 		dens <- dt(x, df=v1, ncp=a, log = log)
+	} else if (a == 0) {
+		dens <- dt(x, df=v1, log = log)
 	} else {
+#2FIX: what if is.infinite(v1) ???
+		polyterm <- (a*x) * sqrt(4 / ((v2+a^2) * (v1+x^2)))
+
+		f.accum <- function(idx) {
+			retval <- ((polyterm/2)^2) * (v1+idx) * (v2+1+idx) / ((idx+2) * (idx+1))
+			retval <- cumprod(retval)
+		}
+
+		ldenom.0 <- lgamma(v2/2) + lgamma((1+v1)/2)
+		ldenom.1 <- lgamma((1+v2)/2) + lgamma((2+v1)/2)
+
+		a0 <- 1
+		a1 <- polyterm
+		a.even <- a0
+		a.odd <- a1
+		sum.even <- a0
+		sum.odd <- a1
+
+		idx.even <- c(0)
+		idx.odd <- c(1)
+
+		ntak <- 100
+		done <- FALSE
+		while (!done) {
+			idx.even <- seq(2 + idx.even[length(idx.even)],by=2,length.out=ntak)
+			idx.odd <- seq(2 + idx.odd[length(idx.odd)],by=2,length.out=ntak)
+			a.even <- a.even[length(a.even)] * f.accum(idx.even)
+			a.odd <- a.odd[length(a.odd)] * f.accum(idx.odd)
+			sum.even <- sum.even + sum(a.even)
+			sum.odd <- sum.odd + sum(a.odd)
+			done <- (idx.even[1] > 100000)
+			done <- done || 
+				((a.even[length(a.even)] < a.even[1]) && (a.odd[length(a.odd)] < a.odd[1]))
+		}
+
+		ldrag <- lgamma(v2/2) + lgamma(v1/2)
+		ldenom.0 <- ldenom.0 - ldrag
+		ldenom.1 <- ldenom.1 - ldrag
+
 		if (log) {
-			cterm <- -0.5 * log(pi * v1) - lgamma(v2 / 2) - lgamma(v1 / 2)
+			cterm <- -0.5 * log(pi * v1)
 			cterm <- cterm + (v2/2) * (log(v2) - log(v2 + a^2))
 			cterm <- cterm + ((1 + v1)/2) * (log(v1) - log(v1 + x^2))
-			polyterm <- (a*x) * sqrt(4 / ((v2+a^2) * (v1+x^2)))
 
+			# crappy. want a better log expansion..
+			proto.dens <- exp(ldenom.0) * sum.even + exp(ldenom.1) * sum.odd
+
+			dens <- cterm + log(proto.dens)
 		} else {
-			cterm <- (1 / (sqrt(pi * v1) * gamma(v2/2) * gamma(v1/2)))
+			#cterm <- 1 / (sqrt(pi * v1) * exp(ldrag))
+			cterm <- 1 / (sqrt(pi * v1))
 			cterm <- cterm * (v2/(v2 + a^2))^(v2/2)
 			cterm <- cterm * (v1/(v1 + x^2))^((1+v1)/2)
 
-			polyterm <- (a*x) * sqrt(4 / ((v2+a^2) * (v1+x^2)))
-			a0 <- gamma(v2/2) * gamma((1+v1)/2) 
-			a1 <- gamma((1+v2)/2) * gamma((2+v1)/2) * polyterm
+			# crappy. want a better log expansion..
+			proto.dens <- exp(ldenom.0) * sum.even + exp(ldenom.1) * sum.odd
 
-			summ <- a0 + a1
-			...
-
+			dens <- cterm * proto.dens
 		}
-
-
-
-
 	}
 	# don't forget the b, though:
 	if (log) 
@@ -123,12 +168,25 @@
 		dens <- dens / b
 	return(dens)
 }
+
+
 #' @export 
 dkprime <- Vectorize(.dkprime,
 									vectorize.args = c("x","v1","v2","a","b"),
 									SIMPLIFY = TRUE)
 .pkprime <- function(q, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE) {
 }
+#'d1 <- dkprime(1, 20, 50, a=0.01)
+#'d2 <- dkprime(1, 20, 50, a=0.0001)
+#'d3 <- dkprime(1, 20, 50, a=0)
+#'d4 <- dkprime(1, 20, 10000, a=1)
+#'d4 <- dkprime(1, 20, 1000000, a=1)
+#'d5 <- dkprime(1, 20, Inf, a=1)
+#'
+#'avals <- 10^(seq(1,7,length.out=101))
+#'dvals <- dkprime(1, 20, v2=avals, a=1)
+#'plot(log10(avals),dvals) 
+
 #' @export 
 pkprime <- Vectorize(.pkprime,
 									vectorize.args = c("q","v1","v2","a","b"),
