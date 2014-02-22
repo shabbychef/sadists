@@ -3,7 +3,7 @@
 
 # sadists
 
-A number of utilities for dealing with the Markowitz portfolio.
+Some Auxiliary Distributions apparently not available in R.
 
 -- Steven E. Pav, shabbychef@gmail.com
 

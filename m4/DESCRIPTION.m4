@@ -9,18 +9,12 @@ Authors@R: c(person(c("Steven", "E."), "Pav", role=c("aut","cre"),
 Version: VERSION()
 Date: DATE()
 License: LGPL-3
-Title: Statistical significance of the Markowitz portfolio
+Title: Some Auxiliary Distributions
 BugReports: https://github.com/shabbychef/PKG_NAME()/issues
-Description: a collection of tools for analyzing significance of 
-    Markowitz portfolios.
+Description: a collection of probability distributions.
 Depends: 
     R (>= 3.0.2)
-Imports:
-    matrixcalc,
-    sandwich,
-    gtools
 Suggests: 
-    SharpeR,
     testthat, 
     knitr
 URL: https://github.com/shabbychef/PKG_NAME()

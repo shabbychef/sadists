@@ -7,7 +7,7 @@ vers = paste('R package version', meta$Version)
 citEntry(
   entry = "manual",
 	key = paste0(meta$Package,"-Manual"),
-  title = paste0("{", meta$Package, "}: ", gsub("Markowitz","{M}arkowitz",meta$Title)),
+  title = paste0("{", meta$Package, "}: ", meta$Title),
   author = as.person(meta$Author),
   year = year,
   note = vers,
