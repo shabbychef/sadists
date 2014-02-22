@@ -16,61 +16,45 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with sadists.  If not, see <http://www.gnu.org/licenses/>.
 
-# Created: 2014.02.14
+# Created: 2014.02.21
 # Copyright: Steven E. Pav, 2014
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-# dkprime, pkprime, qkprime, rkprime#FOLDUP
-#' @title The K prime distribution.
+# dlambdap, plambdap, qlambdap, rlambdap#FOLDUP
+#' @title The lambda prime distribution.
 #'
 #' @description 
 #'
 #' Density, distribution function, quantile function and random
-#' generation for the K prime distribution.
+#' generation for the lambda prime distribution.
 #'
 #' @details
 #'
-#' Suppose \eqn{y \sim \chi^2\left(\nu_1\right)}{y ~ x^2(v1)}, and
-#' \eqn{x \sim t \left(\nu_2, a\sqrt{y/\nu_1}/b\right){x ~ t(v2,(a/b) sqrt(y/v1))}.
-#' Then the random variable
-#' \deqn{T = b x}{T = b x}
-#' takes a K prime distribution with parameters 
-#' \eqn{\nu_1, \nu_2, a, b}{v1, v2, a, b}. In Lecoutre's terminology,
-#' \eqn{T \sim K'_{\nu_1, \nu_2}\left(a, b\right)}{T ~ K'_v1,v2(a,b)}
-#'
-#' Equivalently, we can think of
-#' \deqn{T = \frac{b Z + a \sqrt{\chi^2_{\nu_1} / \nu_1}}{\sqrt{\chi^2_{\nu_2} / \nu_2}}}{T = (bZ + a sqrt(chi2_v1/v1)) / sqrt(chi2_v2/v2)}
-#' where \eqn{Z} is a standard normal, and the normal and the (central) chi-squares are
-#' independent of each other. When \eqn{a=0}{a=0} we recover
-#' a central t distribution; 
-#' when \eqn{\nu_1=\infty}{v1=inf} we recover a rescaled non-central t distribution;
-#' when \eqn{b=0}{b=0}, we get a rescaled square root of a central F
-#' distribution; when \eqn{\nu_2=\infty}{v2=inf}, we recover a 
-#' Lambda prime distribution.
+#' Suppose \eqn{y \sim \chi^2\left(\nu\right)}{y ~ x^2(v)}, and
+#' \eqn{Z}{Z} is a standard normal. 
+#' \deqn{T = Z + t \sqrt{y/\nu}}{T = Z + t sqrt(y/v)}
+#' takes a lambda prime distribution with parameters 
+#' \eqn{\nu, t}{v, t}.
+#' A lambda prime random variable can be viewed as a confidence
+#' variable on a non-central t because 
+#' \deqn{t = \frac{Z' + T}{\sqrt{y/\nu}}}{t = (Z' + T)/sqrt(y/v)}
 #'
 #' @usage
 #'
-#' dkprime(x, v1, v2, a, b = 1, log = FALSE)
+#' dlambdap(x, df, t, log = FALSE)
 #'
-#' pkprime(q, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE)
+#' plambdap(q, df, t, lower.tail = TRUE, log.p = FALSE)
 #'
-#' qkprime(p, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE)
+#' qlambdap(p, df, t, lower.tail = TRUE, log.p = FALSE)
 #'
-#' rkprime(n, v1, v2, a, b = 1)
+#' rlambdap(n, df, t)
 #'
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
 #' @param n number of observations. 
-#' @param v1 the degrees of freedom in the numerator chisquare. When
-#' (positive) infinite, we recover a non-central t 
-#' distribution with \code{v2} degrees of freedom and non-centrality
-#' parameter \code{a}, scaled by \code{b}.
-#' @param v2 the degrees of freedom in the denominator chisquare.
-#' When equal to infinity, we recover the Lambda prime distribution.
-#' @param a the non-centrality scaling parameter. When equal to zero,
-#' we recover the (central) t distribution.
-#' @param b the scaling parameter.
+#' @param df the degrees of freedom in the chi square. 
+#' @param t the scaling parameter on the chi.
 #'
 #' @param log logical; if TRUE, densities \eqn{f} are given 
 #'  as \eqn{\mbox{log}(f)}{log(f)}.
@@ -84,31 +68,19 @@
 #' @inheritParams rt
 #'
 #' @keywords distribution 
-#' @return \code{dkprime} gives the density, \code{pkprime} gives the 
-#' distribution function, \code{qkprime} gives the quantile function, 
-#' and \code{rkprime} generates random deviates.
+#' @return \code{dlambdap} gives the density, \code{plambdap} gives the 
+#' distribution function, \code{qlambdap} gives the quantile function, 
+#' and \code{rlambdap} generates random deviates.
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
-#' @aliases pkprime qkprime rkprime
+#' @aliases plambdap qlambdap rlambdap
 #' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
-#' K square distribution functions, \code{\link{dksquare}, \link{pksquare}, \link{qksquare}, \link{rksquare}},
-#' lambda prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}},
+#' K prime distribution functions, \code{\link{dkprime}, \link{pkprime}, \link{qkprime}, \link{rkprime}},
 #' @template etc
-#' @template ref-kprime
+#' @template ref-lambdap
 #' @examples 
-#' d1 <- dkprime(1, 50, 20, a=0.01)
-#' d2 <- dkprime(1, 50, 20, a=0.0001)
-#' d3 <- dkprime(1, 50, 20, a=0)
-#' d4 <- dkprime(1, 10000, 20, a=1)
-#' d5 <- dkprime(1, Inf, 20, a=1)
-#'
-#' \dontrun{
-#' avals <- 10^(seq(1,7,length.out=101))
-# 'dvals <- dkprime(1, v1=avals, v2=20, a=1)
-#' plot(log10(avals),dvals) 
-#' }
-.dkprime <- function(x, v1, v2, a, b = 1, log = FALSE) {
-#2FIX: check sane values of v1, v2, a, b?
+#' d1 <- dlambdap(1, 50, t=0.01)
+.dlambdap <- function(x, df, t, log = FALSE) {
 
 	# first scale out b;
 	x <- x / b
@@ -187,30 +159,28 @@
 
 
 #' @export 
-dkprime <- Vectorize(.dkprime,
-									vectorize.args = c("x","v1","v2","a","b"),
+dlambdap <- Vectorize(.dlambdap,
+									vectorize.args = c("x","df","t"),
 									SIMPLIFY = TRUE)
-.pkprime <- function(q, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE) {
+.plambdap <- function(q, df, t, lower.tail = TRUE, log.p = FALSE) {
 }
 
 #' @export 
-pkprime <- Vectorize(.pkprime,
-									vectorize.args = c("q","v1","v2","a","b"),
+plambdap <- Vectorize(.plambdap,
+									vectorize.args = c("q","df","t"),
 									SIMPLIFY = TRUE)
 # uh, invert it? numerically?
-.qkprime <- function(p, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE) {
+.qlambdap <- function(p, df, t, lower.tail = TRUE, log.p = FALSE) {
 }
 
 #' @export 
-qkprime <- Vectorize(.qkprime,
-									vectorize.args = c("p","v1","v2","a","b"),
+qlambdap <- Vectorize(.qlambdap,
+									vectorize.args = c("p","df","t"),
 									SIMPLIFY = TRUE)
 #' @export 
-rkprime <- function(n, v1, v2, a, b = 1) {
-#2FIX: check for b = 0...
-	y <- rchisq(n,df=v1) 
-	ncp <- sqrt(y/v1) * (a/b)
-	X <- b * rt(n,df=v2,ncp=ncp)
+rlambdap <- function(n, df, t) {
+	y <- rchisq(n,df=df) 
+	X <- rnorm(n,mean=t * sqrt(y/df))
 	return(X)
 }
 #UNFOLD
