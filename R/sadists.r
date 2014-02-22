@@ -24,6 +24,11 @@
 #' Some Auxiliary Distributions.
 #'
 #' A collection of distributions not apparently available in R.
+#'
+#' @section Non-central chi 
+#'
+#' The non-central chi distribution is the square root of the 
+#' non-central chi-square distribution. 
 #' 
 #' @section Doubly Noncentral t
 #'
@@ -55,13 +60,23 @@
 #'
 #' Introduced by Lecoutre, the K prime family of distributions generalize
 #' the (singly) non-central t, and lambda prime distributions. 
-#' Suppose \eqn{y \sim \chi^2\left(\nu_2\right)}{y ~ x^2(v2)}, and
-#' \eqn{x \sim t \left(\nu_1, a\sqrt{y/\nu_2}/b\right){x ~ t(v1,(a/b) sqrt(y/v2))}.
+#' Suppose \eqn{y \sim \chi^2\left(\nu_1\right)}{y ~ x^2(v1)}, and
+#' \eqn{x \sim t \left(\nu_2, a\sqrt{y/\nu_1}/b\right){x ~ t(v2,(a/b) sqrt(y/v1))}.
 #' Then the random variable
-#' \deqn{Z = b x}{Z = b x}
+#' \deqn{T = b x}{T = b x}
 #' takes a K prime distribution with parameters 
-#' \eqn{\nu_2, \nu_1, a, b}{v2, v1, a, b}. In Lecoutre's terminology,
-#' \eqn{Z \sim K'_{\nu_2, \nu_1}\left(a, b\right)}{Z ~ K'_v2,v1(a,b)}
+#' \eqn{\nu_1, \nu_2, a, b}{v1, v2, a, b}. In Lecoutre's terminology,
+#' \eqn{T \sim K'_{\nu_1, \nu_2}\left(a, b\right)}{T ~ K'_v1,v2(a,b)}
+#'
+#' Equivalently, we can think of
+#' \deqn{T = \frac{b Z + a \sqrt{\chi^2_{\nu_1} / \nu_1}}{\sqrt{\chi^2_{\nu_2} / \nu_2}}}{T = (bZ + a sqrt(chi2_v1/v1)) / sqrt(chi2_v2/v2)}
+#' where \eqn{Z} is a standard normal, and the normal and the (central) chi-squares are
+#' independent of each other. When \eqn{a=0}{a=0} we recover
+#' a central t distribution; 
+#' when \eqn{\nu_1=\infty}{v1=inf} we recover a rescaled non-central t distribution;
+#' when \eqn{b=0}{b=0}, we get a rescaled square root of a central F
+#' distribution; when \eqn{\nu_2=\infty}{v2=inf}, we recover a 
+#' Lambda prime distribution.
 #'
 #' @section K Square
 #'
