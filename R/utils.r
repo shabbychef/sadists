@@ -35,13 +35,19 @@ uniroot_helper <- function(fnc, x0=0, f0=NULL, tol=.Machine$double.eps^0.25,
 		fub <- f0
 		lb <- x0 - 0.1 * max(0.01,abs(x0))
 		flb <- fnc(lb,...)
-		# check for NA, infs, etc.
-		while (flb > 0) {
+		while (!is.na(flb) && !is.nan(flb) && (flb > 0) && !is.infinite(lb)) {
 			# drag ub down too
 			ub <- lb
 			fub <- flb
-			lb <- q0 - 2 * (q0 - lb)
+			# move lb down
+			lb <- x0 - 2 * (x0 - lb)
 			flb <- fnc(lb,...)
+		}
+		if (! flb > 0) {
+			# backtrack towards ub if na or nan or whatnot
+			# ugh.
+
+
 		}
 	} else {
 		lb <- q0
