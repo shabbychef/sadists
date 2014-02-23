@@ -21,6 +21,8 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
+source("utils.r")
+
 # ddnt, pdnt, qdnt, rdnt#FOLDUP
 #' @title The doubly non-central t distribution.
 #'
@@ -174,39 +176,10 @@ pdnt <- Vectorize(.pdnt,
 		zerf <- function(q) {
 			p - .pdnt(q,k,mu,theta,lower.tail=lower.tail,log.p=log.p)
 		}
-	q0 <- qt(p, df=k, ncp=mu, lower.tail=lower.tail, log.p=log.p)
-	v0 <- zerf(q0)
-	if (v0 == 0) {
-		return(q0)
-	} else if (v0 > 0) {
-		ub <- q0
-		fub <- v0
-		lb <- q0 - 0.1 * max(0.01,abs(q0))
-		flb <- zerf(lb)
-# 2FIX: beware infs!
-		while (flb > 0) {
-			# drag ub down too
-			ub <- lb
-			fub <- flb
-			lb <- q0 - 2 * (q0 - lb)
-			flb <- zerf(lb)
-		}
-	} else {
-		lb <- q0
-		flb <- v0
-		ub <- q0 + 0.1 * max(0.01,abs(q0))
-		fub <- zerf(ub)
-# 2FIX: beware infs!
-		while (fub < 0) {
-			# drag lb up too
-			lb <- ub
-			flb <- fub
-			ub <- q0 + 2 * (ub - q0)
-			fub <- zerf(ub)
-		}
-	}
-	rfnd <- uniroot(zerf,c(lb,ub),f.lower=flb,f.upper=fub)
-	return(rfnd$root)
+	x0 <- qt(p, df=k, ncp=mu, lower.tail=lower.tail, log.p=log.p)
+	f0 <- zerf(x0)
+	soln <- uniroot_helper(zerf,x0=x0,f0=f0)
+	return(soln)
 }
 #' @export 
 qdnt <- Vectorize(.qdnt,
