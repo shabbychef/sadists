@@ -89,7 +89,7 @@
 #' and \code{rkprime} generates random deviates.
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
-#' @aliases pkprime qkprime rkprime
+#' @aliases dkprime pkprime qkprime rkprime
 #' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
 #' K square distribution functions, \code{\link{dksquare}, \link{pksquare}, \link{qksquare}, \link{rksquare}},
 #' lambda prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}},

@@ -1,4 +1,5 @@
 \name{dnt}
+\alias{ddnt}
 \alias{dnt}
 \alias{pdnt}
 \alias{qdnt}

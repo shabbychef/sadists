@@ -29,6 +29,7 @@ opts_chunk$set(size="small")
 opts_chunk$set(tidy=TRUE,tidy.opts=list(width.cutoff=50,keep.blank.line=TRUE))
 
 #sadists.meta <- packageDescription('sadists')
+require(sadists)
 ```
 
 # sadists

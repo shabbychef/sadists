@@ -1,4 +1,5 @@
-\name{dchi}
+\name{chi}
+\alias{chi}
 \alias{dchi}
 \alias{pchi}
 \alias{qchi}

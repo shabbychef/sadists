@@ -1,4 +1,5 @@
 \name{kprime}
+\alias{dkprime}
 \alias{kprime}
 \alias{pkprime}
 \alias{qkprime}

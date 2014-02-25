@@ -1,4 +1,5 @@
 \name{lambdap}
+\alias{dlambdap}
 \alias{lambdap}
 \alias{plambdap}
 \alias{qlambdap}

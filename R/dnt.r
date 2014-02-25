@@ -74,7 +74,7 @@
 #' and \code{rdnt} generates random deviates.
 #' 
 #' Invalid arguments will result in return value \code{NaN} with a warning.
-#' @aliases pdnt qdnt rdnt
+#' @aliases ddnt pdnt qdnt rdnt
 #' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}}
 #' @template etc
 #' @template dnt

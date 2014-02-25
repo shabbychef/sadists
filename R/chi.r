@@ -77,7 +77,7 @@
 #' and \code{rchi} generates random deviates.
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
-#' @aliases pchi qchi rchi
+#' @aliases dchi pchi qchi rchi
 #' @seealso t distribution functions, \code{\link{dchisq}, \link{pchisq}, \link{qchisq}, \link{rchisq}}
 #' @note
 #' This is a thin wrapper on the chi-square distribution functions.
@@ -91,6 +91,8 @@
 #' plot(ecdf(pvs.H0))
 #' plot(ecdf(pvs.HA))
 #' }
+#' @rdname dchi
+#' @name chi
 #' @export 
 dchi <- function(x,df,ncp = 0,log = FALSE) {
 	dens <- dchisq(x^2,df=df,ncp=ncp,log=log)

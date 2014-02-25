@@ -73,7 +73,7 @@
 #' and \code{rlambdap} generates random deviates.
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
-#' @aliases plambdap qlambdap rlambdap
+#' @aliases dlambdap plambdap qlambdap rlambdap
 #' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
 #' K prime distribution functions, \code{\link{dkprime}, \link{pkprime}, \link{qkprime}, \link{rkprime}},
 #' @template etc
