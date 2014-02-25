@@ -1,0 +1,84 @@
+\name{dchi}
+\alias{dchi}
+\alias{pchi}
+\alias{qchi}
+\alias{rchi}
+\title{The (non-central) chi distribution.}
+\usage{
+dchi(x, df, ncp = 0, log = FALSE)
+
+pchi(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
+
+qchi(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
+
+rchi(n, df, ncp = 0)
+}
+\arguments{
+  \item{x,q}{vector of quantiles.}
+
+  \item{p}{vector of probabilities.}
+
+  \item{n}{number of observations.}
+
+  \item{df}{the degrees of freedom, \eqn{k}.}
+
+  \item{ncp}{the non-centrality parameter,
+  \eqn{\lambda}{lambda}. When equal to zero, we recover the
+  chi distribution.}
+
+  \item{log}{logical; if TRUE, densities \eqn{f} are given
+  as \eqn{\mbox{log}(f)}{log(f)}.}
+
+  \item{log.p}{logical; if TRUE, probabilities p are given
+  as \eqn{\mbox{log}(p)}{log(p)}.}
+
+  \item{lower.tail}{logical; if TRUE (default),
+  probabilities are \eqn{P[X \le x]}{P[X <= x]}, otherwise,
+  \eqn{P[X > x]}{P[X > x]}.}
+}
+\value{
+\code{dchi} gives the density, \code{pchi} gives the
+distribution function, \code{qchi} gives the quantile
+function, and \code{rchi} generates random deviates.
+
+Invalid arguments will result in return value \code{NaN}
+with a warning.
+}
+\description{
+Density, distribution function, quantile function and
+random generation for the (non-central) chi distribution.
+}
+\details{
+Let \eqn{X_i \sim \mathcal{N}\left(\mu_i,1\right)}{X_i ~
+N(u_i,1)} independently for \eqn{1 \le i \le k}{1 <= i <=
+k}. The random variable \deqn{T = \sqrt{\sum_i X_i^2}}{T =
+sqrt(sum_i X_i^2)} follows a \emph{non-central chi
+distribution} with parameters \eqn{k, \lambda}{k, lambda},
+where \eqn{k} is the degrees of freedom, and \eqn{\lambda =
+\sum_i \mu_i^2}{lambda = sum_i u_i^2} is the non-centrality
+parameter. Equivalently, a non-central chi is the square
+root of a non-central chi-square random variable.
+}
+\note{
+This is a thin wrapper on the chi-square distribution
+functions.
+}
+\examples{
+rvs <- rchi(128, 20, 1)
+dvs <- dchi(rvs, 20, 1)
+pvs.H0 <- pchi(rvs, 20, 0)
+pvs.HA <- pchi(rvs, 20, 1)
+\dontrun{
+plot(ecdf(pvs.H0))
+plot(ecdf(pvs.HA))
+}
+}
+\author{
+Steven E. Pav \email{shabbychef@gmail.com}
+}
+\seealso{
+t distribution functions, \code{\link{dchisq},
+\link{pchisq}, \link{qchisq}, \link{rchisq}}
+}
+\keyword{distribution}
+

@@ -316,7 +316,7 @@ lseq <- function(from,to,length.out) {
 \begin{document}
 
 \title{Using the \pkg{sadists} package}
-\author{Steven E. Pav \thanks{\email{shabbychef@gmail.com}}}
+\author{Steven E. Pav}% \thanks{\email{shabbychef@gmail.com}}}
 %\date{\today, \currenttime}
 
 \maketitle
@@ -324,7 +324,7 @@ lseq <- function(from,to,length.out) {
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}%FOLDUP
-%Example computations via the \sadists package are illustrated.
+Example computations via the \sadists package are illustrated.
 \end{abstract}%UNFOLD
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
