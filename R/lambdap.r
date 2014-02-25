@@ -80,6 +80,8 @@
 #' @template ref-lambdap
 #' @examples 
 #' d1 <- dlambdap(1, 50, t=0.01)
+#' @name lambdap
+#' @rdname dlambdap
 .dlambdap <- function(x, df, t, log = FALSE) {
 
 	# first scale out b;

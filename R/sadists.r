@@ -25,12 +25,12 @@
 #'
 #' A collection of distributions not apparently available in R.
 #'
-#' @section Non-central chi 
+#' @section Non-central chi:
 #'
 #' The non-central chi distribution is the square root of the 
 #' non-central chi-square distribution. 
 #' 
-#' @section Doubly Noncentral t
+#' @section Doubly Noncentral t:
 #'
 #' The doubly noncentral t distribution generalizes the (singly)
 #' noncentral t distribution to the case where the numerator is
@@ -43,7 +43,7 @@
 #' takes a doubly non-central t distribution with parameters
 #' \eqn{k, \mu, \theta}{k, mu, theta}.
 #'
-#' @section Doubly Noncentral F
+#' @section Doubly Noncentral F:
 #'
 #' The doubly noncentral F distribution generalizes the (singly)
 #' noncentral F distribution to the case where the numerator is
@@ -56,12 +56,12 @@
 #' takes a doubly non-central F distribution with parameters
 #' \eqn{n_1, n_2, \theta_1, \theta_2}{n1, n2, theta1, theta2}. 
 #'
-#' @section K Prime
+#' @section K Prime:
 #'
 #' Introduced by Lecoutre, the K prime family of distributions generalize
 #' the (singly) non-central t, and lambda prime distributions. 
 #' Suppose \eqn{y \sim \chi^2\left(\nu_1\right)}{y ~ x^2(v1)}, and
-#' \eqn{x \sim t \left(\nu_2, a\sqrt{y/\nu_1}/b\right){x ~ t(v2,(a/b) sqrt(y/v1))}.
+#' \eqn{x \sim t \left(\nu_2, a\sqrt{y/\nu_1}/b\right)}{x ~ t(v2,(a/b) sqrt(y/v1))}.
 #' Then the random variable
 #' \deqn{T = b x}{T = b x}
 #' takes a K prime distribution with parameters 
@@ -78,12 +78,12 @@
 #' distribution; when \eqn{\nu_2=\infty}{v2=inf}, we recover a 
 #' Lambda prime distribution.
 #'
-#' @section K Square
+#' @section K Square:
 #'
 #' Introduced by Lecoutre, the K square family of distributions generalize
 #' the (singly) non-central F, and lambda square distributions.
 #' Suppose \eqn{y \sim \chi^2\left(q\right)}{y ~ x^2(q)}, and
-#' \eqn{x \sim F \left(m, r, a^2 y/q\right){x ~ F(m, r, a^2 y / q)}.
+#' \eqn{x \sim F \left(m, r, a^2 y/q\right)}{x ~ F(m, r, a^2 y / q)}.
 #' Then the random variable \eqn{x}{x}
 #' takes a K square distribution with parameters m, q, r, a.
 #'
@@ -100,29 +100,34 @@
 #'
 #' @import hypergeo
 #'
+#' @note 
+#' This package is maintained as a hobby. 
+#'
 #' @name sadists
 #' @rdname sadists
 #' @docType package
 #' @title Some Auxiliary Distributions
 #' @keywords package
-#' 
-#' This package is maintained as a hobby. 
-#'
 NULL
 
-#' @title News for package 'sadists':
+#' @title News for package 'sadists'
 #'
-#' \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
-#' \newcommand{\sadists}{\CRANpkg{sadists}}
+#' @description
+#' 
+#' History of the 'sadists' package.
 #'
-#' @section \sadists{} Initial Version 0.1402 (2014-02-14) :
-#' \itemize{
-#' \item first CRAN release.
-#' }
 #'
 #' @name sadists-NEWS
 #' @rdname NEWS
 NULL
+
+# \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
+# \newcommand{\sadists}{\CRANpkg{sadists}}
+#
+# @section \sadists{} Initial Version 0.1402 (2014-02-14) :
+# \itemize{
+# \item first CRAN release.
+# }
 
 #for vim modeline: (do not edit)
 # vim:fdm=marker:fmr=FOLDUP,UNFOLD:cms=#%s:syn=r:ft=r

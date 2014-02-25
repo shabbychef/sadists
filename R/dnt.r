@@ -21,7 +21,7 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-source("utils.r")
+#source("utils.r")
 
 # ddnt, pdnt, qdnt, rdnt#FOLDUP
 #' @title The doubly non-central t distribution.
@@ -67,22 +67,19 @@ source("utils.r")
 #' @inheritParams pt
 #' @inheritParams qt
 #' @inheritParams rt
-#'
+#' 
 #' @keywords distribution 
 #' @return \code{ddnt} gives the density, \code{pdnt} gives the 
 #' distribution function, \code{qdnt} gives the quantile function, 
 #' and \code{rdnt} generates random deviates.
-#'
+#' 
 #' Invalid arguments will result in return value \code{NaN} with a warning.
 #' @aliases pdnt qdnt rdnt
 #' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}}
-#' @note
-#' This is a thin wrapper on the t distribution. 
-#' The functions \code{\link{dt}, \link{pt}, \link{qt}} can accept ncp from
-#' limited range (\eqn{|\delta|\le 37.62}{delta <= 37.62}). Some corrections
-#' may have to be made here for large \code{zeta}.
 #' @template etc
 #' @template dnt
+#' @name dnt 
+#' @rdname ddnt
 #' @examples 
 #' rvs <- rdnt(128, 20, 1, 1)
 #' dvs <- ddnt(rvs, 20, 1, 1)
@@ -100,8 +97,6 @@ source("utils.r")
 #' v2 <- pt(1, df=10, ncp=5, log.p=FALSE)
 #'
 #' q1 <- qdnt(pv1, k=10, mu=5, theta=0, log.p=FALSE)
-#'
-# listing 10.13
 .ddnt <- function(x, k, mu, theta, log=FALSE) {
 	aterm <- x * mu * sqrt(2/k)
 	kon <- (-(theta + mu^2)/2) - log(pi*k)/2;

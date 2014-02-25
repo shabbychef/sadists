@@ -32,7 +32,7 @@
 #' @details
 #'
 #' Suppose \eqn{y \sim \chi^2\left(\nu_1\right)}{y ~ x^2(v1)}, and
-#' \eqn{x \sim t \left(\nu_2, a\sqrt{y/\nu_1}/b\right){x ~ t(v2,(a/b) sqrt(y/v1))}.
+#' \eqn{x \sim t \left(\nu_2, a\sqrt{y/\nu_1}/b\right)}{x ~ t(v2,(a/b) sqrt(y/v1))}.
 #' Then the random variable
 #' \deqn{T = b x}{T = b x}
 #' takes a K prime distribution with parameters 
@@ -107,6 +107,8 @@
 # 'dvals <- dkprime(1, v1=avals, v2=20, a=1)
 #' plot(log10(avals),dvals) 
 #' }
+#' @rdname dkprime
+#' @name kprime
 .dkprime <- function(x, v1, v2, a, b = 1, log = FALSE) {
 #2FIX: check sane values of v1, v2, a, b?
 
@@ -184,8 +186,6 @@
 		dens <- dens / b
 	return(dens)
 }
-
-
 #' @export 
 dkprime <- Vectorize(.dkprime,
 									vectorize.args = c("x","v1","v2","a","b"),
@@ -200,7 +200,6 @@ pkprime <- Vectorize(.pkprime,
 # uh, invert it? numerically?
 .qkprime <- function(p, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE) {
 }
-
 #' @export 
 qkprime <- Vectorize(.qkprime,
 									vectorize.args = c("p","v1","v2","a","b"),

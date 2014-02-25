@@ -22,10 +22,15 @@
 # Comments: Steven E. Pav
 
 # quantile function helper; 
-# call uniroot in a neighborhood of x0
-# the function fnc is non-decreasing
-uniroot_helper <- function(fnc, x0=0, f0=NULL, tol=.Machine$double.eps^0.25,
-													 maxiter=1000, ...) {
+# find the root of a non-decreasing function fnc
+# given a single starting point x0.
+# starts working outwards from x0 until a sign change is
+# detected, then calls uniroot.
+#
+# the parameters tol and maxiter are passed to uniroot
+uniroot_helper <- function(fnc, x0=0, f0=NULL, xmin=-Inf, xmax=Inf,
+													 tol=.Machine$double.eps^0.25, maxiter=1000, 
+													 ...) {
 	if (is.null(f0)) 
 		f0 = fnc(x0,...)
 	if (f0 == 0)
@@ -33,29 +38,27 @@ uniroot_helper <- function(fnc, x0=0, f0=NULL, tol=.Machine$double.eps^0.25,
 	if (f0 > 0) {
 		ub <- x0
 		fub <- f0
-		lb <- x0 - 0.1 * max(0.01,abs(x0))
+		lb <- max(xmin,x0 - 0.1 * max(0.01,abs(x0)))
 		flb <- fnc(lb,...)
-		while (!is.na(flb) && !is.nan(flb) && (flb > 0) && !is.infinite(lb)) {
+	} else if (f0 < 0) {
+		lb <- x0
+		flb <- f0
+		ub <- min(xmax,x0 + 0.1 * max(0.1,abs(x0)))
+		fub <- fnc(ub,...)
+	} else
+		stop("fnc returned NA or NaN")
+
+	sprod <- sign(flb) * sign(fub)
+
+	while ((sign(flb) * sign(fub) > 0) && (lb > xmin) && (ub < xmax)) {
+		if (sign(flb) > 0) {
 			# drag ub down too
 			ub <- lb
 			fub <- flb
 			# move lb down
-			lb <- x0 - 2 * (x0 - lb)
+			lb <- max(xmin,x0 - 2 * (x0 - lb))
 			flb <- fnc(lb,...)
-		}
-		if (! flb > 0) {
-			# backtrack towards ub if na or nan or whatnot
-			# ugh.
-
-
-		}
-	} else {
-		lb <- q0
-		flb <- v0
-		ub <- q0 + 0.1 * max(0.01,abs(q0))
-		fub <- fnc(ub,...)
-# 2FIX: beware infs!
-		while (fub < 0) {
+		} else {
 			# drag lb up too
 			lb <- ub
 			flb <- fub
@@ -63,7 +66,18 @@ uniroot_helper <- function(fnc, x0=0, f0=NULL, tol=.Machine$double.eps^0.25,
 			fub <- fnc(ub,...)
 		}
 	}
-	soln <- uniroot(zerf,c(lb,ub),f.lower=flb,f.upper=fub,tol=tol,maxiter=maxiter,...)$root
+	# check for xmin and xmax ... 
+	if (sign(flb) * sign(fub) > 0) {
+		if ((!lb > xmin) && (is.infinite(xmin))) {
+			return(xmin)
+		} else {
+			return(xmax)
+		}
+	}
+
+	soln <- uniroot(zerf,c(lb,ub),
+									f.lower=flb,f.upper=fub,
+									tol=tol,maxiter=maxiter,...)$root
 	return(soln)
 }
 
