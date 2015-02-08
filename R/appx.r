@@ -8,6 +8,7 @@
 
 # for the Hermite Polynomials
 require(orthopolynom)
+require(moments)
 
 # utilities or dealing with moments and cumulants
 
@@ -102,6 +103,13 @@ cumulant2moment <- function(kappa) {
 	return(moms)
 }
 
+# central moments to standardized moments
+central2std <- function(mu.cent) {
+	#std <- sqrt(mu.cent[3])
+	mu.std <- mu.cent / (mu.cent[3] ^ ((0:(length(mu.cent)-1))/2))
+	return(mu.std)
+}
+
 #' @title Higher order Cornish Fisher approximation.
 #'
 #' @description 
@@ -171,7 +179,7 @@ cumulant2moment <- function(kappa) {
 #' pv <- seq(0.001,0.999,0.001)
 #' zv <- qnorm(pv)
 #' apq <- AS269(zv,s.cumul,all.ords=FALSE)
-#' err <- truq - apq
+#' err <- zv - apq
 #'
 #' # test with the exponential distribution
 #' rate <- 0.7
@@ -190,8 +198,6 @@ cumulant2moment <- function(kappa) {
 #' # an example from Wikipedia page on CF, \url{https://en.wikipedia.org/wiki/Cornish%E2%80%93Fisher_expansion}
 #' s.cumul <- c(5,2)
 #' apq <- 10 + sqrt(25) * AS269(qnorm(0.95),s.cumul,all.ords=TRUE)
-#' w <- AS269(qnorm(0.95),s.cumul)
-#' qv <- 10 + 5 * w[1,2]
 #'
 #' @template etc
 AS269 <- function(z,cumul,order.max=NULL,all.ords=FALSE) {#FOLDUP
@@ -314,17 +320,12 @@ AS269 <- function(z,cumul,order.max=NULL,all.ords=FALSE) {#FOLDUP
 #' These series contain coefficients defined by the probability distribution 
 #' under consideration. They take the form
 #' \deqn{c_j \int_{-\infty}^{\infty} f(z) He_j(z) \mathrm{d}z.}{c_j = integral_-inf^inf f(z) He_j(z) dz.}
-#' Using linearity of the integral, these coefficients are easily defined in
+#' Using linearity of the integral, these coefficients are easily computed in
 #' terms of the coefficients of the Hermite polynomials and the raw, uncentered
-#' moments of the probability distribution under consideration.
-#'
-#'
-#'
-#'
-#'
-#' The series contain terms constant in \eqn{x}{x}, which can be computed for
-#' the given probability distributionNote that the terms which are constant with respect to \eqn{x}{x}, a
-#'
+#' moments of the probability distribution under consideration. It may be the
+#' case that the computation of these coefficients suffers from bad numerical
+#' cancellation for some distributions, and that an alternative formulation
+#' may be more numerically robust.
 #'
 #' @usage
 #'
@@ -363,14 +364,14 @@ AS269 <- function(z,cumul,order.max=NULL,all.ords=FALSE) {#FOLDUP
 #' p2 <- pnorm(qvals)
 #' p1 - p2
 #' @template etc
-dapx.gca <- function(x,mu.raw) {
-	mu.raw[1] <- 1  # just in case
-	order.max <- length(mu.raw) - 1
+dapx.gca <- function(x,raw.moments) {
+	raw.moments[1] <- 1  # just in case
+	order.max <- length(raw.moments) - 1
 
-	mu.central <- raw2central(mu.raw)
+	mu.central <- moments::raw2central(raw.moments)
 	mu.std <- central2std(mu.central)
-	eta <- (x - mu.raw[2]) / sqrt(mu.central[3])
-	hermi <- hermite.he.polynomials(order.max+1, normalized=FALSE)
+	eta <- (x - raw.moments[2]) / sqrt(mu.central[3])
+	hermi <- orthopolynom::hermite.he.polynomials(order.max+1, normalized=FALSE)
 
 	retval <- dnorm(eta)
 	phi.eta <- retval
@@ -384,18 +385,18 @@ dapx.gca <- function(x,mu.raw) {
 	return(retval)
 }
 #' @export 
-papx.gca <- function(q,mu.raw,lower.tail=TRUE) {
-	order.max <- length(mu.raw) - 1
+papx.gca <- function(q,raw.moments,lower.tail=TRUE) {
+	order.max <- length(raw.moments) - 1
 	if (!lower.tail) {
 		# transform q and the raw moments
 		q <- - q;
-		mu.raw <- mu.raw * (-1^(0:order.max))
+		raw.moments <- raw.moments * (-1^(0:order.max))
 	}
 
-	mu.central <- raw2central(mu.raw)
+	mu.central <- moments::raw2central(raw.moments)
 	mu.std <- central2std(mu.central)
-	eta <- (q - mu.raw[2]) / sqrt(mu.central[3])
-	hermi <- hermite.he.polynomials(order.max, normalized=FALSE)
+	eta <- (q - raw.moments[2]) / sqrt(mu.central[3])
+	hermi <- orthopolynom::hermite.he.polynomials(order.max, normalized=FALSE)
 
 	retval <- pnorm(eta)
 	phi.eta <- dnorm(eta)

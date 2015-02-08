@@ -191,6 +191,7 @@ dkprime <- Vectorize(.dkprime,
 									vectorize.args = c("x","v1","v2","a","b"),
 									SIMPLIFY = TRUE)
 .pkprime <- function(q, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE) {
+# 2FIX: write this.
 }
 
 #' @export 
@@ -199,6 +200,7 @@ pkprime <- Vectorize(.pkprime,
 									SIMPLIFY = TRUE)
 # uh, invert it? numerically?
 .qkprime <- function(p, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE) {
+# 2FIX: write this.
 }
 #' @export 
 qkprime <- Vectorize(.qkprime,

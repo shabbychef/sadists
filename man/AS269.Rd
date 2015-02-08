@@ -67,7 +67,7 @@ s.cumul <- c(0,0,0,0,0,0,0,0,0)
 pv <- seq(0.001,0.999,0.001)
 zv <- qnorm(pv)
 apq <- AS269(zv,s.cumul,all.ords=FALSE)
-err <- truq - apq
+err <- zv - apq
 
 # test with the exponential distribution
 rate <- 0.7
@@ -86,8 +86,6 @@ colSums(abs(err))
 # an example from Wikipedia page on CF, \\url{https://en.wikipedia.org/wiki/Cornish\%E2\%80\%93Fisher_expansion}
 s.cumul <- c(5,2)
 apq <- 10 + sqrt(25) * AS269(qnorm(0.95),s.cumul,all.ords=TRUE)
-w <- AS269(qnorm(0.95),s.cumul)
-qv <- 10 + 5 * w[1,2]
 }
 \author{
 Steven E. Pav \email{shabbychef@gmail.com}

@@ -84,79 +84,8 @@
 #' @rdname dlambdap
 .dlambdap <- function(x, df, t, log = FALSE) {
 
-	# first scale out b;
-	x <- x / b
-	if (is.infinite(v1)) {
-		dens <- dt(x, df=v2, ncp=a, log = log)
-	} else if (a == 0) {
-		dens <- dt(x, df=v2, log = log)
-	} else {
-#2FIX: what if is.infinite(v2) ???
-		polyterm <- (a*x) * sqrt(4 / ((v1+a^2) * (v2+x^2)))
-
-		f.accum <- function(idx) {
-			retval <- ((polyterm/2)^2) * (v2+idx) * (v1+1+idx) / ((idx+2) * (idx+1))
-			retval <- cumprod(retval)
-		}
-
-		ldenom.0 <- lgamma(v1/2) + lgamma((1+v2)/2)
-		ldenom.1 <- lgamma((1+v1)/2) + lgamma((2+v2)/2)
-
-		a0 <- 1
-		a1 <- polyterm
-		a.even <- a0
-		a.odd <- a1
-		sum.even <- a0
-		sum.odd <- a1
-
-		idx.even <- c(0)
-		idx.odd <- c(1)
-
-		ntak <- 100
-		done <- FALSE
-		while (!done) {
-			idx.even <- seq(2 + idx.even[length(idx.even)],by=2,length.out=ntak)
-			idx.odd <- seq(2 + idx.odd[length(idx.odd)],by=2,length.out=ntak)
-			a.even <- a.even[length(a.even)] * f.accum(idx.even)
-			a.odd <- a.odd[length(a.odd)] * f.accum(idx.odd)
-			sum.even <- sum.even + sum(a.even)
-			sum.odd <- sum.odd + sum(a.odd)
-			done <- (idx.even[1] > 100000)
-			done <- done || 
-				((a.even[length(a.even)] < a.even[1]) && (a.odd[length(a.odd)] < a.odd[1]))
-		}
-
-		ldrag <- lgamma(v1/2) + lgamma(v2/2)
-		ldenom.0 <- ldenom.0 - ldrag
-		ldenom.1 <- ldenom.1 - ldrag
-
-		if (log) {
-			cterm <- -0.5 * log(pi * v2)
-			cterm <- cterm + (v1/2) * (log(v2) - log(v2 + a^2))
-			cterm <- cterm + ((1 + v2)/2) * (log(v2) - log(v2 + x^2))
-
-			# crappy. want a better log expansion..
-			proto.dens <- exp(ldenom.0) * sum.even + exp(ldenom.1) * sum.odd
-
-			dens <- cterm + log(proto.dens)
-		} else {
-			#cterm <- 1 / (sqrt(pi * v2) * exp(ldrag))
-			cterm <- 1 / (sqrt(pi * v2))
-			cterm <- cterm * (v1/(v2 + a^2))^(v2/2)
-			cterm <- cterm * (v2/(v2 + x^2))^((1+v2)/2)
-
-			# crappy. want a better log expansion..
-			proto.dens <- exp(ldenom.0) * sum.even + exp(ldenom.1) * sum.odd
-
-			dens <- cterm * proto.dens
-		}
-	}
-	# don't forget the b, though:
-	if (log) 
-		dens <- dens - log(b)
-	else
-		dens <- dens / b
-	return(dens)
+	# this _was_ cut and paste from the kprime code,
+	# but needs to be written ... 
 }
 
 
@@ -165,6 +94,7 @@ dlambdap <- Vectorize(.dlambdap,
 									vectorize.args = c("x","df","t"),
 									SIMPLIFY = TRUE)
 .plambdap <- function(q, df, t, lower.tail = TRUE, log.p = FALSE) {
+# 2FIX: write this.
 }
 
 #' @export 
@@ -173,6 +103,7 @@ plambdap <- Vectorize(.plambdap,
 									SIMPLIFY = TRUE)
 # uh, invert it? numerically?
 .qlambdap <- function(p, df, t, lower.tail = TRUE, log.p = FALSE) {
+# 2FIX: write this.
 }
 
 #' @export 

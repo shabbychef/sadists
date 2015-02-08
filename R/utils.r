@@ -75,7 +75,7 @@ uniroot_helper <- function(fnc, x0=0, f0=NULL, xmin=-Inf, xmax=Inf,
 		}
 	}
 
-	soln <- uniroot(zerf,c(lb,ub),
+	soln <- uniroot(fnc,c(lb,ub),
 									f.lower=flb,f.upper=fub,
 									tol=tol,maxiter=maxiter,...)$root
 	return(soln)

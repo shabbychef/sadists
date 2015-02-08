@@ -36,22 +36,11 @@ as \eqn{\mbox{log}(p)}{log(p)}.}
 
 \item{lower.tail}{logical; if TRUE (default), probabilities are
 \eqn{P[X \le x]}{P[X <= x]}, otherwise, \eqn{P[X > x]}{P[X > x]}.}
-
-\item{x}{vector of blah}
-
-\item{n}{number of blah}
-
-\item{...}{arguments passed on to ...}
 }
 \value{
 \code{dlambdap} gives the density, \code{plambdap} gives the
 distribution function, \code{qlambdap} gives the quantile function,
 and \code{rlambdap} generates random deviates.
-
-Invalid arguments will result in return value \code{NaN} with a warning.
-
-\code{dsr} gives the density, \code{psr} gives the distribution function,
-\code{qsr} gives the quantile function, and \code{rsr} generates random deviates.
 
 Invalid arguments will result in return value \code{NaN} with a warning.
 }
@@ -69,23 +58,11 @@ A lambda prime random variable can be viewed as a confidence
 variable on a non-central t because
 \deqn{t = \frac{Z' + T}{\sqrt{y/\nu}}}{t = (Z' + T)/sqrt(y/v)}
 }
-\note{
-This is a thin wrapper on the t distribution.
-}
 \examples{
-rvs <- rsr(128, 253*6, 0, 253)
-dvs <- dsr(rvs, 253*6, 0, 253)
-pvs.H0 <- psr(rvs, 253*6, 0, 253)
-pvs.HA <- psr(rvs, 253*6, 1, 253)
-\dontrun{
-plot(ecdf(pvs.H0))
-plot(ecdf(pvs.HA))
-}
+d1 <- dlambdap(1, 50, t=0.01)
 }
 \author{
 Steven E. Pav \email{shabbychef@gmail.com}
-
-Steven E. Pav \email{steven@cerebellumcapital.com}
 }
 \references{
 Lecoutre, Bruno. "Another look at confidence intervals for the noncentral t distribution."
@@ -98,10 +75,6 @@ Journal of Statistical Planning and Inference 79  (1999): 93--105.
 \seealso{
 t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
 K prime distribution functions, \code{\link{dkprime}, \link{pkprime}, \link{qkprime}, \link{rkprime}},
-
-t-distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}}
 }
 \keyword{distribution}
-\keyword{io}
-\keyword{plotting}
 

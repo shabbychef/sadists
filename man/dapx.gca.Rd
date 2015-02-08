@@ -12,11 +12,11 @@ papx.gca(q, raw.moments, lower.tail=TRUE)
 \arguments{
 \item{x}{where to evaluate the approximate density.}
 
-\item{q}{where to evaluate the approximate distribution.}
-
 \item{raw.moments}{an atomic array of the zeroth through kth raw moments
 of the probability distribution. The first element should be a 1.
 2FIX: that seems like a stupid, arbitrary choice.}
+
+\item{q}{where to evaluate the approximate distribution.}
 
 \item{lower.tail}{whether to compute the lower tail. If false, we approximate the survival function.}
 }
@@ -53,9 +53,9 @@ the representation
 These series contain coefficients defined by the probability distribution
 under consideration. They take the form
 \deqn{c_j \int_{-\infty}^{\infty} f(z) He_j(z) \mathrm{d}z.}{c_j = integral_-inf^inf f(z) He_j(z) dz.}
-Using linearity of the integral, these coefficients are easily defined in
+Using linearity of the integral, these coefficients are easily computed in
 terms of the coefficients of the Hermite polynomials and the raw, uncentered
-moments of the probability distribution under consideration.
+moments of the probability distribution under consideration. Usually the ...
 
 
 
