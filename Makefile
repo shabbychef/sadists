@@ -29,7 +29,11 @@ GS_QUALITY 				?= 'ebook'
 
 M4_FILES					?= $(wildcard m4/*.m4)
 
-VERSION 					 = 0.1402
+VMAJOR 						 = 0
+VMINOR 						 = 1
+VPATCH  					 = 0
+VDEV 							 =
+VERSION 					 = $(VMAJOR).$(VMINOR).$(VPATCH)$(VDEV)
 TODAY 						:= $(shell date +%Y-%m-%d)
 
 PKG_NAME 					:= sadists
@@ -276,7 +280,7 @@ deps: $(INSTALLED_DEPS)
 # roxygen it.
 man/$(PKG_NAME).Rd NAMESPACE: $(R_FILES)
 	$(call WARN_DEPS)
-	$(R_LOCALLY) --slave -e "require(roxygen2); roxygenize('.', '.', overwrite=TRUE, unlink.target=TRUE)"
+	$(R_LOCALLY) --slave -e "require(roxygen2); roxygenize('.', clean=TRUE)"
 	touch $@
 
 docs: README.md DESCRIPTION man/$(PKG_NAME).Rd 

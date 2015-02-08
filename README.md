@@ -1,6 +1,5 @@
 
 
-
 # sadists
 
 Some Auxiliary Distributions apparently not available in R.
@@ -22,7 +21,6 @@ if (require(devtools)) {
 }
 ```
 
-
 ## Doubly non-central t distribution
 
 The [doubly non-central t distribution](https://en.wikipedia.org/wiki/Doubly_noncentral_t-distribution)
@@ -38,7 +36,7 @@ rvs <- rdnt(1000, k, mu, theta)
 ```
 
 ```
-## Error: could not find function "rdnt"
+## Error in eval(expr, envir, enclos): could not find function "rdnt"
 ```
 
 ```r
@@ -46,7 +44,7 @@ pvs <- pdnt(rvs, k, mu, theta)
 ```
 
 ```
-## Error: could not find function "pdnt"
+## Error in eval(expr, envir, enclos): could not find function "pdnt"
 ```
 
 ```r
@@ -54,18 +52,16 @@ qvs <- qdnt(pvs, k, mu, theta)
 ```
 
 ```
-## Error: could not find function "qdnt"
+## Error in eval(expr, envir, enclos): could not find function "qdnt"
 ```
 
 ```r
-
 plot(ecdf(pvs))
 ```
 
 ```
-## Error: object 'pvs' not found
+## Error in sort(x): object 'pvs' not found
 ```
-
 
 
 

@@ -11,9 +11,10 @@ Date: DATE()
 License: LGPL-3
 Title: Some Auxiliary Distributions
 BugReports: https://github.com/shabbychef/PKG_NAME()/issues
-Description: a collection of probability distributions.
+Description: A collection of probability distributions.
 Depends: 
-    R (>= 3.0.2)
+    R (>= 3.0.2),
+    orthopolynom
 Suggests: 
     testthat, 
     knitr
