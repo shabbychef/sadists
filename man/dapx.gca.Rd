@@ -55,14 +55,10 @@ under consideration. They take the form
 \deqn{c_j \int_{-\infty}^{\infty} f(z) He_j(z) \mathrm{d}z.}{c_j = integral_-inf^inf f(z) He_j(z) dz.}
 Using linearity of the integral, these coefficients are easily computed in
 terms of the coefficients of the Hermite polynomials and the raw, uncentered
-moments of the probability distribution under consideration. Usually the ...
-
-
-
-
-
-The series contain terms constant in \eqn{x}{x}, which can be computed for
-the given probability distributionNote that the terms which are constant with respect to \eqn{x}{x}, a
+moments of the probability distribution under consideration. It may be the
+case that the computation of these coefficients suffers from bad numerical
+cancellation for some distributions, and that an alternative formulation
+may be more numerically robust.
 }
 \examples{
 # normal distribution:

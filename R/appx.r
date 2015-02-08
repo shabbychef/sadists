@@ -1,113 +1,149 @@
-# /usr/bin/r
+# Copyright 2014-2015 Steven E. Pav. All Rights Reserved.
+# Author: Steven E. Pav
 #
+# This file is part of sadists.
+#
+# sadists is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# sadists is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with sadists.  If not, see <http://www.gnu.org/licenses/>.
+
 # Created: 2015.02.07
 # Copyright: Steven E. Pav, 2015
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-
 # for the Hermite Polynomials
 require(orthopolynom)
 require(moments)
 
-# utilities or dealing with moments and cumulants
-
-#' @title Convert moments to raw cumulants.
+#' @title Approximate density and distribution via Gram-Charlier A expansion.
 #'
 #' @description 
 #'
-#' Conversion of a vector of moments to raw cumulants.
+#' Approximate the probability density or cumulative distribution function of a distribution via its raw moments.
 #'
 #' @details
 #'
-#' The 'raw' cumulants \eqn{\kappa_i}{kappa_i} are connected
-#' to the 'raw' (uncentered) moments, \eqn{\mu_i'}{mu'_i} via
-#' the equation
-#' \deqn{\kappa_n = \mu_n' - \sum_{m=1}^{n-1} {n-1 \choose m-1} \kappa_m \mu_{n-m}'}
+#' Given the raw moments of a probability distribution, we approximate the probability 
+#' density, or the cumulative distribution function, via a Gram-Charlier A expansion on the 
+#' standardized distribution.
 #'
-#' Note that this formula also works for central moments, assuming
-#' the distribution has been normalized to zero mean.
+#' Suppose \eqn{f(x)}{f(x)} is the probability density of some random
+#' variable, and let \eqn{F(x)}{F(x)} be the cumulative distribution function.
+#' Let \eqn{He_j(x)}{He_j(x)} be the \eqn{j}{j}th probabilist's Hermite
+#' polynomial. These polynomials form an orthogonal basis, with respect to the
+#' function \eqn{w(x)}{w(x)} of the Hilbert space of functions which are square
+#' \eqn{w}{w}-weighted integrable. The weighting function is 
+#' \eqn{w(x) = e^{-x^2/2} = \sqrt{2\pi}\phi(x)}{w(x) = e^{-x^2/2} = sqrt(2pi) phi(x)}.
+#' The orthogonality relationship is
+#' \deqn{\int_{-\infty}^{\infty} He_i(x) He_j(x) w(x) \mathrm{d}x = \sqrt{2\pi} j! \delta_{ij}.}{integral_-inf^inf He_i(x) He_j(x) w(x) dx = sqrt(2pi)j!dirac_ij.}
 #'
-#' @usage
+#' Expanding the density \eqn{f(x)}{f(x)} in terms of these polynomials in the
+#' usual way (abusing orthogonality) one has
+#' \deqn{f(x) = \sum_{0\le j} \frac{He_j(x)}{j!} \phi(x) \int_{-\infty}^{\infty} f(z) He_j(z) \mathrm{d}z.}{f(x) = sum_{0 <= j} (He_j(x)/j!) phi(x) integral_-inf^inf f(z) He_j(z) dz.}
+#' The cumulative distribution function is 'simply' the integral of this
+#' expansion. Abusing certain facts regarding the PDF and CDF of the normal
+#' distribution and the probabilist's Hermite polynomials, the CDF has
+#' the representation
+#' \deqn{F(x) = \Phi(x) - \sum_{1\le j} \frac{He_{j-1}(x)}{j!} \phi(x) \int_{-\infty}^{\infty} f(z) He_j(z) \mathrm{d}z.}{F(x) = Phi(x) - sum_{1 <= j} (He_{j-1}(x)/j!) phi(x) integral_-inf^inf f(z) He_j(z) dz.}
 #'
-#' moment2cumulant(moms)
-#'
-#' @param moms a vector of the moments. The first element is the first moment.
-#' If centered moments are given, the first cumulant shall be zero.
-#' @return a vector of the cumulants.
-#'
-#' @keywords distribution 
-#' @seealso \code{\link{cumulant2moment}}
-#' @export 
-#'
-#' @examples 
-#' # normal distribution, mean 0, variance 1
-#' n.cum <- moment2cumulant(c(0,1,0,3,0,15))
-#' # normal distribution, mean 1, variance 1
-#' n.cum <- moment2cumulant(c(1,2,4,10,26))
-#' # exponential distribution
-#' lambda <- 0.7
-#' n <- 1:6
-#' e.cum <- moment2cumulant(factorial(n) / (lambda^n))
-#' @template etc
-moment2cumulant <- function(moms) {
-	kappa <- moms
-	if (length(kappa) > 1) {
-		for (nnn in 2:length(kappa)) {
-			mmm <- 1:(nnn-1)
-			kappa[nnn] <- moms[nnn] - sum(choose(nnn-1,mmm-1) * kappa[mmm] * moms[nnn-mmm])
-		}
-	}
-	return(kappa)
-}
-
-#' @title Convert raw cumulants to moments.
-#'
-#' @description 
-#'
-#' Conversion of a vector of raw cumulatnts to moments.
-#'
-#' @details
-#'
-#' The 'raw' cumulants \eqn{\kappa_i}{kappa_i} are connected
-#' to the 'raw' (uncentered) moments, \eqn{\mu_i'}{mu'_i} via
-#' the equation
-#' \deqn{\mu_n' = \kappa_n + \sum_{m=1}^{n-1} {n-1 \choose m-1} \kappa_m \mu_{n-m}'}
+#' These series contain coefficients defined by the probability distribution 
+#' under consideration. They take the form
+#' \deqn{c_j \int_{-\infty}^{\infty} f(z) He_j(z) \mathrm{d}z.}{c_j = integral_-inf^inf f(z) He_j(z) dz.}
+#' Using linearity of the integral, these coefficients are easily computed in
+#' terms of the coefficients of the Hermite polynomials and the raw, uncentered
+#' moments of the probability distribution under consideration. It may be the
+#' case that the computation of these coefficients suffers from bad numerical
+#' cancellation for some distributions, and that an alternative formulation
+#' may be more numerically robust.
 #'
 #' @usage
 #'
-#' cumulant2moment(kappa)
+#' dapx.gca(x, raw.moments)
 #'
-#' @param kappa a vector of the raw cumulants. The first element is the first cumulant,
-#' which is also the first moment.
-#' @return a vector of the raw moments.
+#' papx.gca(q, raw.moments, lower.tail=TRUE)
+#'
+#' @param x where to evaluate the approximate density.
+#' @param q where to evaluate the approximate distribution.
+#' @param raw.moments an atomic array of the zeroth through kth raw moments
+#' of the probability distribution. The first element should be a 1.
+#' 2FIX: that seems like a stupid, arbitrary choice.
+#' @param lower.tail whether to compute the lower tail. If false, we approximate the survival function.
+#' @return The approximate density at \code{x}.
 #'
 #' @keywords distribution 
-#' @seealso \code{\link{moment2cumulant}}
+#' @seealso \code{\link{qapx.cf}}
 #' @export 
+#' @template ref-Jaschke
+#' @aliases papx.gca 
+#' @references
+#'
+#' S. Blinnikov and R. Moessner. "Expansions for nearly Gaussian
+#' distributions." Astronomy and Astrophysics Supplement 130 (1998): 193-205.
+#' \url{http://arxiv.org/abs/astro-ph/9711239}
 #'
 #' @examples 
-#' # normal distribution, mean 0, variance 1
-#' n.mom <- cumulant2moment(c(0,1,0,0,0,0))
-#' # normal distribution, mean 1, variance 1
-#' n.mom <- cumulant2moment(c(1,1,0,0,0,0))
+#' # normal distribution:
+#' xvals <- seq(-2,2,length.out=501)
+#' d1 <- dapx.gca(xvals, c(1,0,1,0,3,0))
+#' d2 <- dnorm(xvals)
+#' d1 - d2
+#'
+#' qvals <- seq(-2,2,length.out=501)
+#' p1 <- papx.gca(qvals, c(1,0,1,0,3,0))
+#' p2 <- pnorm(qvals)
+#' p1 - p2
 #' @template etc
-cumulant2moment <- function(kappa) {
-	moms <- kappa
-	if (length(moms) > 1) {
-		for (nnn in 2:length(kappa)) {
-			mmm <- 1:(nnn-1)
-			moms[nnn] <- kappa[nnn] + sum(choose(nnn-1,mmm-1) * kappa[mmm] * moms[nnn-mmm])
-		}
-	}
-	return(moms)
-}
+dapx.gca <- function(x,raw.moments) {
+	raw.moments[1] <- 1  # just in case
+	order.max <- length(raw.moments) - 1
 
-# central moments to standardized moments
-central2std <- function(mu.cent) {
-	#std <- sqrt(mu.cent[3])
-	mu.std <- mu.cent / (mu.cent[3] ^ ((0:(length(mu.cent)-1))/2))
-	return(mu.std)
+	mu.central <- moments::raw2central(raw.moments)
+	mu.std <- central2std(mu.central)
+	eta <- (x - raw.moments[2]) / sqrt(mu.central[3])
+	hermi <- orthopolynom::hermite.he.polynomials(order.max+1, normalized=FALSE)
+
+	retval <- dnorm(eta)
+	phi.eta <- retval
+	for (iii in c(1:order.max)) {
+		ci <- (sum(coef(hermi[[iii+1]]) * mu.std[1:(iii+1)])) / factorial(iii)
+		retval <- retval - ci * phi.eta * as.function(hermi[[iii+1]])(eta)
+	}
+
+	# adjust back from standardized
+	retval <- retval / sqrt(mu.central[3])
+	return(retval)
+}
+#' @export 
+papx.gca <- function(q,raw.moments,lower.tail=TRUE) {
+	order.max <- length(raw.moments) - 1
+	if (!lower.tail) {
+		# transform q and the raw moments
+		q <- - q;
+		raw.moments <- raw.moments * (-1^(0:order.max))
+	}
+
+	mu.central <- moments::raw2central(raw.moments)
+	mu.std <- central2std(mu.central)
+	eta <- (q - raw.moments[2]) / sqrt(mu.central[3])
+	hermi <- orthopolynom::hermite.he.polynomials(order.max, normalized=FALSE)
+
+	retval <- pnorm(eta)
+	phi.eta <- dnorm(eta)
+	for (iii in c(1:order.max)) {
+		ci <- (sum(coef(hermi[[iii+1]]) * mu.std[1:(iii+1)])) / factorial(iii)
+		retval <- retval - ci * phi.eta * as.function(hermi[[iii]])(eta)
+	}
+	return(retval)
 }
 
 #' @title Higher order Cornish Fisher approximation.
@@ -286,127 +322,6 @@ AS269 <- function(z,cumul,order.max=NULL,all.ords=FALSE) {#FOLDUP
 	return(retval)
 }#UNFOLD
 
-#' @title Approximate density and distribution via Gram-Charlier A expansion.
-#'
-#' @description 
-#'
-#' Approximate the probability density or cumulative distribution function of a distribution via its raw moments.
-#'
-#' @details
-#'
-#' Given the raw moments of a probability distribution, we approximate the probability 
-#' density, or the cumulative distribution function, via a Gram-Charlier A expansion on the 
-#' standardized distribution.
-#'
-#' Suppose \eqn{f(x)}{f(x)} is the probability density of some random
-#' variable, and let \eqn{F(x)}{F(x)} be the cumulative distribution function.
-#' Let \eqn{He_j(x)}{He_j(x)} be the \eqn{j}{j}th probabilist's Hermite
-#' polynomial. These polynomials form an orthogonal basis, with respect to the
-#' function \eqn{w(x)}{w(x)} of the Hilbert space of functions which are square
-#' \eqn{w}{w}-weighted integrable. The weighting function is 
-#' \eqn{w(x) = e^{-x^2/2} = \sqrt{2\pi}\phi(x)}{w(x) = e^{-x^2/2} = sqrt(2pi) phi(x)}.
-#' The orthogonality relationship is
-#' \deqn{\int_{-\infty}^{\infty} He_i(x) He_j(x) w(x) \mathrm{d}x = \sqrt{2\pi} j! \delta_{ij}.}{integral_-inf^inf He_i(x) He_j(x) w(x) dx = sqrt(2pi)j!dirac_ij.}
-#'
-#' Expanding the density \eqn{f(x)}{f(x)} in terms of these polynomials in the
-#' usual way (abusing orthogonality) one has
-#' \deqn{f(x) = \sum_{0\le j} \frac{He_j(x)}{j!} \phi(x) \int_{-\infty}^{\infty} f(z) He_j(z) \mathrm{d}z.}{f(x) = sum_{0 <= j} (He_j(x)/j!) phi(x) integral_-inf^inf f(z) He_j(z) dz.}
-#' The cumulative distribution function is 'simply' the integral of this
-#' expansion. Abusing certain facts regarding the PDF and CDF of the normal
-#' distribution and the probabilist's Hermite polynomials, the CDF has
-#' the representation
-#' \deqn{F(x) = \Phi(x) - \sum_{1\le j} \frac{He_{j-1}(x)}{j!} \phi(x) \int_{-\infty}^{\infty} f(z) He_j(z) \mathrm{d}z.}{F(x) = Phi(x) - sum_{1 <= j} (He_{j-1}(x)/j!) phi(x) integral_-inf^inf f(z) He_j(z) dz.}
-#'
-#' These series contain coefficients defined by the probability distribution 
-#' under consideration. They take the form
-#' \deqn{c_j \int_{-\infty}^{\infty} f(z) He_j(z) \mathrm{d}z.}{c_j = integral_-inf^inf f(z) He_j(z) dz.}
-#' Using linearity of the integral, these coefficients are easily computed in
-#' terms of the coefficients of the Hermite polynomials and the raw, uncentered
-#' moments of the probability distribution under consideration. It may be the
-#' case that the computation of these coefficients suffers from bad numerical
-#' cancellation for some distributions, and that an alternative formulation
-#' may be more numerically robust.
-#'
-#' @usage
-#'
-#' dapx.gca(x, raw.moments)
-#'
-#' papx.gca(q, raw.moments, lower.tail=TRUE)
-#'
-#' @param x where to evaluate the approximate density.
-#' @param q where to evaluate the approximate distribution.
-#' @param raw.moments an atomic array of the zeroth through kth raw moments
-#' of the probability distribution. The first element should be a 1.
-#' 2FIX: that seems like a stupid, arbitrary choice.
-#' @param lower.tail whether to compute the lower tail. If false, we approximate the survival function.
-#' @return The approximate density at \code{x}.
-#'
-#' @keywords distribution 
-#' @seealso \code{\link{qapx.cf}}
-#' @export 
-#' @template ref-Jaschke
-#' @aliases papx.gca 
-#' @references
-#'
-#' S. Blinnikov and R. Moessner. "Expansions for nearly Gaussian
-#' distributions." Astronomy and Astrophysics Supplement 130 (1998): 193-205.
-#' \url{http://arxiv.org/abs/astro-ph/9711239}
-#'
-#' @examples 
-#' # normal distribution:
-#' xvals <- seq(-2,2,length.out=501)
-#' d1 <- dapx.gca(xvals, c(1,0,1,0,3,0))
-#' d2 <- dnorm(xvals)
-#' d1 - d2
-#'
-#' qvals <- seq(-2,2,length.out=501)
-#' p1 <- papx.gca(qvals, c(1,0,1,0,3,0))
-#' p2 <- pnorm(qvals)
-#' p1 - p2
-#' @template etc
-dapx.gca <- function(x,raw.moments) {
-	raw.moments[1] <- 1  # just in case
-	order.max <- length(raw.moments) - 1
-
-	mu.central <- moments::raw2central(raw.moments)
-	mu.std <- central2std(mu.central)
-	eta <- (x - raw.moments[2]) / sqrt(mu.central[3])
-	hermi <- orthopolynom::hermite.he.polynomials(order.max+1, normalized=FALSE)
-
-	retval <- dnorm(eta)
-	phi.eta <- retval
-	for (iii in c(1:order.max)) {
-		ci <- (sum(coef(hermi[[iii+1]]) * mu.std[1:(iii+1)])) / factorial(iii)
-		retval <- retval - ci * phi.eta * as.function(hermi[[iii+1]])(eta)
-	}
-
-	# adjust back from standardized
-	retval <- retval / sqrt(mu.central[3])
-	return(retval)
-}
-#' @export 
-papx.gca <- function(q,raw.moments,lower.tail=TRUE) {
-	order.max <- length(raw.moments) - 1
-	if (!lower.tail) {
-		# transform q and the raw moments
-		q <- - q;
-		raw.moments <- raw.moments * (-1^(0:order.max))
-	}
-
-	mu.central <- moments::raw2central(raw.moments)
-	mu.std <- central2std(mu.central)
-	eta <- (q - raw.moments[2]) / sqrt(mu.central[3])
-	hermi <- orthopolynom::hermite.he.polynomials(order.max, normalized=FALSE)
-
-	retval <- pnorm(eta)
-	phi.eta <- dnorm(eta)
-	for (iii in c(1:order.max)) {
-		ci <- (sum(coef(hermi[[iii+1]]) * mu.std[1:(iii+1)])) / factorial(iii)
-		retval <- retval - ci * phi.eta * as.function(hermi[[iii]])(eta)
-	}
-	return(retval)
-}
-
 #' @title Approximate quantile via Cornish-Fisher expansion.
 #'
 #' @description 
@@ -455,6 +370,7 @@ qapx.cf <- function(p,raw.cumulants) {
 	retval <- raw.cumulants[2] + w * sqrt(raw.cumulants[3])
 	return(retval)
 }
+
 
 
 

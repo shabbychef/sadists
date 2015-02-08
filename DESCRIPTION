@@ -25,5 +25,6 @@ Collate:
     'dnt.r'
     'kprime.r'
     'lambdap.r'
+    'moments.r'
     'sadists.r'
     'utils.r'
