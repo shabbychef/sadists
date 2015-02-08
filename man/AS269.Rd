@@ -33,13 +33,32 @@ Invalid arguments will result in return value \code{NaN} with a warning.
 Cornish Fisher approximate quantiles on a standardized random variable.
 }
 \details{
-Really detailed. \eqn{\zeta}{zeta}.
+This implements Algorithm AS269 of Lee and Lin for computing higher
+order Cornish Fisher approximates of the quantile of a standardized
+random variable. The Cornish Fisher approximation is the Legendre
+inversion of the Edgeworth expansion of a distribution, but ordered
+in a way that is convenient when used on the mean of a number of
+independent draws of a random variable.
 
-A list:
-\itemize{
-\item I use \eqn{n}{n} to stand for blah.
-\item and so forth....
-}
+Suppose \eqn{x_1, x_2, \ldots, x_n}{x_1, x_2, ..., x_n} are \eqn{n} independent
+draws from some probability distribution.
+Letting
+\deqn{X = \frac{1}{\sqrt{n}} \sum_{1 \le i \le n} x_i,}{X = (x_1 + x_2 + ... x_n) / sqrt(n),}
+the Central Limit Theorem assures us that, assuming finite variance,
+\deqn{X \rightsquigarrow \mathcal{N}(\sqrt{n}\mu, \sigma),}{X ~~ N(sqrt(n) mu, sigma),}
+with convergence in \eqn{n}.
+
+The Cornish Fisher approximation gives a more detailed picture of the
+quantiles of \eqn{X}{X}, one that is arranged in decreasing powers of
+\eqn{\sqrt{n}}{sqrt(n)}. The quantile function is the function \eqn{q(p)}{q(p)}
+such that \eqn{P\left(X \le q(p)\right) = q(p)}{P(x <= q(p)) = p}. The
+Cornish Fisher expansion is
+\deqn{q(p) = \sqrt{n}\mu + \sigma \left(z + \sum_{3 \le j} c_j f(z)\right),}{q(p) = sqrt{n}mu + sigma (z + sum_{3 <= j} c_j f(z)),}
+where \eqn{z = \Phi^{-1}(p)}{z = qnorm(p)}, and \eqn{c_j}{c_j} involves
+standardized cumulants of the distribution of \eqn{x_i}{x_i} of order
+\eqn{j} and higher. Moreover, the \eqn{c_j}{c_j} feature decreasing powers
+of \eqn{\sqrt{n}}{sqrt(n)}, giving some justification for truncation.
+When \eqn{n=1}{n=1}, however, the ordering is somewhat arbitrary.
 }
 \examples{
 foo <- AS269(seq(-2,2,0.01),c(0,2,0,4))
@@ -82,13 +101,16 @@ Lee, Y-S., and Lin, T-K. "Correction to Algorithm AS269: High Order
 Cornish Fisher Expansion." Appl. Stat. 42, no. 1 (1993): 268-269.
 \url{http://www.jstor.org/stable/2347433}
 
+AS 269. \url{http://lib.stat.cmu.edu/apstat/269}
+
 Jaschke, Stefan R. "The Cornish-Fisher-expansion in the context of
 Delta-Gamma-normal approximations." No. 2001, 54. Discussion Papers,
 Interdisciplinary Research Project 373: Quantification and Simulation of
 Economic Processes, 2001.
 \url{http://www.jaschke-net.de/papers/CoFi.pdf}
-
-AS 269. \url{http://lib.stat.cmu.edu/apstat/269}
+}
+\seealso{
+\code{\link{qapx.cf}}
 }
 \keyword{distribution}
 
