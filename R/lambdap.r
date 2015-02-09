@@ -1,4 +1,4 @@
-# Copyright 2014-2014 Steven E. Pav. All Rights Reserved.
+# Copyright 2014-2015 Steven E. Pav. All Rights Reserved.
 # Author: Steven E. Pav
 #
 # This file is part of sadists.
@@ -56,18 +56,11 @@
 #' @param df the degrees of freedom in the chi square. 
 #' @param t the scaling parameter on the chi.
 #'
-#' @param log logical; if TRUE, densities \eqn{f} are given 
-#'  as \eqn{\mbox{log}(f)}{log(f)}.
-#' @param log.p logical; if TRUE, probabilities p are given 
-#'  as \eqn{\mbox{log}(p)}{log(p)}.
-#' @param lower.tail logical; if TRUE (default), probabilities are
-#'  \eqn{P[X \le x]}{P[X <= x]}, otherwise, \eqn{P[X > x]}{P[X > x]}.
 #' @inheritParams dt
 #' @inheritParams pt
 #' @inheritParams qt
 #' @inheritParams rt
 #'
-#' @keywords distribution 
 #' @return \code{dlambdap} gives the density, \code{plambdap} gives the 
 #' distribution function, \code{qlambdap} gives the quantile function, 
 #' and \code{rlambdap} generates random deviates.
@@ -77,6 +70,7 @@
 #' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
 #' K prime distribution functions, \code{\link{dkprime}, \link{pkprime}, \link{qkprime}, \link{rkprime}},
 #' @template etc
+#' @template distribution
 #' @template ref-lambdap
 #' @examples 
 #' d1 <- dlambdap(1, 50, t=0.01)
@@ -87,8 +81,6 @@
 	# this _was_ cut and paste from the kprime code,
 	# but needs to be written ... 
 }
-
-
 #' @export 
 dlambdap <- Vectorize(.dlambdap,
 									vectorize.args = c("x","df","t"),

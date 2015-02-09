@@ -68,14 +68,18 @@ require(moments)
 #'
 #' @usage
 #'
-#' dapx.gca(x, raw.moments)
+#' dapx.gca(x, raw.moments, log=FALSE)
 #'
-#' papx.gca(q, raw.moments, lower.tail=TRUE)
+#' papx.gca(q, raw.moments, lower.tail=TRUE, log.p=FALSE)
 #'
 #' @param x where to evaluate the approximate density.
 #' @param q where to evaluate the approximate distribution.
 #' @param raw.moments an atomic array of the 1st through kth raw moments
 #' of the probability distribution. 
+#' @param log logical; if TRUE, densities \eqn{f} are given 
+#'  as \eqn{\mbox{log}(f)}{log(f)}.
+#' @param log.p logical; if TRUE, probabilities p are given 
+#'  as \eqn{\mbox{log}(p)}{log(p)}.
 #' @param lower.tail whether to compute the lower tail. If false, we approximate the survival function.
 #' @return The approximate density at \code{x}.
 #'
@@ -102,7 +106,7 @@ require(moments)
 #' p2 <- pnorm(qvals)
 #' p1 - p2
 #' @template etc
-dapx.gca <- function(x,raw.moments) {#FOLDUP
+dapx.gca <- function(x,raw.moments,log=FALSE) {#FOLDUP
 	order.max <- length(raw.moments)
 
 	mu.central <- moments::raw2central(c(1,raw.moments))
@@ -119,10 +123,13 @@ dapx.gca <- function(x,raw.moments) {#FOLDUP
 
 	# adjust back from standardized
 	retval <- retval / sqrt(mu.central[3])
+	# must be a better way to do this ... 
+	if (log)
+		retval <- log(retval)
 	return(retval)
 }#UNFOLD
 #' @export 
-papx.gca <- function(q,raw.moments,lower.tail=TRUE) {#FOLDUP
+papx.gca <- function(q,raw.moments,lower.tail=TRUE,log.p=FALSE) {#FOLDUP
 	order.max <- length(raw.moments)
 
 	if (!lower.tail) {
@@ -142,6 +149,9 @@ papx.gca <- function(q,raw.moments,lower.tail=TRUE) {#FOLDUP
 		ci <- (sum(coef(hermi[[iii+1]]) * mu.std[1:(iii+1)])) / factorial(iii)
 		retval <- retval - ci * phi.eta * as.function(hermi[[iii]])(eta)
 	}
+	# must be a better way to do this ... 
+	if (log.p)
+		retval <- log(retval)
 	return(retval)
 }#UNFOLD
 
@@ -355,6 +365,7 @@ AS269 <- function(z,cumul,order.max=NULL,all.ords=FALSE) {#FOLDUP
 #' q1 - q2
 #' @template etc
 qapx.cf <- function(p,raw.cumulants) {#FOLDUP
+# 2FIX: this should have log.p and lower.tail arguments ... 
 	order.max <- length(raw.cumulants)
 	# this should be a standard routine:
 	std.cumulants <- raw.cumulants / (raw.cumulants[2] ^ ((1:(length(raw.cumulants)))/2))

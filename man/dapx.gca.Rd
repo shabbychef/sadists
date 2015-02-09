@@ -5,9 +5,9 @@
 \alias{papx.gca}
 \title{Approximate density and distribution via Gram-Charlier A expansion.}
 \usage{
-dapx.gca(x, raw.moments)
+dapx.gca(x, raw.moments, log=FALSE)
 
-papx.gca(q, raw.moments, lower.tail=TRUE)
+papx.gca(q, raw.moments, lower.tail=TRUE, log.p=FALSE)
 }
 \arguments{
 \item{x}{where to evaluate the approximate density.}
@@ -15,7 +15,13 @@ papx.gca(q, raw.moments, lower.tail=TRUE)
 \item{raw.moments}{an atomic array of the 1st through kth raw moments
 of the probability distribution.}
 
+\item{log}{logical; if TRUE, densities \eqn{f} are given
+as \eqn{\mbox{log}(f)}{log(f)}.}
+
 \item{q}{where to evaluate the approximate distribution.}
+
+\item{log.p}{logical; if TRUE, probabilities p are given
+as \eqn{\mbox{log}(p)}{log(p)}.}
 
 \item{lower.tail}{whether to compute the lower tail. If false, we approximate the survival function.}
 }
