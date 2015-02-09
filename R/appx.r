@@ -74,9 +74,8 @@ require(moments)
 #'
 #' @param x where to evaluate the approximate density.
 #' @param q where to evaluate the approximate distribution.
-#' @param raw.moments an atomic array of the zeroth through kth raw moments
-#' of the probability distribution. The first element should be a 1.
-#' 2FIX: that seems like a stupid, arbitrary choice.
+#' @param raw.moments an atomic array of the 1st through kth raw moments
+#' of the probability distribution. 
 #' @param lower.tail whether to compute the lower tail. If false, we approximate the survival function.
 #' @return The approximate density at \code{x}.
 #'
@@ -94,22 +93,21 @@ require(moments)
 #' @examples 
 #' # normal distribution:
 #' xvals <- seq(-2,2,length.out=501)
-#' d1 <- dapx.gca(xvals, c(1,0,1,0,3,0))
+#' d1 <- dapx.gca(xvals, c(0,1,0,3,0))
 #' d2 <- dnorm(xvals)
 #' d1 - d2
 #'
 #' qvals <- seq(-2,2,length.out=501)
-#' p1 <- papx.gca(qvals, c(1,0,1,0,3,0))
+#' p1 <- papx.gca(qvals, c(0,1,0,3,0))
 #' p2 <- pnorm(qvals)
 #' p1 - p2
 #' @template etc
-dapx.gca <- function(x,raw.moments) {
-	raw.moments[1] <- 1  # just in case
-	order.max <- length(raw.moments) - 1
+dapx.gca <- function(x,raw.moments) {#FOLDUP
+	order.max <- length(raw.moments)
 
-	mu.central <- moments::raw2central(raw.moments)
+	mu.central <- moments::raw2central(c(1,raw.moments))
 	mu.std <- central2std(mu.central)
-	eta <- (x - raw.moments[2]) / sqrt(mu.central[3])
+	eta <- (x - raw.moments[1]) / sqrt(mu.central[3])
 	hermi <- orthopolynom::hermite.he.polynomials(order.max+1, normalized=FALSE)
 
 	retval <- dnorm(eta)
@@ -122,19 +120,20 @@ dapx.gca <- function(x,raw.moments) {
 	# adjust back from standardized
 	retval <- retval / sqrt(mu.central[3])
 	return(retval)
-}
+}#UNFOLD
 #' @export 
-papx.gca <- function(q,raw.moments,lower.tail=TRUE) {
-	order.max <- length(raw.moments) - 1
+papx.gca <- function(q,raw.moments,lower.tail=TRUE) {#FOLDUP
+	order.max <- length(raw.moments)
+
 	if (!lower.tail) {
 		# transform q and the raw moments
 		q <- - q;
-		raw.moments <- raw.moments * (-1^(0:order.max))
+		raw.moments <- raw.moments * (-1^(1:order.max))
 	}
 
-	mu.central <- moments::raw2central(raw.moments)
+	mu.central <- moments::raw2central(c(1,raw.moments))
 	mu.std <- central2std(mu.central)
-	eta <- (q - raw.moments[2]) / sqrt(mu.central[3])
+	eta <- (q - raw.moments[1]) / sqrt(mu.central[3])
 	hermi <- orthopolynom::hermite.he.polynomials(order.max, normalized=FALSE)
 
 	retval <- pnorm(eta)
@@ -144,7 +143,7 @@ papx.gca <- function(q,raw.moments,lower.tail=TRUE) {
 		retval <- retval - ci * phi.eta * as.function(hermi[[iii]])(eta)
 	}
 	return(retval)
-}
+}#UNFOLD
 
 #' @title Higher order Cornish Fisher approximation.
 #'
@@ -166,7 +165,7 @@ papx.gca <- function(q,raw.moments,lower.tail=TRUE) {
 #' Letting 
 #' \deqn{X = \frac{1}{\sqrt{n}} \sum_{1 \le i \le n} x_i,}{X = (x_1 + x_2 + ... x_n) / sqrt(n),}
 #' the Central Limit Theorem assures us that, assuming finite variance, 
-#' \deqn{X \rightsquigarrow \mathcal{N}(\sqrt{n}\mu, \sigma),}{X ~~ N(sqrt(n) mu, sigma),}
+#' \deqn{X \rightarrow \mathcal{N}(\sqrt{n}\mu, \sigma),}{X ~~ N(sqrt(n) mu, sigma),}
 #' with convergence in \eqn{n}.
 #'
 #' The Cornish Fisher approximation gives a more detailed picture of the
@@ -174,7 +173,7 @@ papx.gca <- function(q,raw.moments,lower.tail=TRUE) {
 #' \eqn{\sqrt{n}}{sqrt(n)}. The quantile function is the function \eqn{q(p)}{q(p)} 
 #' such that \eqn{P\left(X \le q(p)\right) = q(p)}{P(x <= q(p)) = p}. The
 #' Cornish Fisher expansion is 
-#' \deqn{q(p) = \sqrt{n}\mu + \sigma \left(z + \sum_{3 \le j} c_j f(z)\right),}{q(p) = sqrt{n}mu + sigma (z + sum_{3 <= j} c_j f(z)),}
+#' \deqn{q(p) = \sqrt{n}\mu + \sigma \left(z + \sum_{3 \le j} c_j f_j(z)\right),}{q(p) = sqrt{n}mu + sigma (z + sum_{3 <= j} c_j f_j(z)),}
 #' where \eqn{z = \Phi^{-1}(p)}{z = qnorm(p)}, and \eqn{c_j}{c_j} involves
 #' standardized cumulants of the distribution of \eqn{x_i}{x_i} of order
 #' \eqn{j} and higher. Moreover, the \eqn{c_j}{c_j} feature decreasing powers
@@ -338,8 +337,8 @@ AS269 <- function(z,cumul,order.max=NULL,all.ords=FALSE) {#FOLDUP
 #' qapx.cf(p, raw.cumulants)
 #'
 #' @param p where to evaluate the approximate distribution.
-#' @param raw.cumulants an atomic array of the zeroth through kth raw cumulants. The first 
-#' value is ignored, the second should be the mean of the distribution, the third should
+#' @param raw.cumulants an atomic array of the 1st through kth raw cumulants. The first 
+#' value is the mean of the distribution, the second should
 #' be the variance of the distribution, the remainder are raw cumulants.
 #' @return The approximate quantile at \code{x}.
 #'
@@ -351,27 +350,25 @@ AS269 <- function(z,cumul,order.max=NULL,all.ords=FALSE) {#FOLDUP
 #' @examples 
 #' # normal distribution:
 #' pvals <- seq(0.001,0.999,length.out=501)
-#' q1 <- qapx.cf(pvals, c(1,0,1,0,0,0,0,0))
+#' q1 <- qapx.cf(pvals, c(0,1,0,0,0,0,0))
 #' q2 <- qnorm(pvals)
 #' q1 - q2
 #' @template etc
-qapx.cf <- function(p,raw.cumulants) {
-	order.max <- length(raw.cumulants) - 1
+qapx.cf <- function(p,raw.cumulants) {#FOLDUP
+	order.max <- length(raw.cumulants)
 	# this should be a standard routine:
-	std.cumulants <- raw.cumulants / (raw.cumulants[3] ^ ((0:(length(raw.cumulants)-1))/2))
-	if (length(std.cumulants) > 3) {
-		gammas <- std.cumulants[4:length(std.cumulants)]
+	std.cumulants <- raw.cumulants / (raw.cumulants[2] ^ ((1:(length(raw.cumulants)))/2))
+	if (length(std.cumulants) > 2) {
+		gammas <- std.cumulants[3:length(std.cumulants)]
 		w <- AS269(z=qnorm(p),cumul=gammas,all.ords=FALSE)
 	} else {
 		w <- qnorm(p)
 	}
 
 	# now convert back from standardized:
-	retval <- raw.cumulants[2] + w * sqrt(raw.cumulants[3])
+	retval <- raw.cumulants[1] + w * sqrt(raw.cumulants[2])
 	return(retval)
-}
-
-
+}#UNFOLD
 
 
 #for vim modeline: (do not edit)

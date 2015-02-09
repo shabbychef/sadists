@@ -78,7 +78,8 @@
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
 #' @aliases dchi pchi qchi rchi
-#' @seealso t distribution functions, \code{\link{dchisq}, \link{pchisq}, \link{qchisq}, \link{rchisq}}
+#' @seealso chi-square distribution functions, \code{\link{dchisq}, \link{pchisq}, \link{qchisq}, \link{rchisq}},
+#' the Nakagami distribution functions, \code{\link{dnakagami}, \link{pnakagami}, \link{qnakagami}, \link{rnakagami}}
 #' @note
 #' This is a thin wrapper on the chi-square distribution functions.
 #' @template etc
@@ -116,10 +117,7 @@ qchi <- function(p,df,ncp = 0,lower.tail = TRUE,log.p = FALSE) {
 		qtile <- qchisq(p,df=df,ncp=ncp,lower.tail=lower.tail,log.p=log.p)
 	else
 		qtile <- qchisq(p,df=df,lower.tail=lower.tail,log.p=log.p)
-	if (log.p)
-		qtile <- 0.5 * qtile
-	else
-		qtile <- sqrt(qtile)
+	qtile <- sqrt(qtile)
 	return(qtile)
 }
 #' @export 

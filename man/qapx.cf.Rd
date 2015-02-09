@@ -9,8 +9,8 @@ qapx.cf(p, raw.cumulants)
 \arguments{
 \item{p}{where to evaluate the approximate distribution.}
 
-\item{raw.cumulants}{an atomic array of the zeroth through kth raw cumulants. The first
-value is ignored, the second should be the mean of the distribution, the third should
+\item{raw.cumulants}{an atomic array of the 1st through kth raw cumulants. The first
+value is the mean of the distribution, the second should
 be the variance of the distribution, the remainder are raw cumulants.}
 }
 \value{
@@ -26,7 +26,7 @@ quantile function via a Cornish-Fisher expansion.
 \examples{
 # normal distribution:
 pvals <- seq(0.001,0.999,length.out=501)
-q1 <- qapx.cf(pvals, c(1,0,1,0,0,0,0,0))
+q1 <- qapx.cf(pvals, c(0,1,0,0,0,0,0))
 q2 <- qnorm(pvals)
 q1 - q2
 }

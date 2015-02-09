@@ -12,9 +12,8 @@ papx.gca(q, raw.moments, lower.tail=TRUE)
 \arguments{
 \item{x}{where to evaluate the approximate density.}
 
-\item{raw.moments}{an atomic array of the zeroth through kth raw moments
-of the probability distribution. The first element should be a 1.
-2FIX: that seems like a stupid, arbitrary choice.}
+\item{raw.moments}{an atomic array of the 1st through kth raw moments
+of the probability distribution.}
 
 \item{q}{where to evaluate the approximate distribution.}
 
@@ -63,12 +62,12 @@ may be more numerically robust.
 \examples{
 # normal distribution:
 xvals <- seq(-2,2,length.out=501)
-d1 <- dapx.gca(xvals, c(1,0,1,0,3,0))
+d1 <- dapx.gca(xvals, c(0,1,0,3,0))
 d2 <- dnorm(xvals)
 d1 - d2
 
 qvals <- seq(-2,2,length.out=501)
-p1 <- papx.gca(qvals, c(1,0,1,0,3,0))
+p1 <- papx.gca(qvals, c(0,1,0,3,0))
 p2 <- pnorm(qvals)
 p1 - p2
 }
