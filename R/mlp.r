@@ -21,12 +21,14 @@
 # Author: Steven E. Pav <>
 # Comments: Steven E. Pav
 
+require(orthopolynom)
+
 # compute the 1 through order.max raw, uncentered moment
 # of the normal distribution with given mean and standard
 # deviation
 norm.moms <- function(mu=0,sigma=1,order.max=3) {
 	retval <- rep(1,order.max)
-	hermi <- hermite.he.polynomials(order.max, normalized=FALSE)
+	hermi <- orthopolynom::hermite.he.polynomials(order.max, normalized=FALSE)
 	for (iii in c(1:order.max)) {
 		cvals <- abs(coefficients(hermi[[iii+1]]))
 		lvals <- mu^(0:iii) * sigma^(iii - (0:iii))

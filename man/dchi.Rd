@@ -19,17 +19,17 @@ rchi(n, df, ncp = 0)
 \arguments{
 \item{x,q}{vector of quantiles.}
 
+\item{df}{the degrees of freedom, \eqn{k}.}
+
+\item{ncp}{the non-centrality parameter, \eqn{\lambda}{lambda}.
+When equal to zero, we recover the chi distribution.}
+
 \item{log}{logical; if TRUE, densities \eqn{f} are given
 as \eqn{\mbox{log}(f)}{log(f)}.}
 
 \item{p}{vector of probabilities.}
 
 \item{n}{number of observations.}
-
-\item{df}{the degrees of freedom, \eqn{k}.}
-
-\item{ncp}{the non-centrality parameter, \eqn{\lambda}{lambda}.
-When equal to zero, we recover the chi distribution.}
 
 \item{log.p}{logical; if TRUE, probabilities p are given
 as \eqn{\mbox{log}(p)}{log(p)}.}

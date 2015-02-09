@@ -21,6 +21,11 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
+# compute the ratio gamma(a) / gamma(b)
+gamrat <- function(a,b) {
+	return(exp(lgamma(a) - lgamma(b)))
+}
+
 # quantile function helper; 
 # find the root of a non-decreasing function fnc
 # given a single starting point x0.

@@ -8,11 +8,11 @@
 \alias{rmlp}
 \title{The multiple lambda prime distribution.}
 \usage{
-dmlp(x, df, t, log = FALSE)
+dmlp(x, df, t, log = FALSE, order.max=10)
 
-pmlp(q, df, t, lower.tail = TRUE, log.p = FALSE)
+pmlp(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
 
-qmlp(p, df, t, lower.tail = TRUE, log.p = FALSE)
+qmlp(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
 
 rmlp(n, df, t)
 }
@@ -27,6 +27,10 @@ length as \code{df}. we do \emph{not} vectorize over this variable.}
 
 \item{log}{logical; if TRUE, densities \eqn{f} are given
 as \eqn{\mbox{log}(f)}{log(f)}.}
+
+\item{order.max}{the order to use in the approximate density,
+distribution, and quantile computations, via the Gram-Charlier
+series or the Cornish Fisher expansion.}
 
 \item{p}{vector of probabilities.}
 
@@ -61,6 +65,11 @@ The multiple lambda prime distribution is used in certain tests of
 the Sharpe ratio for independent observations, and generalizes
 the lambda prime random variable.
 }
+\note{
+The PDF, CDF, and quantile function are approximated via
+the Gram Charlier or Cornish Fisher approximations, which may
+not be terribly accurate in the tails of the distribution.
+}
 \examples{
 d1 <- dmlp(1, 50, t=0.01)
 }
@@ -76,8 +85,9 @@ Lecoutre, Bruno. "Two useful distributions for Bayesian predictive procedures un
 Journal of Statistical Planning and Inference 79  (1999): 93--105.
 }
 \seealso{
-t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
-K prime distribution functions, \code{\link{dkprime}, \link{pkprime}, \link{qkprime}, \link{rkprime}},
+lambda-prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
+
+\code{\link{dapx.gca}, \link{papx.gca}, \link{qapx.cf}}
 }
 \keyword{distribution}
 

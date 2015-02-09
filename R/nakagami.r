@@ -82,7 +82,7 @@
 #' @rdname dnakagami
 #' @name nakagami
 #' @export 
-dchi <- function(x,m,Omega=1,log = FALSE) {
+dnakagami <- function(x,m,Omega=1,log = FALSE) {
 	dens <- dgamma(x^2,shape=m,rate=Omega/m,log=log)
 	if (log)
 		dens <- dens + log(2*x)
@@ -91,18 +91,18 @@ dchi <- function(x,m,Omega=1,log = FALSE) {
 	return(dens)
 }
 #' @export
-pchi <- function(q,m,Omega=1,lower.tail = TRUE,log.p = FALSE) {
+pnakagami <- function(q,m,Omega=1,lower.tail = TRUE,log.p = FALSE) {
 	cdf <- pgamma(q^2,shape=m,rate=Omega/m,lower.tail=lower.tail,log.p=log.p)
 	return(cdf)
 }
 #' @export 
-qchi <- function(p,df,ncp = 0,lower.tail = TRUE,log.p = FALSE) {
+qnakagami <- function(p,m,Omega=1,lower.tail = TRUE,log.p = FALSE) {
 	qtile <- qgamma(p,shape=m,rate=Omega/m,lower.tail=lower.tail,log.p=log.p)
 	qtile <- sqrt(qtile)
 	return(qtile)
 }
 #' @export 
-rchi <- function(n,df,ncp = 0) {
+rnakagami <- function(n,m,Omega=1) {
 	X <- sqrt(rgamma(n,shape=m,rate=Omega/m))
 	return(X)
 }
