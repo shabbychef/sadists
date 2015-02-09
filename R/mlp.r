@@ -91,11 +91,11 @@ mlp.cumulants <- function(df,t,order.max=3) {
 #'
 #' @usage
 #'
-#' dmlp(x, df, t, log = FALSE)
+#' dmlp(x, df, t, log = FALSE, order.max=10)
 #'
-#' pmlp(q, df, t, lower.tail = TRUE, log.p = FALSE)
+#' pmlp(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
 #'
-#' qmlp(p, df, t, lower.tail = TRUE, log.p = FALSE)
+#' qmlp(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
 #'
 #' rmlp(n, df, t)
 #'
@@ -113,10 +113,10 @@ mlp.cumulants <- function(df,t,order.max=3) {
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
 #' @aliases dmlp pmlp qmlp rmlp
-#' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
-#' K prime distribution functions, \code{\link{dkprime}, \link{pkprime}, \link{qkprime}, \link{rkprime}},
+#' @seealso lambda-prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
 #' @template etc
 #' @template distribution
+#' @template apx_distribution
 #' @template ref-lambdap
 #' @examples 
 #' d1 <- dmlp(1, 50, t=0.01)
@@ -144,10 +144,12 @@ qmlp <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
 }
 #' @export 
 rmlp <- function(n, df, t) {
-## 2FIX: implement this
-	#y <- rchisq(n,df=df) 
-	#X <- rnorm(n,mean=t * sqrt(y/df))
-	return(X)
+	retval <- rnorm(n)
+	for (iii in (1:length(df))) {
+# or nakagami?
+		retval <- retval + t[iii] * sqrt(rchisq(n,df=df[iii])/df[iii])
+	}
+	return(retval)
 }
 #UNFOLD
 
