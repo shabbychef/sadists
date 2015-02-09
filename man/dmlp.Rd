@@ -59,7 +59,7 @@ independently and independently of \eqn{Z}{Z}, a standard normal.
 Then
 \deqn{T = Z + \sum_i t_i \sqrt{y_i/\nu_i}}{T = Z + sum_i t_i sqrt(y_i/v_i)}
 takes a 'multiple' lambda prime distribution with parameter vectors
-\eqn{<\nu_1, \nu_2, \ldots, \nu_k>, <t_1, t_2, ..., t_k>}{<v_1, v_2, ..., v_k>, <t_1, t_2, ..., t_k>}.
+\eqn{[\nu_1, \nu_2, \ldots, \nu_k]', [t_1, t_2, ..., t_k]'}{<v_1, v_2, ..., v_k>, <t_1, t_2, ..., t_k>}.
 
 The multiple lambda prime distribution is used in certain tests of
 the Sharpe ratio for independent observations, and generalizes
