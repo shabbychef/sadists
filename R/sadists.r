@@ -30,6 +30,10 @@
 #' The non-central chi distribution is the square root of the 
 #' non-central chi-square distribution. 
 #' 
+#' @section Nakagami:
+#'
+#' The Nakagami distribution is a rescaled central chi distribution.
+#' 
 #' @section Doubly Noncentral t:
 #'
 #' The doubly noncentral t distribution generalizes the (singly)
@@ -55,6 +59,34 @@
 #' \deqn{T = \frac{X / n_1}{Y / n_2}}{T = (X/n1) / (Y/n2)}
 #' takes a doubly non-central F distribution with parameters
 #' \eqn{n_1, n_2, \theta_1, \theta_2}{n1, n2, theta1, theta2}. 
+#'
+#' @section Lambda Prime:
+#'
+#' Introduced by Lecoutre, the lambda prime distribution
+#' finds use in inference on the Sharpe ratio under normal
+#' returns.
+#' Suppose \eqn{y \sim \chi^2\left(\nu\right)}{y ~ x^2(v)}, and
+#' \eqn{Z}{Z} is a standard normal. 
+#' \deqn{T = Z + t \sqrt{y/\nu}}{T = Z + t sqrt(y/v)}
+#' takes a lambda prime distribution with parameters 
+#' \eqn{\nu, t}{v, t}.
+#' A lambda prime random variable can be viewed as a confidence
+#' variable on a non-central t because 
+#' \deqn{t = \frac{Z' + T}{\sqrt{y/\nu}}}{t = (Z' + T)/sqrt(y/v)}
+#'
+#' @section Multiple Lambda Prime:
+#'
+#' A multiple lambda prime generalizes the lambda prime to the
+#' case of the sum of multiple chi variables. That is,
+#' suppose \eqn{y_i \sim \chi^2\left(\nu_i\right)}{y_i ~ x^2(v_i)}
+#' independently and independently of \eqn{Z}{Z}, a standard normal. 
+#' Then 
+#' \deqn{T = Z + \sum_i t_i \sqrt{y_i/\nu_i}}{T = Z + sum_i t_i sqrt(y_i/v_i)}
+#' takes a multiple lambda prime distribution with parameter vectors
+#' \eqn{[\nu_1, \nu_2, \ldots, \nu_k]', [t_1, t_2, ..., t_k]'}{<v_1, v_2, ..., v_k>, <t_1, t_2, ..., t_k>}.
+#'
+#' The multiple lambda prime distribution is used in certain tests of
+#' the Sharpe ratio for independent observations.
 #'
 #' @section K Prime:
 #'
@@ -86,6 +118,7 @@
 #' \eqn{x \sim F \left(m, r, a^2 y/q\right)}{x ~ F(m, r, a^2 y / q)}.
 #' Then the random variable \eqn{x}{x}
 #' takes a K square distribution with parameters m, q, r, a.
+#' ... 2FIX
 #'
 #' @section Legal Mumbo Jumbo:
 #'
@@ -97,6 +130,8 @@
 #' @template etc
 #' @template ref-IP
 #' @template ref-kprime
+#' @template ref-Walck
+#' @template ref-Jaschke
 #'
 #' @import hypergeo
 #'
