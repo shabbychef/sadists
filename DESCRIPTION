@@ -3,7 +3,7 @@ Maintainer: Steven E. Pav <shabbychef@gmail.com>
 Authors@R: c(person(c("Steven", "E."), "Pav", role=c("aut","cre"),
     email="shabbychef@gmail.com"))
 Version: 0.1.0
-Date: 2015-02-08
+Date: 2015-02-12
 License: LGPL-3
 Title: Some Auxiliary Distributions
 BugReports: https://github.com/shabbychef/sadists/issues
@@ -11,7 +11,7 @@ Description: A collection of probability distributions.
 Depends: 
     R (>= 3.0.2),
     hypergeo,
-    moments,
+    PDQutils,
     orthopolynom
 Suggests: 
     testthat, 
@@ -19,7 +19,6 @@ Suggests:
 URL: https://github.com/shabbychef/sadists
 VignetteBuilder: knitr
 Collate:
-    'appx.r'
     'chi.r'
     'dnf.r'
     'dnt.r'

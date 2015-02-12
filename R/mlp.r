@@ -127,21 +127,21 @@ mlp.cumulants <- function(df,t,order.max=3) {
 #' @export 
 dmlp <- function(x, df, t, log = FALSE, order.max=10) {
 	kappa <- mlp.cumulants(df,t,order.max=order.max)
-	mu.raw <- cumulant2moment(kappa)
-	retval <- dapx.gca(x,mu.raw,log=log)
+	mu.raw <- PDQutils::cumulant2moment(kappa)
+	retval <- PDQutils::dapx_gca(x,mu.raw,log=log)
 	return(retval)
 }
 #' @export 
 pmlp <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
 	kappa <- mlp.cumulants(df,t,order.max=order.max)
-	mu.raw <- cumulant2moment(kappa)
-	retval <- papx.gca(q,mu.raw,lower.tail=lower.tail,log.p=log.p)
+	mu.raw <- PDQutils::cumulant2moment(kappa)
+	retval <- PDQutils::papx_gca(q,mu.raw,lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
 qmlp <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
-	kappa <- mlp.cumulants(df,t,order.max=order.max)
-	retval <- qapx.cf(p,kappa)
+	kappa <- PDQutils::mlp.cumulants(df,t,order.max=order.max)
+	retval <- PDQutils::qapx_cf(p,kappa)
 	return(retval)
 }
 #' @export 

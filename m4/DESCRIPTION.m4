@@ -15,7 +15,7 @@ Description: A collection of probability distributions.
 Depends: 
     R (>= 3.0.2),
     hypergeo,
-    moments,
+    PDQutils,
     orthopolynom
 Suggests: 
     testthat, 
