@@ -131,9 +131,8 @@
 #' @template ref-IP
 #' @template ref-kprime
 #' @template ref-Walck
-#' @template ref-Jaschke
 #'
-#' @import hypergeo
+#' @import hypergeo PDQutils
 #'
 #' @note 
 #' This package is maintained as a hobby. 
@@ -159,7 +158,7 @@ NULL
 # \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 # \newcommand{\sadists}{\CRANpkg{sadists}}
 #
-# @section \sadists{} Initial Version 0.1402 (2014-02-14) :
+# @section \sadists{} Initial Version 0.1.0 (2015-02-20) :
 # \itemize{
 # \item first CRAN release.
 # }

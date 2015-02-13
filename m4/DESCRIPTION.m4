@@ -11,7 +11,8 @@ Date: DATE()
 License: LGPL-3
 Title: Some Auxiliary Distributions
 BugReports: https://github.com/shabbychef/PKG_NAME()/issues
-Description: A collection of probability distributions.
+Description: Density, distribution, quantile and generation functions of some obscure probability distributions,
+    including the doubly noncentral t, LeCoutre's lambda-prime, ...
 Depends: 
     R (>= 3.0.2),
     hypergeo,

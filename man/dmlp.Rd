@@ -86,8 +86,6 @@ Journal of Statistical Planning and Inference 79  (1999): 93--105.
 }
 \seealso{
 lambda-prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
-
-\code{\link{dapx.gca}, \link{papx.gca}, \link{qapx.cf}}
 }
 \keyword{distribution}
 

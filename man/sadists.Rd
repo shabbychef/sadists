@@ -152,12 +152,6 @@ and Data Analysis 54, no. 3 (2010): 724-731.  \url{http://arxiv.org/abs/1003.489
 Walck, C. "HAndbook on Statistical Distributions for experimentalists."
 1996.
 \url{http://www.stat.rice.edu/~dobelman/textfiles/DistributionsHandbook.pdf}
-
-Jaschke, Stefan R. "The Cornish-Fisher-expansion in the context of
-Delta-Gamma-normal approximations." No. 2001, 54. Discussion Papers,
-Interdisciplinary Research Project 373: Quantification and Simulation of
-Economic Processes, 2001.
-\url{http://www.jaschke-net.de/papers/CoFi.pdf}
 }
 \keyword{package}
 
