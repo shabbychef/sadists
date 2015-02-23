@@ -3,7 +3,7 @@ Maintainer: Steven E. Pav <shabbychef@gmail.com>
 Authors@R: c(person(c("Steven", "E."), "Pav", role=c("aut","cre"),
     email="shabbychef@gmail.com"))
 Version: 0.1.0
-Date: 2015-02-12
+Date: 2015-02-22
 License: LGPL-3
 Title: Some Auxiliary Distributions
 BugReports: https://github.com/shabbychef/sadists/issues
@@ -25,8 +25,8 @@ Collate:
     'dnt.r'
     'kprime.r'
     'lambdap.r'
-    'mlp.r'
     'moments.r'
     'nakagami.r'
     'sadists.r'
+    'upsilon.r'
     'utils.r'

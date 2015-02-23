@@ -18,7 +18,7 @@
 
 # Created: 2015.02.08
 # Copyright: Steven E. Pav, 2015
-# Author: Steven E. Pav <>
+# Author: Steven E. Pav <shabbychef@gmail.com>
 # Comments: Steven E. Pav
 
 require(orthopolynom)
@@ -52,14 +52,14 @@ schi.moms <- function(df,scal=1,order.max=3) {
 	return(retval)
 }
 
-# compute the cumulants of the multiple lambda
-# prime distribution. this is distributed as
+# compute the cumulants of the upsilon
+# distribution. this is distributed as
 #
 # sum_i t_i sqrt(chi^2(df_i) / df_i) + Z
 #
 # where the chi^2 are independent chi-square
 # independent of Z
-mlp.cumulants <- function(df,t,order.max=3) {
+upsilon.cumulants <- function(df,t,order.max=3) {
 	# first the Z
 	Zmom <- norm.moms(0,1,order.max)
 	retval <- moment2cumulant(Zmom)
@@ -70,36 +70,36 @@ mlp.cumulants <- function(df,t,order.max=3) {
 	return(retval)
 }
 
-# dmlp, pmlp, qmlp, rmlp#FOLDUP
-#' @title The multiple lambda prime distribution.
+# dupsilon, pupsilon, qupsilon, rupsilon#FOLDUP
+#' @title The upsilon distribution.
 #'
 #' @description 
 #'
 #' Density, distribution function, quantile function and random
-#' generation for the 'multiple' lambda prime distribution.
+#' generation for the upsilon distribution.
 #'
 #' @details
 #'
 #' Suppose \eqn{y_i \sim \chi^2\left(\nu_i\right)}{y_i ~ x^2(v_i)}
 #' independently and independently of \eqn{Z}{Z}, a standard normal. 
 #' Then 
-#' \deqn{T = Z + \sum_i t_i \sqrt{y_i/\nu_i}}{T = Z + sum_i t_i sqrt(y_i/v_i)}
-#' takes a 'multiple' lambda prime distribution with parameter vectors
+#' \deqn{\Upsilon = Z + \sum_i t_i \sqrt{y_i/\nu_i}}{Y = Z + sum_i t_i sqrt(y_i/v_i)}
+#' takes an upsilon distribution with parameter vectors
 #' \eqn{[\nu_1, \nu_2, \ldots, \nu_k]', [t_1, t_2, ..., t_k]'}{<v_1, v_2, ..., v_k>, <t_1, t_2, ..., t_k>}.
 #'
-#' The multiple lambda prime distribution is used in certain tests of
+#' The upsilon distribution is used in certain tests of
 #' the Sharpe ratio for independent observations, and generalizes
 #' the lambda prime random variable.
 #'
 #' @usage
 #'
-#' dmlp(x, df, t, log = FALSE, order.max=10)
+#' dupsilon(x, df, t, log = FALSE, order.max=10)
 #'
-#' pmlp(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
+#' pupsilon(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
 #'
-#' qmlp(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
+#' qupsilon(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
 #'
-#' rmlp(n, df, t)
+#' rupsilon(n, df, t)
 #'
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
@@ -109,46 +109,48 @@ mlp.cumulants <- function(df,t,order.max=3) {
 #' @param t the scaling parameter on the chi. a vector. should be the same
 #' length as \code{df}. we do \emph{not} vectorize over this variable.
 #'
-#' @return \code{dmlp} gives the density, \code{pmlp} gives the 
-#' distribution function, \code{qmlp} gives the quantile function, 
-#' and \code{rmlp} generates random deviates.
+#' @return \code{dupsilon} gives the density, \code{pupsilon} gives the 
+#' distribution function, \code{qupsilon} gives the quantile function, 
+#' and \code{rupsilon} generates random deviates.
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
-#' @aliases dmlp pmlp qmlp rmlp
+#' @aliases dupsilon pupsilon qupsilon rupsilon
 #' @seealso lambda-prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
 #' @template etc
 #' @template distribution
 #' @template apx_distribution
 #' @template ref-lambdap
 #' @examples 
-#' d1 <- dmlp(1, 50, t=0.01)
-#' @name mlp
-#' @rdname dmlp
+#' d1 <- dupsilon(1, 50, t=0.01)
+#' @name upsilon
+#' @rdname dupsilon
 #' @export 
-dmlp <- function(x, df, t, log = FALSE, order.max=10) {
-	kappa <- mlp.cumulants(df,t,order.max=order.max)
-	mu.raw <- PDQutils::cumulant2moment(kappa)
-	retval <- PDQutils::dapx_gca(x,mu.raw,log=log)
+dupsilon <- function(x, df, t, log = FALSE, order.max=10) {
+	kappa <- upsilon.cumulants(df,t,order.max=order.max)
+	#mu.raw <- PDQutils::cumulant2moment(kappa)
+	#retval <- PDQutils::dapx_gca(x,mu.raw,log=log)
+	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
 	return(retval)
 }
 #' @export 
-pmlp <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
-	kappa <- mlp.cumulants(df,t,order.max=order.max)
-	mu.raw <- PDQutils::cumulant2moment(kappa)
-	retval <- PDQutils::papx_gca(q,mu.raw,lower.tail=lower.tail,log.p=log.p)
+pupsilon <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
+	kappa <- upsilon.cumulants(df,t,order.max=order.max)
+	#mu.raw <- PDQutils::cumulant2moment(kappa)
+	#retval <- PDQutils::papx_gca(q,mu.raw,lower.tail=lower.tail,log.p=log.p)
+	retval <- PDQutils::papx_edgeworth(q,kappa,lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
-qmlp <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
-	kappa <- PDQutils::mlp.cumulants(df,t,order.max=order.max)
+qupsilon <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
+	kappa <- PDQutils::upsilon.cumulants(df,t,order.max=order.max)
 	retval <- PDQutils::qapx_cf(p,kappa)
 	return(retval)
 }
 #' @export 
-rmlp <- function(n, df, t) {
+rupsilon <- function(n, df, t) {
 	retval <- rnorm(n)
 	for (iii in (1:length(df))) {
-# or nakagami?
+		# or use nakagami?
 		retval <- retval + t[iii] * sqrt(rchisq(n,df=df[iii])/df[iii])
 	}
 	return(retval)
