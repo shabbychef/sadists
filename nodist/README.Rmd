@@ -34,7 +34,7 @@ require(sadists)
 
 # sadists
 
-Some Auxiliary Distributions apparently not available in R.
+Some Additional Distributions apparently not available in R.
 
 -- Steven E. Pav, shabbychef@gmail.com
 
@@ -54,10 +54,10 @@ if (require(devtools)) {
 ## Doubly non-central t distribution
 
 The [doubly non-central t distribution](https://en.wikipedia.org/wiki/Doubly_noncentral_t-distribution)
-generalizes the t distribution to the case where the denominatory
-chi-square is non-central.
+generalizes the t distribution to the case where the denominator chi-square is non-central.
 
 ```{r dnt,eval=TRUE,echo=TRUE}
+require(sadists)
 k <- 5
 mu <- 1
 theta <- 2
@@ -69,6 +69,11 @@ plot(ecdf(pvs))
 
 ```
 
+## K-prime distribution
+
+## Lambda prime distribution
+
+## Upsilon distribution
 
 
 
