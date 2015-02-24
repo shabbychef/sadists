@@ -64,11 +64,11 @@ upsilon.cumuls <- function(df,t,order.max=3) {
 #'
 #' @usage
 #'
-#' dupsilon(x, df, t, log = FALSE, order.max=10)
+#' dupsilon(x, df, t, log = FALSE, order.max=5)
 #'
-#' pupsilon(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
+#' pupsilon(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5)
 #'
-#' qupsilon(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
+#' qupsilon(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5)
 #'
 #' rupsilon(n, df, t)
 #'
@@ -79,6 +79,8 @@ upsilon.cumuls <- function(df,t,order.max=3) {
 #' \emph{not} vectorize over this variable.
 #' @param t the scaling parameter on the chi. a vector. should be the same
 #' length as \code{df}. we do \emph{not} vectorize over this variable.
+#' @param order.max the maximum order approximation to use in the Edgeworth
+#' or Cornish-Fisher expansion. This is subject to change to improve accuracy.
 #'
 #' @return \code{dupsilon} gives the density, \code{pupsilon} gives the 
 #' distribution function, \code{qupsilon} gives the quantile function, 

@@ -8,11 +8,11 @@
 \alias{upsilon}
 \title{The upsilon distribution.}
 \usage{
-dupsilon(x, df, t, log = FALSE, order.max=10)
+dupsilon(x, df, t, log = FALSE, order.max=5)
 
-pupsilon(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
+pupsilon(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5)
 
-qupsilon(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10)
+qupsilon(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5)
 
 rupsilon(n, df, t)
 }
@@ -28,9 +28,8 @@ length as \code{df}. we do \emph{not} vectorize over this variable.}
 \item{log}{logical; if TRUE, densities \eqn{f} are given
 as \eqn{\mbox{log}(f)}{log(f)}.}
 
-\item{order.max}{the order to use in the approximate density,
-distribution, and quantile computations, via the Gram-Charlier
-series or the Cornish Fisher expansion.}
+\item{order.max}{the maximum order approximation to use in the Edgeworth
+or Cornish-Fisher expansion. This is subject to change to improve accuracy.}
 
 \item{p}{vector of probabilities.}
 
@@ -41,6 +40,10 @@ as \eqn{\mbox{log}(p)}{log(p)}.}
 
 \item{lower.tail}{logical; if TRUE (default), probabilities are
  \eqn{P[X \le x]}{P[X <= x]}, otherwise, \eqn{P[X > x]}{P[X > x]}.}
+
+\item{order.max}{the order to use in the approximate density,
+distribution, and quantile computations, via the Gram-Charlier
+series or the Cornish Fisher expansion.}
 }
 \value{
 \code{dupsilon} gives the density, \code{pupsilon} gives the
@@ -74,7 +77,7 @@ not be terribly accurate in the tails of the distribution.
 \examples{
 mydf <- c(100,30,50)
 myt <- c(-1,3,5)
-rv <- rupsilon(1000, df=mydf, t=myt)
+rv <- rupsilon(500, df=mydf, t=myt)
 d1 <- dupsilon(rv, df=mydf, t=myt)
 \dontrun{
 plot(rv,d1)
