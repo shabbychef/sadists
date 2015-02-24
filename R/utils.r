@@ -67,7 +67,7 @@ uniroot_helper <- function(fnc, x0=0, f0=NULL, xmin=-Inf, xmax=Inf,
 			# drag lb up too
 			lb <- ub
 			flb <- fub
-			ub <- q0 + 2 * (ub - q0)
+			ub <- x0 + 2 * (ub - x0)
 			fub <- fnc(ub,...)
 		}
 	}

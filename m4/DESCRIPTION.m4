@@ -15,8 +15,8 @@ Description: Density, distribution, quantile and generation functions of some ob
     including the doubly noncentral t, LeCoutre's lambda-prime, ...
 Depends: 
     R (>= 3.0.2),
+    PDQutils (>= 0.1.0),
     hypergeo,
-    PDQutils,
     orthopolynom
 Suggests: 
     testthat, 
