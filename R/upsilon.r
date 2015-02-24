@@ -23,34 +23,6 @@
 
 require(orthopolynom)
 
-# compute the 1 through order.max raw, uncentered moment
-# of the normal distribution with given mean and standard
-# deviation
-norm.moms <- function(mu=0,sigma=1,order.max=3) {
-	retval <- rep(1,order.max)
-	hermi <- orthopolynom::hermite.he.polynomials(order.max, normalized=FALSE)
-	for (iii in c(1:order.max)) {
-		cvals <- abs(coefficients(hermi[[iii+1]]))
-		lvals <- mu^(0:iii) * sigma^(iii - (0:iii))
-		retval[iii] <- sum(cvals * lvals)
-	}
-	return(retval)
-}
-
-# compute the 1 through order.max raw, uncentered moment
-# of the (central) chi distribution with df d.f.
-chi.moms <- function(df,order.max=3) {
-	jvals <- 1:order.max
-	retval <- (2^(jvals/2)) * sapply(jvals,function(j) { gamrat((df+j)/2,df/2) })
-	return(retval)
-}
-# something like a nakagami, but really a scaled chi
-schi.moms <- function(df,scal=1,order.max=3) {
-	retval <- chi.moms(df=df,order.max=order.max)
-	jvals <- 1:order.max
-	retval <- retval * ((scal / sqrt(df))^jvals)
-	return(retval)
-}
 
 # compute the cumulants of the upsilon
 # distribution. this is distributed as
@@ -59,13 +31,11 @@ schi.moms <- function(df,scal=1,order.max=3) {
 #
 # where the chi^2 are independent chi-square
 # independent of Z
-upsilon.cumulants <- function(df,t,order.max=3) {
+upsilon.cumuls <- function(df,t,order.max=3) {
 	# first the Z
-	Zmom <- norm.moms(0,1,order.max)
-	retval <- moment2cumulant(Zmom)
+	retval <- norm.cumuls(0,1,order.max)
 	for (iii in (1:length(coef))) {
-		nmom <- schi.moms(df=df[iii],scal=t[iii],order.max=order.max)
-		retval <- retval + moment2cumulant(nmom)
+		retval <- retval + schi.cumuls(df=df[iii],scal=t[iii],order.max=order.max)
 	}
 	return(retval)
 }
@@ -80,16 +50,17 @@ upsilon.cumulants <- function(df,t,order.max=3) {
 #'
 #' @details
 #'
-#' Suppose \eqn{y_i \sim \chi^2\left(\nu_i\right)}{y_i ~ x^2(v_i)}
+#' Suppose \eqn{x_i \sim \chi^2\left(\nu_i\right)}{x_i ~ X^2(v_i)}
 #' independently and independently of \eqn{Z}{Z}, a standard normal. 
 #' Then 
-#' \deqn{\Upsilon = Z + \sum_i t_i \sqrt{y_i/\nu_i}}{Y = Z + sum_i t_i sqrt(y_i/v_i)}
+#' \deqn{\Upsilon = Z + \sum_i t_i \sqrt{x_i/\nu_i}}{Y = Z + sum_i t_i sqrt(x_i/v_i)}
 #' takes an upsilon distribution with parameter vectors
 #' \eqn{[\nu_1, \nu_2, \ldots, \nu_k]', [t_1, t_2, ..., t_k]'}{<v_1, v_2, ..., v_k>, <t_1, t_2, ..., t_k>}.
 #'
 #' The upsilon distribution is used in certain tests of
 #' the Sharpe ratio for independent observations, and generalizes
-#' the lambda prime random variable.
+#' the lambda prime distribution, which can be written as
+#' \eqn{Z + t \sqrt{x/\nu}}{Z + t sqrt(x/v)}.
 #'
 #' @usage
 #'
@@ -121,12 +92,27 @@ upsilon.cumulants <- function(df,t,order.max=3) {
 #' @template apx_distribution
 #' @template ref-lambdap
 #' @examples 
-#' d1 <- dupsilon(1, 50, t=0.01)
+#' mydf <- c(100,30,50)
+#' myt <- c(-1,3,5)
+#' rv <- rupsilon(1000, df=mydf, t=myt)
+#' d1 <- dupsilon(rv, df=mydf, t=myt)
+#' \dontrun{
+#' plot(rv,d1)
+#' }
+#' p1 <- pupsilon(rv, df=mydf, t=myt)
+#' # should be nearly uniform:
+#' \dontrun{
+#' plot(ecdf(p1))
+#' }
+#' q1 <- qupsilon(ppoints(length(rv)),df=mydf,t=myt)
+#' \dontrun{
+#' qqplot(x=rv,y=q1)
+#' }
 #' @name upsilon
 #' @rdname dupsilon
 #' @export 
 dupsilon <- function(x, df, t, log = FALSE, order.max=10) {
-	kappa <- upsilon.cumulants(df,t,order.max=order.max)
+	kappa <- upsilon.cumuls(df,t,order.max=order.max)
 	#mu.raw <- PDQutils::cumulant2moment(kappa)
 	#retval <- PDQutils::dapx_gca(x,mu.raw,log=log)
 	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
@@ -134,7 +120,7 @@ dupsilon <- function(x, df, t, log = FALSE, order.max=10) {
 }
 #' @export 
 pupsilon <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
-	kappa <- upsilon.cumulants(df,t,order.max=order.max)
+	kappa <- upsilon.cumuls(df,t,order.max=order.max)
 	#mu.raw <- PDQutils::cumulant2moment(kappa)
 	#retval <- PDQutils::papx_gca(q,mu.raw,lower.tail=lower.tail,log.p=log.p)
 	retval <- PDQutils::papx_edgeworth(q,kappa,lower.tail=lower.tail,log.p=log.p)
@@ -142,7 +128,7 @@ pupsilon <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
 }
 #' @export 
 qupsilon <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
-	kappa <- PDQutils::upsilon.cumulants(df,t,order.max=order.max)
+	kappa <- upsilon.cumuls(df,t,order.max=order.max)
 	retval <- PDQutils::qapx_cf(p,kappa)
 	return(retval)
 }

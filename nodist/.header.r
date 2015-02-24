@@ -1,4 +1,4 @@
-# Copyright 2014-2014 Steven E. Pav. All Rights Reserved.
+# Copyright 2014-2015 Steven E. Pav. All Rights Reserved.
 # Author: Steven E. Pav
 #
 # This file is part of sadists.

@@ -21,14 +21,55 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-# utilities or dealing with moments and cumulants
-
+# utilities#FOLDUP
 # central moments to standardized moments
 central2std <- function(mu.cent) {
 	#std <- sqrt(mu.cent[3])
 	mu.std <- mu.cent / (mu.cent[3] ^ ((0:(length(mu.cent)-1))/2))
 	return(mu.std)
 }
+#UNFOLD
+
+# some moments of standard distributions:#FOLDUP
+
+# compute the 1 through order.max raw, uncentered moment
+# of the normal distribution with given mean and standard
+# deviation
+norm.moms <- function(mu=0,sigma=1,order.max=3) {
+	retval <- rep(1,order.max)
+	hermi <- orthopolynom::hermite.he.polynomials(order.max, normalized=FALSE)
+	for (iii in c(1:order.max)) {
+		cvals <- abs(coefficients(hermi[[iii+1]]))
+		lvals <- mu^(0:iii) * sigma^(iii - (0:iii))
+		retval[iii] <- sum(cvals * lvals)
+	}
+	return(retval)
+}
+
+# compute the 1 through order.max raw, uncentered moment
+# of the (central) chi distribution with df d.f.
+chi.moms <- function(df,order.max=3) {
+	jvals <- 1:order.max
+	retval <- (2^(jvals/2)) * sapply(jvals,function(j) { gamrat((df+j)/2,df/2) })
+	return(retval)
+}
+
+# compute the 1 through order.max raw, uncentered moment
+# of the (central) chi-square distribution with df d.f.
+chisq.moms <- function(df,order.max=3) {
+	jvals <- 1:order.max
+	retval <- (2^(jvals)) * sapply(jvals,function(j) { gamrat(j+(df/2),df/2) })
+	return(retval)
+}
+
+# something like a nakagami, but really a scaled chi
+schi.moms <- function(df,scal=1,order.max=3) {
+	retval <- chi.moms(df=df,order.max=order.max)
+	jvals <- 1:order.max
+	retval <- retval * ((scal / sqrt(df))^jvals)
+	return(retval)
+}
+#UNFOLD
 
 #for vim modeline: (do not edit)
 # vim:fdm=marker:fmr=FOLDUP,UNFOLD:cms=#%s:syn=r:ft=r
