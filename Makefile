@@ -30,9 +30,9 @@ GS_QUALITY 				?= 'ebook'
 M4_FILES					?= $(wildcard m4/*.m4)
 
 VMAJOR 						 = 0
-VMINOR 						 = 1
+VMINOR 						 = 0
 VPATCH  					 = 0
-VDEV 							 =
+VDEV 							 = .9200
 VERSION 					 = $(VMAJOR).$(VMINOR).$(VPATCH)$(VDEV)
 TODAY 						:= $(shell date +%Y-%m-%d)
 
@@ -373,6 +373,11 @@ R : deps $(LOCAL)/$(PKG_NAME)/INDEX
 	R_LIBS=$(LOCAL) R_PROFILE=load.R \
 				 R_DEFAULT_PACKAGES=$(BASE_DEF_PACKAGES) $(R) -q --no-save
 
+Rlocal : deps 
+	R_LIBS=$(LOCAL) R_PROFILE=load.R \
+				 $(R) -q --no-save
+
+
 cheapR : 
 	R_LIBS=$(LOCAL) R_PROFILE=load.R \
 				 R_DEFAULT_PACKAGES=$(BASE_DEF_PACKAGES) $(R) -q --no-save
@@ -546,6 +551,7 @@ mactex :
 
 suggestions : 
 	@-echo 'make docs'
+	@-echo 'at 23:`jot -r 1 10 55`'
 	@-echo 'sleep `jot -r 1 2 57` && git commit -a -m "working on package"'
 	@-echo "git push origin $(GIT_BRANCH)"
 
