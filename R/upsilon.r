@@ -79,14 +79,14 @@ upsilon.cumuls <- function(df,t,order.max=3) {
 #' \emph{not} vectorize over this variable.
 #' @param t the scaling parameter on the chi. a vector. should be the same
 #' length as \code{df}. we do \emph{not} vectorize over this variable.
-#' @param order.max the maximum order approximation to use in the Edgeworth
-#' or Cornish-Fisher expansion. This is subject to change to improve accuracy.
 #'
 #' @return \code{dupsilon} gives the density, \code{pupsilon} gives the 
 #' distribution function, \code{qupsilon} gives the quantile function, 
 #' and \code{rupsilon} generates random deviates.
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
+#' @note the PDF and CDF are approximated by an Edgeworth expansion; the
+#' quantile function is approximated by a Cornish-Fisher expansion.
 #' @aliases dupsilon pupsilon qupsilon rupsilon
 #' @seealso lambda-prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
 #' @template etc

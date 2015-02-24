@@ -28,8 +28,9 @@ length as \code{df}. we do \emph{not} vectorize over this variable.}
 \item{log}{logical; if TRUE, densities \eqn{f} are given
 as \eqn{\mbox{log}(f)}{log(f)}.}
 
-\item{order.max}{the maximum order approximation to use in the Edgeworth
-or Cornish-Fisher expansion. This is subject to change to improve accuracy.}
+\item{order.max}{the order to use in the approximate density,
+distribution, and quantile computations, via the Gram-Charlier,
+Edeworth, or Cornish-Fisher expansion.}
 
 \item{p}{vector of probabilities.}
 
@@ -40,10 +41,6 @@ as \eqn{\mbox{log}(p)}{log(p)}.}
 
 \item{lower.tail}{logical; if TRUE (default), probabilities are
  \eqn{P[X \le x]}{P[X <= x]}, otherwise, \eqn{P[X > x]}{P[X > x]}.}
-
-\item{order.max}{the order to use in the approximate density,
-distribution, and quantile computations, via the Gram-Charlier
-series or the Cornish Fisher expansion.}
 }
 \value{
 \code{dupsilon} gives the density, \code{pupsilon} gives the
@@ -70,6 +67,9 @@ the lambda prime distribution, which can be written as
 \eqn{Z + t \sqrt{x/\nu}}{Z + t sqrt(x/v)}.
 }
 \note{
+the PDF and CDF are approximated by an Edgeworth expansion; the
+quantile function is approximated by a Cornish-Fisher expansion.
+
 The PDF, CDF, and quantile function are approximated via
 the Gram Charlier or Cornish Fisher approximations, which may
 not be terribly accurate in the tails of the distribution.
