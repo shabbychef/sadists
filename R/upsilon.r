@@ -94,7 +94,7 @@ upsilon.cumuls <- function(df,t,order.max=3) {
 #' @examples 
 #' mydf <- c(100,30,50)
 #' myt <- c(-1,3,5)
-#' rv <- rupsilon(1000, df=mydf, t=myt)
+#' rv <- rupsilon(500, df=mydf, t=myt)
 #' d1 <- dupsilon(rv, df=mydf, t=myt)
 #' \dontrun{
 #' plot(rv,d1)
@@ -111,7 +111,7 @@ upsilon.cumuls <- function(df,t,order.max=3) {
 #' @name upsilon
 #' @rdname dupsilon
 #' @export 
-dupsilon <- function(x, df, t, log = FALSE, order.max=10) {
+dupsilon <- function(x, df, t, log = FALSE, order.max=5) {
 	kappa <- upsilon.cumuls(df,t,order.max=order.max)
 	#mu.raw <- PDQutils::cumulant2moment(kappa)
 	#retval <- PDQutils::dapx_gca(x,mu.raw,log=log)
@@ -119,7 +119,7 @@ dupsilon <- function(x, df, t, log = FALSE, order.max=10) {
 	return(retval)
 }
 #' @export 
-pupsilon <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
+pupsilon <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5) {
 	kappa <- upsilon.cumuls(df,t,order.max=order.max)
 	#mu.raw <- PDQutils::cumulant2moment(kappa)
 	#retval <- PDQutils::papx_gca(q,mu.raw,lower.tail=lower.tail,log.p=log.p)
@@ -127,7 +127,7 @@ pupsilon <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
 	return(retval)
 }
 #' @export 
-qupsilon <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=10) {
+qupsilon <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5) {
 	kappa <- upsilon.cumuls(df,t,order.max=order.max)
 	retval <- PDQutils::qapx_cf(p,kappa)
 	return(retval)

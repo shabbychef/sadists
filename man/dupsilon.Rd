@@ -54,16 +54,17 @@ Density, distribution function, quantile function and random
 generation for the upsilon distribution.
 }
 \details{
-Suppose \eqn{y_i \sim \chi^2\left(\nu_i\right)}{y_i ~ x^2(v_i)}
+Suppose \eqn{x_i \sim \chi^2\left(\nu_i\right)}{x_i ~ X^2(v_i)}
 independently and independently of \eqn{Z}{Z}, a standard normal.
 Then
-\deqn{\Upsilon = Z + \sum_i t_i \sqrt{y_i/\nu_i}}{Y = Z + sum_i t_i sqrt(y_i/v_i)}
+\deqn{\Upsilon = Z + \sum_i t_i \sqrt{x_i/\nu_i}}{Y = Z + sum_i t_i sqrt(x_i/v_i)}
 takes an upsilon distribution with parameter vectors
 \eqn{[\nu_1, \nu_2, \ldots, \nu_k]', [t_1, t_2, ..., t_k]'}{<v_1, v_2, ..., v_k>, <t_1, t_2, ..., t_k>}.
 
 The upsilon distribution is used in certain tests of
 the Sharpe ratio for independent observations, and generalizes
-the lambda prime random variable.
+the lambda prime distribution, which can be written as
+\eqn{Z + t \sqrt{x/\nu}}{Z + t sqrt(x/v)}.
 }
 \note{
 The PDF, CDF, and quantile function are approximated via
@@ -71,7 +72,22 @@ the Gram Charlier or Cornish Fisher approximations, which may
 not be terribly accurate in the tails of the distribution.
 }
 \examples{
-d1 <- dupsilon(1, 50, t=0.01)
+mydf <- c(100,30,50)
+myt <- c(-1,3,5)
+rv <- rupsilon(1000, df=mydf, t=myt)
+d1 <- dupsilon(rv, df=mydf, t=myt)
+\dontrun{
+plot(rv,d1)
+}
+p1 <- pupsilon(rv, df=mydf, t=myt)
+# should be nearly uniform:
+\dontrun{
+plot(ecdf(p1))
+}
+q1 <- qupsilon(ppoints(length(rv)),df=mydf,t=myt)
+\dontrun{
+qqplot(x=rv,y=q1)
+}
 }
 \author{
 Steven E. Pav \email{shabbychef@gmail.com}
