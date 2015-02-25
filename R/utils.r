@@ -21,9 +21,13 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
+# compute the log (gamma(a) / gamma(b))
+lgamrat <- function(a,b) {
+	return(lgamma(a) - lgamma(b))
+}
 # compute the ratio gamma(a) / gamma(b)
 gamrat <- function(a,b) {
-	return(exp(lgamma(a) - lgamma(b)))
+	return(exp(lgamrat(a,b)))
 }
 
 # quantile function helper; 

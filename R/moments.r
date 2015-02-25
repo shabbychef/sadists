@@ -48,27 +48,37 @@ norm.moms <- function(mu=0,sigma=1,order.max=3) {
 
 # compute the 1 through order.max raw, uncentered moment
 # of the (central) chi distribution with df d.f.
-chi.moms <- function(df,order.max=3) {
-	jvals <- 1:order.max
-	retval <- (2^(jvals/2)) * sapply(jvals,function(j) { gamrat((df+j)/2,df/2) })
+chi.moms <- function(df,order.max=3,orders=1:order.max,log=FALSE) {
+	retval <- chisq.moms(df=df,orders=orders/2,log=log)
 	return(retval)
 }
 
 # compute the 1 through order.max raw, uncentered moment
 # of the (central) chi-square distribution with df d.f.
-chisq.moms <- function(df,order.max=3) {
-	jvals <- 1:order.max
-	retval <- (2^(jvals)) * sapply(jvals,function(j) { gamrat(j+(df/2),df/2) })
+chisq.moms <- function(df,order.max=3,orders=1:order.max,log=FALSE) {
+	if (log) {
+		retval <- orders * log(2) + lgamrat(orders + (df/2),df/2)
+	} else {
+		retval <- (2^(orders)) * gamrat(orders + (df/2),df/2)
+	}
 	return(retval)
 }
 
 # something like a nakagami, but really a scaled chi
 schi.moms <- function(df,scal=1,order.max=3) {
-	retval <- chi.moms(df=df,order.max=order.max)
-	jvals <- 1:order.max
-	retval <- retval * ((scal / sqrt(df))^jvals)
+	stopifnot(df > 0)
+	orders <- 1:order.max
+	if (is.infinite(df)) {
+		retval <- scal ^ orders
+	} else {
+		retval <- chi.moms(df=df,orders=orders,log=TRUE)
+		retval <- retval + orders * (log(abs(scale)) - 0.5 * log(df))
+		retval <- exp(retval) * sign(scale)^orders
+	}
 	return(retval)
 }
+
+
 #UNFOLD
 
 #for vim modeline: (do not edit)

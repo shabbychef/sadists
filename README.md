@@ -33,19 +33,35 @@ k <- 5
 mu <- 1
 theta <- 2
 rvs <- rdnt(1000, k, mu, theta)
+```
+
+```
+## Error in eval(expr, envir, enclos): could not find function "rdnt"
+```
+
+```r
 pvs <- pdnt(rvs, k, mu, theta)
+```
+
+```
+## Error in eval(expr, envir, enclos): could not find function "pdnt"
+```
+
+```r
 qvs <- qdnt(pvs, k, mu, theta)
 ```
 
 ```
-## Error: object 'q0' not found
+## Error in eval(expr, envir, enclos): could not find function "qdnt"
 ```
 
 ```r
 plot(ecdf(pvs))
 ```
 
-![plot of chunk dnt](github_extra/figure/dnt-1.png) 
+```
+## Error in sort(x): object 'pvs' not found
+```
 
 ## K-prime distribution
 
