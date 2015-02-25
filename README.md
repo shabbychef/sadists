@@ -10,14 +10,18 @@ Some Additional Distributions apparently not available in R.
 
 This package may be installed from CRAN; the latest version may be
 found on [github](https://www.github.com/shabbychef/sadists "sadists")
-via devtools:
+via devtools, or installed via [drat](https://github.com/eddelbuettel/drat "drat"):
 
 
 ```r
 if (require(devtools)) {
     # latest greatest
-    install_github(repo = "sadists", username = "shabbychef", 
-        ref = "master")
+    install_github("shabbychef/sadists")
+}
+# via drat:
+if (require(drat)) {
+    drat:::add("shabbychef")
+    install.packages("sadists")
 }
 ```
 
@@ -33,35 +37,19 @@ k <- 5
 mu <- 1
 theta <- 2
 rvs <- rdnt(1000, k, mu, theta)
-```
-
-```
-## Error in eval(expr, envir, enclos): could not find function "rdnt"
-```
-
-```r
 pvs <- pdnt(rvs, k, mu, theta)
-```
-
-```
-## Error in eval(expr, envir, enclos): could not find function "pdnt"
-```
-
-```r
 qvs <- qdnt(pvs, k, mu, theta)
 ```
 
 ```
-## Error in eval(expr, envir, enclos): could not find function "qdnt"
+## Error: object 'q0' not found
 ```
 
 ```r
 plot(ecdf(pvs))
 ```
 
-```
-## Error in sort(x): object 'pvs' not found
-```
+![plot of chunk dnt](github_extra/figure/dnt-1.png) 
 
 ## K-prime distribution
 
