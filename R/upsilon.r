@@ -32,12 +32,8 @@ require(orthopolynom)
 # where the chi^2 are independent chi-square
 # independent of Z
 upsilon.cumuls <- function(df,t,order.max=3) {
-	# first the Z
-	retval <- norm.cumuls(0,1,order.max)
-	for (iii in (1:length(coef))) {
-		retval <- retval + schi.cumuls(df=df[iii],scal=t[iii],order.max=order.max)
-	}
-	return(retval)
+	kappa <- norm.cumuls(0,1,order.max) + sumchi.cumuls(wts=t,df=df,order.max=order.max)
+	return(kappa)
 }
 
 # dupsilon, pupsilon, qupsilon, rupsilon#FOLDUP
@@ -88,7 +84,10 @@ upsilon.cumuls <- function(df,t,order.max=3) {
 #' @note the PDF and CDF are approximated by an Edgeworth expansion; the
 #' quantile function is approximated by a Cornish-Fisher expansion.
 #' @aliases dupsilon pupsilon qupsilon rupsilon
-#' @seealso lambda-prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
+#' @seealso lambda-prime distribution functions, 
+#' \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
+#' Sum of chis distribution functions,
+#' \code{\link{dsumchi}, \link{psumchi}, \link{qsumchi}, \link{rsumchi}}.
 #' @template etc
 #' @template distribution
 #' @template apx_distribution
@@ -136,12 +135,8 @@ qupsilon <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5) {
 }
 #' @export 
 rupsilon <- function(n, df, t) {
-	retval <- rnorm(n)
-	for (iii in (1:length(df))) {
-		# or use nakagami?
-		retval <- retval + t[iii] * sqrt(rchisq(n,df=df[iii])/df[iii])
-	}
-	return(retval)
+	X <- rnorm(n) + rsumchi(n, wts=t, df=df) 
+	return(X)
 }
 #UNFOLD
 

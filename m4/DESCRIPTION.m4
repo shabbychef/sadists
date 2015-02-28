@@ -9,15 +9,18 @@ Authors@R: c(person(c("Steven", "E."), "Pav", role=c("aut","cre"),
 Version: VERSION()
 Date: DATE()
 License: LGPL-3
-Title: Some Auxiliary Distributions
+Title: Some Additional Distributions
 BugReports: https://github.com/shabbychef/PKG_NAME()/issues
-Description: Density, distribution, quantile and generation functions of some obscure probability distributions,
-    including the doubly noncentral t, LeCoutre's lambda-prime, ...
+Description: Density, distribution, quantile and generation functions of some obscure probability 
+    distributions, including: LeCoutre's lambda-prime and k-prime; the upsilon distribution;
+		the Nakagami; the sum of non-central chi-squares; the sum of central chis;
 Depends: 
     R (>= 3.0.2),
     PDQutils (>= 0.1.0),
     hypergeo,
     orthopolynom
+Imports:
+		orthopolynom
 Suggests: 
     testthat, 
     knitr

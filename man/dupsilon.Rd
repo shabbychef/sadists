@@ -70,9 +70,10 @@ the lambda prime distribution, which can be written as
 the PDF and CDF are approximated by an Edgeworth expansion; the
 quantile function is approximated by a Cornish-Fisher expansion.
 
-The PDF, CDF, and quantile function are approximated via
-the Gram Charlier or Cornish Fisher approximations, which may
+The PDF, CDF, and quantile function are approximated, via
+the Edgeworth or Cornish Fisher approximations, which may
 not be terribly accurate in the tails of the distribution.
+You are warned.
 }
 \examples{
 mydf <- c(100,30,50)
@@ -104,7 +105,10 @@ Lecoutre, Bruno. "Two useful distributions for Bayesian predictive procedures un
 Journal of Statistical Planning and Inference 79  (1999): 93--105.
 }
 \seealso{
-lambda-prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
+lambda-prime distribution functions,
+\code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
+Sum of chis distribution functions,
+\code{\link{dsumchi}, \link{psumchi}, \link{qsumchi}, \link{rsumchi}}.
 }
 \keyword{distribution}
 

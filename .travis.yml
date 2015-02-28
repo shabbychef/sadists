@@ -1,0 +1,8 @@
+
+language: r
+
+r_packages :
+  - PDQutils
+  - hypergeo
+  - orthopolynom
+

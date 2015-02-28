@@ -34,6 +34,8 @@ require(sadists)
 
 # sadists
 
+[![Build Status](https://travis-ci.org/shabbychef/sadists.png)](https://travis-ci.org/shabbychef/sadists)
+
 Some Additional Distributions apparently not available in R.
 
 -- Steven E. Pav, shabbychef@gmail.com

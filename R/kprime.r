@@ -91,7 +91,6 @@
 #' Invalid arguments will result in return value \code{NaN} with a warning.
 #' @aliases dkprime pkprime qkprime rkprime
 #' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
-#' K square distribution functions, \code{\link{dksquare}, \link{pksquare}, \link{qksquare}, \link{rksquare}},
 #' lambda prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}},
 #' @template etc
 #' @template ref-kprime
