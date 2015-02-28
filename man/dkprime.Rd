@@ -102,7 +102,6 @@ and Data Analysis 54, no. 3 (2010): 724-731.  \url{http://arxiv.org/abs/1003.489
 }
 \seealso{
 t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
-K square distribution functions, \code{\link{dksquare}, \link{pksquare}, \link{qksquare}, \link{rksquare}},
 lambda prime distribution functions, \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}},
 }
 \keyword{distribution}

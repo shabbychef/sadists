@@ -39,35 +39,35 @@ k <- 5
 mu <- 1
 theta <- 2
 rvs <- rdnt(1000, k, mu, theta)
+# pvs <- pdnt(rvs, k, mu, theta) qvs <- qdnt(pvs,
+# k, mu, theta) plot(ecdf(pvs))
 ```
 
-```
-## Error in eval(expr, envir, enclos): could not find function "rdnt"
-```
+## Doubly non-central F distribution
 
-```r
-pvs <- pdnt(rvs, k, mu, theta)
-```
+The doubly non-central F distribution generalizes the F distribution to the case where the denominator
+chi-square is non-central. It has not yet been implemented.
 
-```
-## Error in eval(expr, envir, enclos): could not find function "pdnt"
-```
+## Sum of (non-central) Chi-squares
 
-```r
-qvs <- qdnt(pvs, k, mu, theta)
-```
+The weighted sum of chi-squares is not a commonly seen random variable. However, its cumulants can be
+easily computed, so its 'PDQ' functions can easily be computed. Moreover, its distribution and quantile
+functions can be used in computation of those of the doubly non-central F.
 
-```
-## Error in eval(expr, envir, enclos): could not find function "qdnt"
-```
 
 ```r
-plot(ecdf(pvs))
+require(sadists)
+wts <- c(1, -3, 4)
+df <- c(100, 20, 10)
+ncp <- c(5, 3, 1)
+rvs <- rsumchisq(128, wts, df, ncp)
+dvs <- dsumchisq(rvs, wts, df, ncp)
+qvs <- psumchisq(rvs, wts, df, ncp)
+pvs <- qsumchisq(ppoints(length(rvs)), wts, df, ncp)
+plot(ecdf(qvs))
 ```
 
-```
-## Error in sort(x): object 'pvs' not found
-```
+![plot of chunk schisq](github_extra/figure/schisq-1.png) 
 
 ## K-prime distribution
 
