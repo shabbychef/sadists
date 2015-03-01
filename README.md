@@ -131,7 +131,7 @@ testf(list(d = dsumchisq, p = psumchisq, q = qsumchisq,
     r = rsumchisq), nobs = 8192, wts, df, ncp)
 ```
 
-<img src="github_extra/figure/sumchisq-1.png" title="plot of chunk sumchisq" alt="plot of chunk sumchisq" width="600px" height="700px" />
+<img src="github_extra/figure/sumchisq-1.png" title="plot of chunk sumchisq" alt="plot of chunk sumchisq" width="700px" height="900px" />
 
 ## Sum of (central) Chi 
 
@@ -147,7 +147,7 @@ testf(list(d = dsumchi, p = psumchi, q = qsumchi, r = rsumchi),
     nobs = 8192, wts, df)
 ```
 
-<img src="github_extra/figure/sumchi-1.png" title="plot of chunk sumchi" alt="plot of chunk sumchi" width="600px" height="700px" />
+<img src="github_extra/figure/sumchi-1.png" title="plot of chunk sumchi" alt="plot of chunk sumchi" width="700px" height="900px" />
 
 ## K-prime distribution
 
@@ -181,7 +181,7 @@ testf(list(d = dupsilon, p = pupsilon, q = qupsilon,
     r = rupsilon), nobs = 8192, df, ts)
 ```
 
-<img src="github_extra/figure/upsilon-1.png" title="plot of chunk upsilon" alt="plot of chunk upsilon" width="600px" height="700px" />
+<img src="github_extra/figure/upsilon-1.png" title="plot of chunk upsilon" alt="plot of chunk upsilon" width="700px" height="900px" />
 
 ## Nakagami distribution
 
@@ -196,7 +196,7 @@ testf(list(d = dnakagami, p = pnakagami, q = qnakagami,
     r = rnakagami), nobs = 8192, m, Omega)
 ```
 
-<img src="github_extra/figure/nakagami-1.png" title="plot of chunk nakagami" alt="plot of chunk nakagami" width="600px" height="700px" />
+<img src="github_extra/figure/nakagami-1.png" title="plot of chunk nakagami" alt="plot of chunk nakagami" width="700px" height="900px" />
 
 ## Doubly non-central t distribution
 
