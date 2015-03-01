@@ -32,7 +32,7 @@ M4_FILES					?= $(wildcard m4/*.m4)
 VMAJOR 						 = 0
 VMINOR 						 = 0
 VPATCH  					 = 0
-VDEV 							 = .9300
+VDEV 							 = .9302
 VERSION 					 = $(VMAJOR).$(VMINOR).$(VPATCH)$(VDEV)
 TODAY 						:= $(shell date +%Y-%m-%d)
 
@@ -45,6 +45,7 @@ PKG_TGZ 					 = $(PKG_NAME)_$(PKG_VERSION).tar.gz
 LOCAL 						:= .local
 RCHECK 						 = $(PKG_NAME).Rcheck
 RCHECK_SENTINEL 	 = $(RCHECK)/$(PKG_NAME)/DESCRIPTION
+DRAT_SENTINEL   	 = .drat_$(PKG_TGZ)
 
 # Specify the directory holding R binaries. To use an alternate R build (say a
 # pre-prelease version) use `make RBIN=/path/to/other/R/` or `export RBIN=...`
@@ -174,7 +175,7 @@ WARN_DEPS = $(warning will build $@ ; newer deps are $(?))
 
 # these are phony targets
 .PHONY: help tags all \
-	gitpull gitpush staged \
+	gitpull gitpush dratit staged \
 	news docs build install testthat tests \
 	staging_d local_d \
 	clean realclean \
@@ -211,6 +212,7 @@ help:
 	@echo "---------------"
 	@echo "  check      Make build, then R CMD check the package as CRAN."
 	@echo "  gitpush    Yes, I am lazy"
+	@echo "  dratit     Make build, then upload package to my drat repo."
 	@echo ""
 	@echo "Using: "
 	@echo "         RBIN: $(RBIN) "
@@ -346,6 +348,12 @@ check: $(RCHECK_SENTINEL)
 
 checksee : $(RCHECK_SENTINEL)
 	okular $(RCHECK)/$(PKG_NAME)-manual.pdf
+
+$(DRAT_SENTINEL) : $(PKG_TGZ)
+	$(call WARN_DEPS)
+	$(R) --slave -e "drat:::insertPackage('$<',repodir='~/github/drat',commit=TRUE)"
+
+dratit : $(DRAT_SENTINEL)
 
 #$(RCHECK)/$(PKG_NAME)/doc/$(PKG_NAME).pdf : $(VIGNETTE_SRCS) $(RCHECK_SENTINEL)
 
