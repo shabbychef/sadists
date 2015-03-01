@@ -29,7 +29,7 @@ if (require(drat)) {
 
 ## Testing distributions
 
-First let's create a function which will test 'dpqr' functions:
+First some functions to test the 'dpqr' functions:
 
 
 ```r
@@ -87,11 +87,8 @@ multiplot <- function(..., plotlist = NULL, file, cols = 1,
 }
 testf <- function(dpqr, nobs = 8192, ...) {
     rv <- dpqr$r(nobs, ...)
-    dv <- dpqr$d(rv, ...)
-    pv <- dpqr$p(rv, ...)
-    qv <- dpqr$q(ppoints(nobs), ...)
-    
-    data <- data.frame(draws = rv, pvals = pv)
+    data <- data.frame(draws = rv, pvals = dpqr$p(rv, 
+        ...))
     
     # http://stackoverflow.com/a/5688125/164611
     p1 <- qplot(rv, geom = "blank") + geom_line(aes(y = ..density.., 
@@ -118,7 +115,7 @@ testf <- function(dpqr, nobs = 8192, ...) {
 ## Sum of (non-central) Chi-squares
 
 The weighted sum of chi-squares is not a commonly seen random variable. However, its cumulants can be
-easily computed, so its 'PDQ' functions can easily be computed. Moreover, its distribution and quantile
+easily computed, so these can be used to compute the 'PDQ' functions. Moreover, its distribution and quantile
 functions can be used in computation of those of the doubly non-central F.
 
 
@@ -151,7 +148,10 @@ testf(list(d = dsumchi, p = psumchi, q = qsumchi, r = rsumchi),
 
 ## K-prime distribution
 
-It is not yet implemented.
+The K-prime distribution is the weighted sum of a standard normal and an independent central chi, 
+all divided by another independent central chi. Depending on the degrees of freedom and the weights,
+the K-prime can appears as a Lambda-prime, a normal, or a central t.
+It is not yet implemented in sadists.
 
 ## Lambda prime distribution
 
