@@ -23,6 +23,7 @@ Imports:
 		orthopolynom
 Suggests: 
     testthat, 
+    ggplot2, 
     knitr
 URL: https://github.com/shabbychef/PKG_NAME()
 VignetteBuilder: knitr

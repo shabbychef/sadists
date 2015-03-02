@@ -19,6 +19,7 @@ Imports:
 		orthopolynom
 Suggests: 
     testthat, 
+    ggplot2, 
     knitr
 URL: https://github.com/shabbychef/sadists
 VignetteBuilder: knitr
