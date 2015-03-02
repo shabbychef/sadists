@@ -85,7 +85,7 @@ multiplot <- function(..., plotlist = NULL, file, cols = 1,
         }
     }
 }
-testf <- function(dpqr, nobs = 8192, ...) {
+testf <- function(dpqr, nobs, ...) {
     rv <- dpqr$r(nobs, ...)
     data <- data.frame(draws = rv, pvals = dpqr$p(rv, 
         ...))
@@ -96,7 +96,7 @@ testf <- function(dpqr, nobs = 8192, ...) {
         stat_function(fun = function(x) {
             dpqr$d(x, ...)
         }, aes(colour = "Theoretical")) + geom_histogram(aes(y = ..density..), 
-        alpha = 0.4) + scale_colour_manual(name = "Density", 
+        alpha = 0.3) + scale_colour_manual(name = "Density", 
         values = c("red", "blue")) + labs(title = "Density (tests dfunc)")
     
     # Q-Q plot
@@ -125,7 +125,7 @@ wts <- c(1, -3, 4)
 df <- c(100, 20, 10)
 ncp <- c(5, 3, 1)
 testf(list(d = dsumchisq, p = psumchisq, q = qsumchisq, 
-    r = rsumchisq), nobs = 8192, wts, df, ncp)
+    r = rsumchisq), nobs = 2^14, wts, df, ncp)
 ```
 
 <img src="github_extra/figure/sumchisq-1.png" title="plot of chunk sumchisq" alt="plot of chunk sumchisq" width="700px" height="1100px" />
@@ -141,7 +141,7 @@ require(sadists)
 wts <- c(-3, 2, 5, -4, 1)
 df <- c(30, 50, 100, 20, 10)
 testf(list(d = dsumchi, p = psumchi, q = qsumchi, r = rsumchi), 
-    nobs = 8192, wts, df)
+    nobs = 2^14, wts, df)
 ```
 
 <img src="github_extra/figure/sumchi-1.png" title="plot of chunk sumchi" alt="plot of chunk sumchi" width="700px" height="1100px" />
@@ -164,7 +164,7 @@ It is not yet fully implemented, except as a special case of the upsilon distrib
 require(sadists)
 df <- 50
 ts <- 1.5
-# testf(list(d=dlambdap,p=plambdap,q=qlambdap,r=rlambdap),nobs=8192,df,ts)
+# testf(list(d=dlambdap,p=plambdap,q=qlambdap,r=rlambdap),nobs=2^14,df,ts)
 ```
 
 ## Upsilon distribution
@@ -178,7 +178,7 @@ require(sadists)
 df <- c(30, 50, 100, 20, 10)
 ts <- c(-3, 2, 5, -4, 1)
 testf(list(d = dupsilon, p = pupsilon, q = qupsilon, 
-    r = rupsilon), nobs = 8192, df, ts)
+    r = rupsilon), nobs = 2^14, df, ts)
 ```
 
 <img src="github_extra/figure/upsilon-1.png" title="plot of chunk upsilon" alt="plot of chunk upsilon" width="700px" height="1100px" />
@@ -193,7 +193,7 @@ require(sadists)
 m <- 120
 Omega <- 4
 testf(list(d = dnakagami, p = pnakagami, q = qnakagami, 
-    r = rnakagami), nobs = 8192, m, Omega)
+    r = rnakagami), nobs = 2^14, m, Omega)
 ```
 
 <img src="github_extra/figure/nakagami-1.png" title="plot of chunk nakagami" alt="plot of chunk nakagami" width="700px" height="1100px" />
@@ -210,7 +210,7 @@ require(sadists)
 k <- 5
 mu <- 1
 theta <- 2
-# testf(list(d=ddnt,p=pdnt,q=qdnt,r=rdnt),nobs=8192,k,mu,theta)
+# testf(list(d=ddnt,p=pdnt,q=qdnt,r=rdnt),nobs=2^14,k,mu,theta)
 ```
 
 ## Doubly non-central F distribution
