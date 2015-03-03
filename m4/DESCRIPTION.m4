@@ -19,7 +19,9 @@ Depends:
     PDQutils (>= 0.1.0),
     hypergeo,
     orthopolynom
+LinkingTo: Rcpp
 Imports:
+		Rcpp,
 		orthopolynom
 Suggests: 
     testthat, 

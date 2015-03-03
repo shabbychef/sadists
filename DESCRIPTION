@@ -2,8 +2,8 @@ Package: sadists
 Maintainer: Steven E. Pav <shabbychef@gmail.com>
 Authors@R: c(person(c("Steven", "E."), "Pav", role=c("aut","cre"),
     email="shabbychef@gmail.com"))
-Version: 0.0.0.9302
-Date: 2015-03-01
+Version: 0.0.0.9400
+Date: 2015-03-02
 License: LGPL-3
 Title: Some Additional Distributions
 BugReports: https://github.com/shabbychef/sadists/issues
@@ -15,7 +15,9 @@ Depends:
     PDQutils (>= 0.1.0),
     hypergeo,
     orthopolynom
+LinkingTo: Rcpp
 Imports:
+		Rcpp,
 		orthopolynom
 Suggests: 
     testthat, 
@@ -32,6 +34,7 @@ Collate:
     'lambdap.r'
     'moments.r'
     'nakagami.r'
+    'RcppExports.R'
     'sadists.r'
     'sumchi.r'
     'sumchisq.r'

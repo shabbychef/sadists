@@ -32,7 +32,7 @@ M4_FILES					?= $(wildcard m4/*.m4)
 VMAJOR 						 = 0
 VMINOR 						 = 0
 VPATCH  					 = 0
-VDEV 							 = .9302
+VDEV 							 = .9400
 VERSION 					 = $(VMAJOR).$(VMINOR).$(VPATCH)$(VDEV)
 TODAY 						:= $(shell date +%Y-%m-%d)
 
@@ -46,6 +46,11 @@ LOCAL 						:= .local
 RCHECK 						 = $(PKG_NAME).Rcheck
 RCHECK_SENTINEL 	 = $(RCHECK)/$(PKG_NAME)/DESCRIPTION
 DRAT_SENTINEL   	 = .drat_$(PKG_TGZ)
+
+# Rcpp
+ATTRIBUTES_CPP  	 = src/RcppExports.cpp
+ATTRIBUTES_R    	 = R/RcppExports.R
+CPP_SRC 					 = $(wildcard src/*.cpp)
 
 # Specify the directory holding R binaries. To use an alternate R build (say a
 # pre-prelease version) use `make RBIN=/path/to/other/R/` or `export RBIN=...`
@@ -61,7 +66,8 @@ R_FLAGS 					?= -q --no-save --no-restore --no-init-file
 
 # packages I need to test this one
 TEST_DEPS  				 = testthat roxygen2 knitr xtable \
-										 hypergeo moments orthopolynom
+										 hypergeo moments orthopolynom \
+										 Rcpp
 INSTALLED_DEPS 		 = $(patsubst %,$(LOCAL)/%/DESCRIPTION,$(TEST_DEPS)) 
 PKG_TESTR 				 = tests/run-all.R
 
@@ -280,7 +286,7 @@ $(LOCAL)/%/DESCRIPTION :
 deps: $(INSTALLED_DEPS)
 
 # roxygen it.
-man/$(PKG_NAME).Rd NAMESPACE: $(R_FILES)
+man/$(PKG_NAME).Rd NAMESPACE: $(R_FILES) $(ATTRIBUTES_R)
 	$(call WARN_DEPS)
 	$(R_LOCALLY) --slave -e "require(roxygen2); roxygenize('.', clean=TRUE)"
 	touch $@
@@ -292,7 +298,7 @@ docs: README.md DESCRIPTION man/$(PKG_NAME).Rd
 RSYNC_FLAGS     = -av --delete 
 
 # a parallel version of this package, but without the support structure
-$(STAGED_PKG)/DESCRIPTION : $(R_FILES) $(SUPPORT_FILES) $(EXTRA_PKG_DEPS)
+$(STAGED_PKG)/DESCRIPTION : $(R_FILES) $(SUPPORT_FILES) $(EXTRA_PKG_DEPS) $(ATTRIBUTES_CPP)
 	$(call WARN_DEPS)
 	@-echo clean up first
 	@-rm -rf $(STAGED_PKG)
@@ -358,6 +364,10 @@ dratit : $(DRAT_SENTINEL)
 #$(RCHECK)/$(PKG_NAME)/doc/$(PKG_NAME).pdf : $(VIGNETTE_SRCS) $(RCHECK_SENTINEL)
 
 #slow_vignette : $(RCHECK)/$(PKG_NAME)/doc/$(PKG_NAME).pdf
+
+$(ATTRIBUTES_CPP) $(ATTRIBUTES_R) : $(CPP_SRC)
+	$(call WARN_DEPS)
+	$(R) --slave -e "Rcpp::compileAttributes('.')"
 
 ################################
 # UNIT TESTING
