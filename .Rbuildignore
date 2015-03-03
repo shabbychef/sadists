@@ -15,6 +15,7 @@ m4
 Makefile
 man-roxygen
 nodist
+src
 rebuildTags.sh
 sadists_\d.\d+.tar.gz$
 sadists.Rcheck
