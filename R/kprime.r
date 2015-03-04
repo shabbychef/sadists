@@ -25,18 +25,21 @@
 # distribution. this is distributed as
 # (b Z + a sqrt(chi^2_v1 / v1)) / (sqrt(chi^2_v2 /v2))
 # or 
-# (Z + (a/b) sqrt(chi^2_v1/v1)) / (sqrt(chi^2_v2 / v2) / b)
+# b * (Z + (a/b) sqrt(chi^2_v1/v1)) / (sqrt(chi^2_v2 / v2))
 # or
-# lambda_prime(v1,a/b) / (sqrt(1/b^2 v2) * sqrt(chi^2_v2))
+# (b * sqrt(v2)) * lambda_prime(v1,a/b) / (sqrt(chi^2_v2))
+#
+# when b == 0 this is
+# a sqrt(v2/v1) * sqrt(chi^2_v1 / chi^2_v2)
 kprime_moms <- function(v1,v2,a,b,order.max=3) {
 	orders <- 1:order.max
 	if (b != 0) {
-		mu <- lambdap_moms(df=v1,t=a/b,order.max=order.max) * 
-						((v2 * (b^2)) ^ (-orders/2.0)) * chisq_moms(df=v2,ncp=0,orders=-orders/2.0)
+		mu <- ((b * sqrt(v2)) ^ (orders)) * lambdap_moms(df=v1,t=a/b,order.max=order.max) * 
+						chisq_moms(df=v2,ncp=0,orders=-orders/2.0)
 	} else {
 		# 2FIX: use logs for stability?
-		mu <- ((a/sqrt(v1))^orders) * chisq_moms(df=v1,ncp=0,orders=orders/2.0) *
-						(v2^(-orders/2.0)) * chisq_moms(df=v2,ncp=0,orders=-orders/2.0)
+		mu <- ((a*sqrt(v2/v1))^orders) * chisq_moms(df=v1,ncp=0,orders=orders/2.0) *
+						chisq_moms(df=v2,ncp=0,orders=-orders/2.0)
 	}
 	return(mu)
 }
@@ -145,10 +148,11 @@ qkprime <- function(p, v1, v2, a, b=1, lower.tail = TRUE, log.p = FALSE, order.m
 }
 #' @export 
 rkprime <- function(n, v1, v2, a, b = 1) {
-#2FIX: check for b = 0...
-	y <- rchisq(n,df=v1) 
-	ncp <- sqrt(y/v1) * (a/b)
-	X <- b * rt(n,df=v2,ncp=ncp)
+	#2FIX: check for b = 0...
+	#y <- rchisq(n,df=v1) 
+	#ncp <- sqrt(y/v1) * (a/b)
+	#X <- b * rt(n,df=v2,ncp=ncp)
+	X <- (rnorm(n,mean=0,sd=b) + a * sqrt(rchisq(n,df=v1)/v1)) / sqrt(rchisq(n,df=v2)/v2)
 	return(X)
 }
 #UNFOLD

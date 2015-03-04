@@ -145,9 +145,7 @@ testf(list(d = dsumchi, p = psumchi, q = qsumchi, r = rsumchi),
     nobs = 2^14, wts, df, ncp)
 ```
 
-```
-## Error in dpqr$r(nobs, ...): unused argument (c(1, 0, 0, 0, 2))
-```
+<img src="github_extra/figure/sumchi-1.png" title="plot of chunk sumchi" alt="plot of chunk sumchi" width="700px" height="1100px" />
 
 ## Sum of (non-central) Chisquare to power
 
@@ -176,9 +174,9 @@ the K-prime can appears as a Lambda-prime, a normal, or a central t.
 
 ```r
 require(sadists)
-v1 <- 20
-v2 <- 40
-a <- 0.3
+v1 <- 50
+v2 <- 80
+a <- 0.5
 b <- 1.5
 testf(list(d = dkprime, p = pkprime, q = qkprime, r = rkprime), 
     nobs = 2^14, v1, v2, a, b)
@@ -194,15 +192,13 @@ normal and an independent, scaled central chi random variable.
 
 ```r
 require(sadists)
-df <- 50
-ts <- 1.5
+df <- 70
+ts <- 2
 testf(list(d = dlambdap, p = plambdap, q = qlambdap, 
     r = rlambdap), nobs = 2^14, df, ts)
 ```
 
-```
-## Error in data.frame(draws = rv, pvals = dpqr$p(rv, ...)): arguments imply differing number of rows: 16384, 0
-```
+<img src="github_extra/figure/lambdap-1.png" title="plot of chunk lambdap" alt="plot of chunk lambdap" width="700px" height="1100px" />
 
 ## Upsilon distribution
 
