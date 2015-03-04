@@ -2,22 +2,20 @@ Package: sadists
 Maintainer: Steven E. Pav <shabbychef@gmail.com>
 Authors@R: c(person(c("Steven", "E."), "Pav", role=c("aut","cre"),
     email="shabbychef@gmail.com"))
-Version: 0.0.0.9400
-Date: 2015-03-02
+Version: 0.0.0.9404
+Date: 2015-03-03
 License: LGPL-3
 Title: Some Additional Distributions
 BugReports: https://github.com/shabbychef/sadists/issues
 Description: Density, distribution, quantile and generation functions of some obscure probability 
-    distributions, including: LeCoutre's lambda-prime and k-prime; the upsilon distribution;
-		the Nakagami; the sum of non-central chi-squares; the sum of central chis;
+    distributions, including doubly non-central t and F distributions; Lecoutre's lambda-prime and k-prime; 
+    the upsilon distribution; the Nakagami; the sum of non-central chi-squares; the sum of non-central chis.
 Depends: 
     R (>= 3.0.2),
     PDQutils (>= 0.1.0),
     hypergeo,
     orthopolynom
-LinkingTo: Rcpp
 Imports:
-		Rcpp,
 		orthopolynom
 Suggests: 
     testthat, 
@@ -34,8 +32,8 @@ Collate:
     'lambdap.r'
     'moments.r'
     'nakagami.r'
-    'RcppExports.R'
     'sadists.r'
+    'sumchipow.r'
     'sumchi.r'
     'sumchisq.r'
     'upsilon.r'

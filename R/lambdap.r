@@ -21,6 +21,27 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
+# compute the cumulants of the lambda-prime
+# distribution. this is distributed as
+#
+# t sqrt(chi^2(df) / df) + Z
+#
+# where the chi^2 is a chi-square independent of Z
+lambdap_cumuls <- function(df,t,order.max=3) {
+	kappa <- norm_cumuls(0,1,order.max) + schi_cumuls(df=df,scal=t,order.max=order.max)
+	return(kappa)
+}
+# compute the raw moments of the lambda-prime
+# distribution. this is distributed as
+#
+# t sqrt(chi^2(df) / df) + Z
+#
+# where the chi^2 is a chi-square independent of Z
+lambdap_moms <- function(df,t,order.max=3) {
+	mu <- cumulant2moment(lambdap_cumuls(df,t,order.max))
+	return(mu)
+}
+
 # dlambdap, plambdap, qlambdap, rlambdap#FOLDUP
 #' @title The lambda prime distribution.
 #'
@@ -42,11 +63,11 @@
 #'
 #' @usage
 #'
-#' dlambdap(x, df, t, log = FALSE)
+#' dlambdap(x, df, t, log = FALSE, order.max=6)
 #'
-#' plambdap(q, df, t, lower.tail = TRUE, log.p = FALSE)
+#' plambdap(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6)
 #'
-#' qlambdap(p, df, t, lower.tail = TRUE, log.p = FALSE)
+#' qlambdap(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6)
 #'
 #' rlambdap(n, df, t)
 #'
@@ -54,12 +75,9 @@
 #' @param p vector of probabilities.
 #' @param n number of observations. 
 #' @param df the degrees of freedom in the chi square. 
+#' This is not recycled against the \code{x,q,p,n}.
 #' @param t the scaling parameter on the chi.
-#'
-#' @inheritParams dt
-#' @inheritParams pt
-#' @inheritParams qt
-#' @inheritParams rt
+#' This is not recycled against the \code{x,q,p,n}.
 #'
 #' @return \code{dlambdap} gives the density, \code{plambdap} gives the 
 #' distribution function, \code{qlambdap} gives the quantile function, 
@@ -70,38 +88,36 @@
 #' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
 #' K prime distribution functions, \code{\link{dkprime}, \link{pkprime}, \link{qkprime}, \link{rkprime}},
 #' @template etc
-#' @template distribution
 #' @template ref-lambdap
+#' @template distribution
+#' @template apx_distribution
+#' @template not-recycled
 #' @examples 
+#' rv <- rlambdap(100, 50, t=0.01)
 #' d1 <- dlambdap(1, 50, t=0.01)
+#' pv <- plambdap(rv, 50, t=0.01)
+#' qv <- qlambdap(ppoints(length(rv)), 50, t=1)
+#'
 #' @name lambdap
 #' @rdname dlambdap
-.dlambdap <- function(x, df, t, log = FALSE) {
-
-	# this _was_ cut and paste from the kprime code,
-	# but needs to be written ... 
+#' @export 
+dlambdap <- function(x, df, t, log = FALSE, order.max=6) {
+	kappa <- lambdap_cumuls(df,t,order.max=order.max)
+	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
+	return(retval)
 }
 #' @export 
-dlambdap <- Vectorize(.dlambdap,
-									vectorize.args = c("x","df","t"),
-									SIMPLIFY = TRUE)
-.plambdap <- function(q, df, t, lower.tail = TRUE, log.p = FALSE) {
-# 2FIX: write this.
+plambdap <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6) {
+	kappa <- lambdap_cumuls(df,t,order.max=order.max)
+	retval <- PDQutils::papx_edgeworth(q,kappa,lower.tail=lower.tail,log.p=log.p)
+	return(retval)
 }
-
 #' @export 
-plambdap <- Vectorize(.plambdap,
-									vectorize.args = c("q","df","t"),
-									SIMPLIFY = TRUE)
-# uh, invert it? numerically?
-.qlambdap <- function(p, df, t, lower.tail = TRUE, log.p = FALSE) {
-# 2FIX: write this.
+qlambdap <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6) {
+	kappa <- lambdap_cumuls(df,t,order.max=order.max)
+	retval <- PDQutils::qapx_cf(p,kappa,lower.tail=lower.tail,log.p=log.p)
+	return(retval)
 }
-
-#' @export 
-qlambdap <- Vectorize(.qlambdap,
-									vectorize.args = c("p","df","t"),
-									SIMPLIFY = TRUE)
 #' @export 
 rlambdap <- function(n, df, t) {
 	y <- rchisq(n,df=df) 

@@ -24,10 +24,10 @@
 
 # compute the cumulants of the sumchisq
 # distribution. 
-sumchisq.cumuls <- function(wts,df,ncp,order.max=3) {
+sumchisq_cumuls <- function(wts,df,ncp,order.max=3) {
 	#nterms <- max(vapply(list(wts,df,ncp),length,0))
 	subkappa <- mapply(function(w,dd,nn) 
-										 { (w ^ (1:order.max)) * chisq.cumuls(df=dd,ncp=nn,order.max=order.max) },
+										 { (w ^ (1:order.max)) * chisq_cumuls(df=dd,ncp=nn,order.max=order.max) },
 										 wts,df,ncp,SIMPLIFY=FALSE)
 	kappa <- Reduce('+', subkappa)
 	return(kappa)
@@ -51,9 +51,11 @@ sumchisq.support <- function(wts,df,ncp) {
 #' @details
 #'
 #' Let \eqn{X_i \sim \chi^2\left(\delta_i, \nu_i\right)}{X_i ~ chi^2(delta_i, v_i)}
-#' be independently distributed non-central chi-squares. Let \eqn{a_i} be
-#' given constants. Suppose
-#' \deqn{Y = \sum_i a_i X_i.}{Y = sum a_i X_i.}
+#' be independently distributed non-central chi-squares, where \eqn{\nu_i}{v_i}
+#' are the degrees of freedom, and \eqn{\delta_i}{delta_i} are the
+#' non-centrality parameters.  
+#' Let \eqn{w_i} be given constants. Suppose
+#' \deqn{Y = \sum_i w_i X_i.}{Y = sum w_i X_i.}
 #' Then \eqn{Y}{Y} follows a weighted sum of chi-squares distribution. When
 #' the weights are all one, and the chi-squares are all central, then 
 #' \eqn{Y}{Y} also follows a chi-square distribution.
@@ -80,6 +82,7 @@ sumchisq.support <- function(wts,df,ncp) {
 #'
 #' @template distribution
 #' @template apx_distribution
+#' @template not-recycled
 #'
 #' @return \code{dsumchisq} gives the density, \code{psumchisq} gives the 
 #' distribution function, \code{qsumchisq} gives the quantile function, 
@@ -102,19 +105,19 @@ sumchisq.support <- function(wts,df,ncp) {
 #' @name sumchisq
 #' @export 
 dsumchisq <- function(x, wts, df, ncp=0, order.max=6, log = FALSE) {
-	kappa <- sumchisq.cumuls(wts,df,ncp,order.max=order.max)
+	kappa <- sumchisq_cumuls(wts,df,ncp,order.max=order.max)
 	retval <- PDQutils::dapx_edgeworth(x,kappa,support=sumchisq.support(wts,df,ncp),log=log)
 	return(retval)
 }
 #' @export
 psumchisq <- function(q, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE) {
-	kappa <- sumchisq.cumuls(wts,df,ncp,order.max=order.max)
+	kappa <- sumchisq_cumuls(wts,df,ncp,order.max=order.max)
 	retval <- PDQutils::papx_edgeworth(q,kappa,support=sumchisq.support(wts,df,ncp),lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
 qsumchisq <- function(p, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE) {
-	kappa <- sumchisq.cumuls(wts,df,ncp,order.max=order.max)
+	kappa <- sumchisq_cumuls(wts,df,ncp,order.max=order.max)
 	retval <- PDQutils::qapx_cf(p,kappa,support=sumchisq.support(wts,df,ncp),lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }

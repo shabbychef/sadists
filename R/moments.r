@@ -30,12 +30,19 @@ central2std <- function(mu.cent) {
 }
 #UNFOLD
 
+# we need a vectorized confluent hypergeometric function#FOLDUP
+F11 <- Vectorize(hypergeo::genhypergeo,vectorize.args=c("U","L","z"))
+ReF11 <- function(...) {
+	return(Re(F11(...)))
+}
+#UNFOLD
+
 # some moments of standard distributions:#FOLDUP
 
 # compute the 1 through order.max raw, uncentered moment
 # of the normal distribution with given mean and standard
 # deviation
-norm.moms <- function(mu=0,sigma=1,order.max=3) {
+norm_moms <- function(mu=0,sigma=1,order.max=3) {
 	retval <- rep(1,order.max)
 	hermi <- orthopolynom::hermite.he.polynomials(order.max, normalized=FALSE)
 	for (iii in c(1:order.max)) {
@@ -47,38 +54,52 @@ norm.moms <- function(mu=0,sigma=1,order.max=3) {
 }
 
 # compute the 1 through order.max raw, uncentered moment
-# of the (central) chi distribution with df d.f.
-chi.moms <- function(df,order.max=3,orders=1:order.max,log=FALSE) {
-	retval <- chisq.moms(df=df,orders=orders/2,log=log)
+# of the (non-central) chi distribution with df d.f.
+chi_moms <- function(df,ncp=0,order.max=3,orders=1:order.max,log=FALSE) {
+	retval <- chisq_moms(df=df,ncp=ncp,orders=orders/2,log=log)
 	return(retval)
 }
 
 # compute the 1 through order.max raw, uncentered moment
-# of the (central) chi-square distribution with df d.f.
-chisq.moms <- function(df,order.max=3,orders=1:order.max,log=FALSE) {
+# of the (non-central) chisquare to power distribution.
+chipow_moms <- function(df,ncp=0,pow=1,order.max=3,orders=1:order.max,log=FALSE) {
+	retval <- chisq_moms(df=df,ncp=ncp,orders=pow * orders,log=log)
+	return(retval)
+}
+
+# compute the 1 through order.max raw, uncentered moment
+# of the (non-central) chi-square distribution with df d.f.
+# c.f. Paolella 10.9
+chisq_moms <- function(df,ncp=0,order.max=3,orders=1:order.max,log=FALSE) {
+	hadf <- df/2.0
+	hancp <- ncp/2.0
 	if (log) {
-		retval <- orders * log(2) + lgamrat(orders + (df/2),df/2)
+		retval <- orders * log(2.0) + lgamrat(orders + hadf,hadf)
+		if (ncp != 0) {
+			retval <- retval - hancp + log(ReF11(orders + hadf,hadf,hancp))
+		}
 	} else {
-		retval <- (2^(orders)) * gamrat(orders + (df/2),df/2)
+		retval <- (2.0^(orders)) * gamrat(orders + hadf,hadf)
+		if (ncp != 0) {
+			retval <- (retval/exp(hancp)) * ReF11(orders + hadf,hadf,hancp)
+		}
 	}
 	return(retval)
 }
 
 # something like a nakagami, but really a scaled chi
-schi.moms <- function(df,scal=1,order.max=3) {
+schi_moms <- function(df,scal=1,order.max=3) {
 	stopifnot(df > 0)
 	orders <- 1:order.max
 	if (is.infinite(df)) {
 		retval <- scal ^ orders
 	} else {
-		retval <- chi.moms(df=df,orders=orders,log=TRUE)
-		retval <- retval + orders * (log(abs(scale)) - 0.5 * log(df))
-		retval <- exp(retval) * sign(scale)^orders
+		retval <- chi_moms(df=df,orders=orders,log=TRUE)
+		retval <- retval + orders * (log(abs(scal)) - 0.5 * log(df))
+		retval <- exp(retval) * sign(scal)^orders
 	}
 	return(retval)
 }
-
-
 #UNFOLD
 
 #for vim modeline: (do not edit)

@@ -142,7 +142,6 @@
 #' @docType package
 #' @title Some Auxiliary Distributions
 #' @keywords package
-#' @useDynLib sadists
 NULL
 
 #' @title News for package 'sadists'

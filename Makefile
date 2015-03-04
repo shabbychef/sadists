@@ -32,7 +32,7 @@ M4_FILES					?= $(wildcard m4/*.m4)
 VMAJOR 						 = 0
 VMINOR 						 = 0
 VPATCH  					 = 0
-VDEV 							 = .9400
+VDEV 							 = .9404
 VERSION 					 = $(VMAJOR).$(VMINOR).$(VPATCH)$(VDEV)
 TODAY 						:= $(shell date +%Y-%m-%d)
 
@@ -66,8 +66,7 @@ R_FLAGS 					?= -q --no-save --no-restore --no-init-file
 
 # packages I need to test this one
 TEST_DEPS  				 = testthat roxygen2 knitr xtable \
-										 hypergeo moments orthopolynom \
-										 Rcpp
+										 hypergeo moments orthopolynom 
 INSTALLED_DEPS 		 = $(patsubst %,$(LOCAL)/%/DESCRIPTION,$(TEST_DEPS)) 
 PKG_TESTR 				 = tests/run-all.R
 
@@ -286,7 +285,7 @@ $(LOCAL)/%/DESCRIPTION :
 deps: $(INSTALLED_DEPS)
 
 # roxygen it.
-man/$(PKG_NAME).Rd NAMESPACE: $(R_FILES) $(ATTRIBUTES_R)
+man/$(PKG_NAME).Rd NAMESPACE: $(R_FILES) 
 	$(call WARN_DEPS)
 	$(R_LOCALLY) --slave -e "require(roxygen2); roxygenize('.', clean=TRUE)"
 	touch $@
@@ -298,7 +297,7 @@ docs: README.md DESCRIPTION man/$(PKG_NAME).Rd
 RSYNC_FLAGS     = -av --delete 
 
 # a parallel version of this package, but without the support structure
-$(STAGED_PKG)/DESCRIPTION : $(R_FILES) $(SUPPORT_FILES) $(EXTRA_PKG_DEPS) $(ATTRIBUTES_CPP)
+$(STAGED_PKG)/DESCRIPTION : $(R_FILES) $(SUPPORT_FILES) $(EXTRA_PKG_DEPS) 
 	$(call WARN_DEPS)
 	@-echo clean up first
 	@-rm -rf $(STAGED_PKG)

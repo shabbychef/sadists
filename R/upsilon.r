@@ -21,9 +21,6 @@
 # Author: Steven E. Pav <shabbychef@gmail.com>
 # Comments: Steven E. Pav
 
-require(orthopolynom)
-
-
 # compute the cumulants of the upsilon
 # distribution. this is distributed as
 #
@@ -31,8 +28,8 @@ require(orthopolynom)
 #
 # where the chi^2 are independent chi-square
 # independent of Z
-upsilon.cumuls <- function(df,t,order.max=3) {
-	kappa <- norm.cumuls(0,1,order.max) + sumchi.cumuls(wts=t,df=df,order.max=order.max)
+upsilon_cumuls <- function(df,t,order.max=3) {
+	kappa <- norm_cumuls(0,1,order.max) + sumchi_cumuls(wts=t,df=df,order.max=order.max)
 	return(kappa)
 }
 
@@ -60,11 +57,11 @@ upsilon.cumuls <- function(df,t,order.max=3) {
 #'
 #' @usage
 #'
-#' dupsilon(x, df, t, log = FALSE, order.max=5)
+#' dupsilon(x, df, t, log = FALSE, order.max=6)
 #'
-#' pupsilon(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5)
+#' pupsilon(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6)
 #'
-#' qupsilon(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5)
+#' qupsilon(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6)
 #'
 #' rupsilon(n, df, t)
 #'
@@ -91,6 +88,7 @@ upsilon.cumuls <- function(df,t,order.max=3) {
 #' @template etc
 #' @template distribution
 #' @template apx_distribution
+#' @template not-recycled
 #' @template ref-lambdap
 #' @examples 
 #' mydf <- c(100,30,50)
@@ -112,25 +110,21 @@ upsilon.cumuls <- function(df,t,order.max=3) {
 #' @name upsilon
 #' @rdname dupsilon
 #' @export 
-dupsilon <- function(x, df, t, log = FALSE, order.max=5) {
-	kappa <- upsilon.cumuls(df,t,order.max=order.max)
-	#mu.raw <- PDQutils::cumulant2moment(kappa)
-	#retval <- PDQutils::dapx_gca(x,mu.raw,log=log)
+dupsilon <- function(x, df, t, log = FALSE, order.max=6) {
+	kappa <- upsilon_cumuls(df,t,order.max=order.max)
 	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
 	return(retval)
 }
 #' @export 
-pupsilon <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5) {
-	kappa <- upsilon.cumuls(df,t,order.max=order.max)
-	#mu.raw <- PDQutils::cumulant2moment(kappa)
-	#retval <- PDQutils::papx_gca(q,mu.raw,lower.tail=lower.tail,log.p=log.p)
+pupsilon <- function(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6) {
+	kappa <- upsilon_cumuls(df,t,order.max=order.max)
 	retval <- PDQutils::papx_edgeworth(q,kappa,lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
-qupsilon <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5) {
-	kappa <- upsilon.cumuls(df,t,order.max=order.max)
-	retval <- PDQutils::qapx_cf(p,kappa)
+qupsilon <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6) {
+	kappa <- upsilon_cumuls(df,t,order.max=order.max)
+	retval <- PDQutils::qapx_cf(p,kappa,lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 

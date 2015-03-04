@@ -130,9 +130,9 @@ testf(list(d = dsumchisq, p = psumchisq, q = qsumchisq,
 
 <img src="github_extra/figure/sumchisq-1.png" title="plot of chunk sumchisq" alt="plot of chunk sumchisq" width="700px" height="1100px" />
 
-## Sum of (central) Chi 
+## Sum of (non-central) Chi 
 
-The weighted sum of chis is also not a commonly seen random variable. However, it is one normal shy of
+The weighted sum of non-central chis is also not a commonly seen random variable. However, it is one normal shy of
 an Upsilon distribution, which see. 
 
 
@@ -140,31 +140,68 @@ an Upsilon distribution, which see.
 require(sadists)
 wts <- c(-3, 2, 5, -4, 1)
 df <- c(30, 50, 100, 20, 10)
+ncp <- c(1, 0, 0, 0, 2)
 testf(list(d = dsumchi, p = psumchi, q = qsumchi, r = rsumchi), 
-    nobs = 2^14, wts, df)
+    nobs = 2^14, wts, df, ncp)
 ```
 
-<img src="github_extra/figure/sumchi-1.png" title="plot of chunk sumchi" alt="plot of chunk sumchi" width="700px" height="1100px" />
+```
+## Error in dpqr$r(nobs, ...): unused argument (c(1, 0, 0, 0, 2))
+```
+
+## Sum of (non-central) Chisquare to power
+
+A generalization of the previous two, this is the weighted sum of independent 
+non-central chi-square variates taken to some powers.
+
+
+```r
+require(sadists)
+wts <- c(-1, 1, 3, -3)
+df <- c(100, 200, 100, 50)
+ncp <- c(0, 1, 0.5, 2)
+pow <- c(1, 0.5, 2, 1.5)
+testf(list(d = dsumchipow, p = psumchipow, q = qsumchipow, 
+    r = rsumchipow), nobs = 2^14, wts, df, ncp, pow)
+```
+
+<img src="github_extra/figure/sumchipow-1.png" title="plot of chunk sumchipow" alt="plot of chunk sumchipow" width="700px" height="1100px" />
 
 ## K-prime distribution
 
 The K-prime distribution is the weighted sum of a standard normal and an independent central chi, 
 all divided by another independent central chi. Depending on the degrees of freedom and the weights,
 the K-prime can appears as a Lambda-prime, a normal, or a central t.
-It is not yet implemented in sadists.
+
+
+```r
+require(sadists)
+v1 <- 20
+v2 <- 40
+a <- 0.3
+b <- 1.5
+testf(list(d = dkprime, p = pkprime, q = qkprime, r = rkprime), 
+    nobs = 2^14, v1, v2, a, b)
+```
+
+<img src="github_extra/figure/kprime-1.png" title="plot of chunk kprime" alt="plot of chunk kprime" width="700px" height="1100px" />
 
 ## Lambda prime distribution
 
 A [Lambda prime](http://arxiv.org/abs/1003.4890v1) random variable is the sum of a standard
 normal and an independent, scaled central chi random variable.
-It is not yet fully implemented, except as a special case of the upsilon distribution.
 
 
 ```r
 require(sadists)
 df <- 50
 ts <- 1.5
-# testf(list(d=dlambdap,p=plambdap,q=qlambdap,r=rlambdap),nobs=2^14,df,ts)
+testf(list(d = dlambdap, p = plambdap, q = qlambdap, 
+    r = rlambdap), nobs = 2^14, df, ts)
+```
+
+```
+## Error in data.frame(draws = rv, pvals = dpqr$p(rv, ...)): arguments imply differing number of rows: 16384, 0
 ```
 
 ## Upsilon distribution
@@ -202,19 +239,35 @@ testf(list(d = dnakagami, p = pnakagami, q = qnakagami,
 
 The [doubly non-central t distribution](https://en.wikipedia.org/wiki/Doubly_noncentral_t-distribution)
 generalizes the t distribution to the case where the denominator chi-square is non-central.
-It is not yet fully implemented.
 
 
 ```r
 require(sadists)
-k <- 5
-mu <- 1
-theta <- 2
-# testf(list(d=ddnt,p=pdnt,q=qdnt,r=rdnt),nobs=2^14,k,mu,theta)
+df <- 75
+ncp1 <- 2
+ncp2 <- 3
+testf(list(d = ddnt, p = pdnt, q = qdnt, r = rdnt), 
+    nobs = 2^14, df, ncp1, ncp2)
 ```
+
+<img src="github_extra/figure/dnt-1.png" title="plot of chunk dnt" alt="plot of chunk dnt" width="700px" height="1100px" />
 
 ## Doubly non-central F distribution
 
 The doubly non-central F distribution generalizes the F distribution to the case where the denominator
-chi-square is non-central. It has not yet been implemented.
+chi-square is non-central. 
 
+
+```r
+require(sadists)
+df1 <- 30
+df2 <- 50
+ncp1 <- 1.5
+ncp2 <- 2.5
+testf(list(d = ddnf, p = pdnf, q = qdnf, r = rdnf), 
+    nobs = 2^14, df1, df2, ncp1, ncp2)
+```
+
+```
+## Error in testf(list(d = ddnf, p = pdnf, q = qdnf, r = rdnf), nobs = 2^14, : object 'ddnf' not found
+```

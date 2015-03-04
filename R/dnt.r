@@ -23,6 +23,31 @@
 
 #source("utils.r")
 
+# compute the moments of the doubly non-central
+# t distribution. this is distributed as
+#
+# (ncp_1 + Z) / sqrt(chi^2_2(ncp_2) / df_2)
+#
+# where the Z is independent of the chi-square.
+dnt_moments <- function(df,ncp1,ncp2,order.max=3) {
+	orders = 1:order.max
+	numr <- norm_moms(mu=ncp1,sigma=1,order.max=order.max)
+	deno <- exp(chisq_moms(df=df,ncp=ncp2,orders=-orders/2.0,log=TRUE) + (orders/2.0)*log(df))
+	mus <- numr * deno
+	return(mus)
+}
+
+# compute the moments of the doubly non-central
+# t distribution. this is distributed as
+#
+# (ncp_1 + Z) / sqrt(chi^2_2(ncp_2) / df_2)
+#
+# where the Z is independent of the chi-square.
+dnt_cumuls <- function(df,ncp1,ncp2,order.max=3) {
+	kappa <- moment2cumulant(dnt_moments(df,ncp1,ncp2,order.max))
+	return(kappa)
+}
+
 # ddnt, pdnt, qdnt, rdnt#FOLDUP
 #' @title The doubly non-central t distribution.
 #'
@@ -33,42 +58,33 @@
 #'
 #' @details
 #'
-#' Let \eqn{X \sim \mathcal{N}\left(\mu,1\right)}{X ~ N(u,1)} independently
-#' of \eqn{Y \sim \chi^2\left(k,\theta\right)}{Y ~ x^2(k,theta)}. The 
+#' Let \eqn{Z \sim \mathcal{N}\left(\mu,1\right)}{Z ~ N(u,1)} independently
+#' of \eqn{X \sim \chi^2\left(\theta,\nu\right)}{X ~ x^2(theta,v)}. The 
 #' random variable
-#' \deqn{T = \frac{X}{\sqrt{Y/k}}}{T = X / sqrt(Y/k)}
+#' \deqn{T = \frac{Z}{\sqrt{X/\nu}}}{T = Z / sqrt(X/v)}
 #' takes a \emph{doubly non-central t distribution} with parameters
-#' \eqn{k, \mu, \theta}{k, mu, theta}.
+#' \eqn{\nu, \mu, \theta}{v, mu, theta}.
 #'
 #' @usage
 #'
-#' ddnt(x, k, mu, theta, log = FALSE)
+#' ddnt(x, df, ncp1, ncp2, log = FALSE, order.max=6)
 #'
-#' pdnt(q, k, mu, theta, lower.tail = TRUE, log.p = FALSE)
+#' pdnt(q, df, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.max=6)
 #'
-#' qdnt(p, k, mu, theta, lower.tail = TRUE, log.p = FALSE)
+#' qdnt(p, df, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.max=6)
 #'
-#' rdnt(n, k, mu, theta)
+#' rdnt(n, df, ncp1, ncp2)
 #'
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
 #' @param n number of observations. 
-#' @param k the degrees of freedom in the denominator.
-#' @param mu the numerator non-centrality parameter, \eqn{\mu}{mu}.
-#' @param theta the denominator non-centrality parameter, \eqn{\theta}{theta}.
-#' When equal to zero, we recover the singly non-central t distribution.
-#' @param log logical; if TRUE, densities \eqn{f} are given 
-#'  as \eqn{\mbox{log}(f)}{log(f)}.
-#' @param log.p logical; if TRUE, probabilities p are given 
-#'  as \eqn{\mbox{log}(p)}{log(p)}.
-#' @param lower.tail logical; if TRUE (default), probabilities are
-#'  \eqn{P[X \le x]}{P[X <= x]}, otherwise, \eqn{P[X > x]}{P[X > x]}.
-#' @inheritParams dt
-#' @inheritParams pt
-#' @inheritParams qt
-#' @inheritParams rt
+#'
+#' @param df the degrees of freedom for the denominator, \eqn{\nu}{v}.
+#' We do \emph{not} recycle these versus the \code{x,q,p,n}.
+#' @param ncp1,ncp2 the non-centrality parameters for the numerator and denominator,
+#' respectively, \eqn{\mu}{mu} and \eqn{\theta}{theta}
+#' We do \emph{not} recycle these versus the \code{x,q,p,n}.
 #' 
-#' @keywords distribution 
 #' @return \code{ddnt} gives the density, \code{pdnt} gives the 
 #' distribution function, \code{qdnt} gives the quantile function, 
 #' and \code{rdnt} generates random deviates.
@@ -77,6 +93,9 @@
 #' @aliases ddnt pdnt qdnt rdnt
 #' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}}
 #' @template etc
+#' @template distribution
+#' @template apx_distribution
+#' @template not-recycled
 #' @template dnt
 #' @name dnt 
 #' @rdname ddnt
@@ -90,101 +109,36 @@
 #' plot(ecdf(pvs.HA))
 #' }
 #' # compare to singly non-central
-#' dv1 <- ddnt(1, k=10, mu=5, theta=0, log=FALSE)
+#' dv1 <- ddnt(1, df=10, ncp1=5, ncp2=0, log=FALSE)
 #' dv2 <- dt(1, df=10, ncp=5, log=FALSE)
-#' pv1 <- pdnt(1, k=10, mu=5, theta=0, log.p=FALSE)
-#' pv11 <- pdnt(1, k=10, mu=5, theta=0.001, log.p=FALSE)
+#' pv1 <- pdnt(1, df=10, ncp1=5, ncp2=0, log.p=FALSE)
+#' pv11 <- pdnt(1, df=10, ncp1=5, ncp2=0.001, log.p=FALSE)
 #' v2 <- pt(1, df=10, ncp=5, log.p=FALSE)
 #'
-#' q1 <- qdnt(pv1, k=10, mu=5, theta=0, log.p=FALSE)
-.ddnt <- function(x, k, mu, theta, log=FALSE) {
-	aterm <- x * mu * sqrt(2/k)
-	kon <- (-(theta + mu^2)/2) - log(pi*k)/2;
-	w <- (1+(x^2/k))
-	logw <- log(w)
-
-	doubnoncentterm <- function(j) {
-		if (aterm == 0) {
-			if (j == 0)
-				term1 <- 0
-			else 
-				return(0)
-		} else 
-			term1 <- j * log(aterm)
-		z <- (k+j+1)/2
-		term <- kon + term1 + lgamma(z) - lgamma(j+1) - lgamma(k/2) - z * logw
-		f <- Re(hypergeo::genhypergeo(z,k/2,theta/(2*w)))
-		y <- Re(exp(term + log(f)))
-	}
-	kum <- 0
-	for (jjj in c(0:300)) {
-		kum <- kum + doubnoncentterm(jjj)
-	}
-	# sorry, no better way to do this.
-	if (log)
-		kum <- log(kum)
-	return(kum)
+#' q1 <- qdnt(pv1, df=10, ncp1=5, ncp2=0, log.p=FALSE)
+#' @export
+ddnt <- function(x,df,ncp1,ncp2,log=FALSE, order.max=6) {
+	kappa <- dnt_cumuls(df,ncp1,ncp2,order.max=order.max)
+	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
+	return(retval)
+}
+#' @export
+pdnt <- function(q, df, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.max=6) {
+	kappa <- dnt_cumuls(df,ncp1,ncp2,order.max=order.max)
+	retval <- PDQutils::papx_edgeworth(q,kappa,lower.tail=lower.tail,log.p=log.p)
+	return(retval)
+}
+#' @export
+qdnt <- function(p, df, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.max=6) {
+	kappa <- dnt_cumuls(df,ncp1,ncp2,order.max=order.max)
+	retval <- PDQutils::qapx_cf(p,kappa,lower.tail=lower.tail,log.p=log.p)
+	return(retval)
 }
 #' @export 
-ddnt <- Vectorize(.ddnt,
-									vectorize.args = c("x","k","mu","theta"),
-									SIMPLIFY = TRUE)
-# listing 10.15
-.pdnt <- function(q, k, mu, theta, lower.tail = TRUE, log.p = FALSE) {
-	if (theta == 0)
-		return(pt(q,df=k,ncp=mu,lower.tail=lower.tail,log.p=log.p))
-	partsum <- 0
-	inc <- 50
-	lo <- 0
-	hi <- inc-1
-	done <- FALSE
-	while (!done) {
-		ivec <- lo:hi
-		lnw <- (-theta/2) + ivec * log(theta/2) - lgamma(ivec+1)
-		k2i <- k + 2*ivec
-		logcdfpart <- pt(q * sqrt(k2i/k),df = k2i,ncp=mu,log.p=TRUE)
-		newpartvec <- exp(lnw + logcdfpart)
-		newpartsum <- sum(newpartvec)
-		partsum <- partsum + newpartsum
-		lo <- hi+1
-		hi <- hi+inc
-		done <- (newpartvec[1] >= newpartvec[length(newpartvec)]) && (newpartsum < 1e-12)
-	}
-	cdf <- Re(partsum)
-	if (! lower.tail)
-		cdf <- 1 - cdf
-	if (log.p)
-		cdf <- log(cdf)
-	return(cdf)
-}
-#' @export 
-pdnt <- Vectorize(.pdnt,
-									vectorize.args = c("q","k","mu","theta"),
-									SIMPLIFY = TRUE)
-# uh, invert it? numerically?
-.qdnt <- function(p, k, mu, theta, lower.tail = TRUE, log.p = FALSE) {
-	if (lower.tail) 
-		zerf <- function(q) {
-			.pdnt(q,k,mu,theta,lower.tail=lower.tail,log.p=log.p) - p
-		}
-	else
-		zerf <- function(q) {
-			p - .pdnt(q,k,mu,theta,lower.tail=lower.tail,log.p=log.p)
-		}
-	x0 <- qt(p, df=k, ncp=mu, lower.tail=lower.tail, log.p=log.p)
-	f0 <- zerf(x0)
-	soln <- uniroot_helper(zerf,x0=x0,f0=f0)
-	return(soln)
-}
-#' @export 
-qdnt <- Vectorize(.qdnt,
-									vectorize.args = c("p","k","mu","theta"),
-									SIMPLIFY = TRUE)
-#' @export 
-rdnt <- function(n, k, mu, theta) {
-	X <- rnorm(n,mean=mu,sd=1)
-	Y <- rchisq(n,df=k,ncp=theta)
-	Z <- X / sqrt(Y / k)
+rdnt <- function(n,df,ncp1,ncp2) {
+	X <- rnorm(n,mean=ncp1,sd=1)
+	Y <- rchisq(n,df=df,ncp=ncp2)
+	Z <- X / sqrt(Y / df)
 	return(Z)
 }
 #UNFOLD

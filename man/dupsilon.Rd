@@ -8,11 +8,11 @@
 \alias{upsilon}
 \title{The upsilon distribution.}
 \usage{
-dupsilon(x, df, t, log = FALSE, order.max=5)
+dupsilon(x, df, t, log = FALSE, order.max=6)
 
-pupsilon(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5)
+pupsilon(q, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6)
 
-qupsilon(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=5)
+qupsilon(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6)
 
 rupsilon(n, df, t)
 }
@@ -74,6 +74,13 @@ The PDF, CDF, and quantile function are approximated, via
 the Edgeworth or Cornish Fisher approximations, which may
 not be terribly accurate in the tails of the distribution.
 You are warned.
+
+The distribution parameters are \emph{not} recycled
+with respect to the \code{x, p, q} or \code{n} parameters,
+for, respectively, the density, distribution, quantile
+and generation functions. This is for simplicity of
+implementation and performance. It is, however, in contrast
+to the usual R idiom for dpqr functions.
 }
 \examples{
 mydf <- c(100,30,50)
