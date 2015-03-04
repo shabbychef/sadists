@@ -260,14 +260,12 @@ chi-square is non-central.
 
 ```r
 require(sadists)
-df1 <- 30
-df2 <- 50
+df1 <- 40
+df2 <- 80
 ncp1 <- 1.5
 ncp2 <- 2.5
 testf(list(d = ddnf, p = pdnf, q = qdnf, r = rdnf), 
     nobs = 2^14, df1, df2, ncp1, ncp2)
 ```
 
-```
-## Error in testf(list(d = ddnf, p = pdnf, q = qdnf, r = rdnf), nobs = 2^14, : object 'ddnf' not found
-```
+<img src="github_extra/figure/dnf-1.png" title="plot of chunk dnf" alt="plot of chunk dnf" width="700px" height="1100px" />
