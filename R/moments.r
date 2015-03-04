@@ -30,6 +30,13 @@ central2std <- function(mu.cent) {
 }
 #UNFOLD
 
+# we need a vectorized confluent hypergeometric function#FOLDUP
+F11 <- Vectorize(hypergeo::genhypergeo,vectorize.args=c("U","L","z"))
+ReF11 <- function(...) {
+	return(Re(F11(...)))
+}
+#UNFOLD
+
 # some moments of standard distributions:#FOLDUP
 
 # compute the 1 through order.max raw, uncentered moment
@@ -48,18 +55,27 @@ norm.moms <- function(mu=0,sigma=1,order.max=3) {
 
 # compute the 1 through order.max raw, uncentered moment
 # of the (central) chi distribution with df d.f.
-chi.moms <- function(df,order.max=3,orders=1:order.max,log=FALSE) {
-	retval <- chisq.moms(df=df,orders=orders/2,log=log)
+chi.moms <- function(df,ncp=0,order.max=3,orders=1:order.max,log=FALSE) {
+	retval <- chisq.moms(df=df,ncp=ncp,orders=orders/2,log=log)
 	return(retval)
 }
 
 # compute the 1 through order.max raw, uncentered moment
-# of the (central) chi-square distribution with df d.f.
-chisq.moms <- function(df,order.max=3,orders=1:order.max,log=FALSE) {
+# of the (non-central) chi-square distribution with df d.f.
+# c.f. Paolella 10.9
+chisq.moms <- function(df,ncp=0,order.max=3,orders=1:order.max,log=FALSE) {
+	hadf <- df/2.0
+	hancp <- ncp/2.0
 	if (log) {
-		retval <- orders * log(2) + lgamrat(orders + (df/2),df/2)
+		retval <- orders * log(2.0) + lgamrat(orders + hadf,hadf)
+		if (ncp != 0) {
+			retval <- retval - hancp + log(ReF11(orders + hadf,hadf,hancp))
+		}
 	} else {
-		retval <- (2^(orders)) * gamrat(orders + (df/2),df/2)
+		retval <- (2.0^(orders)) * gamrat(orders + hadf,hadf)
+		if (ncp != 0) {
+			retval <- (retval/exp(hancp)) * ReF11(orders + hadf,hadf,hancp)
+		}
 	}
 	return(retval)
 }

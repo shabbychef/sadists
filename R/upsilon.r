@@ -21,9 +21,6 @@
 # Author: Steven E. Pav <shabbychef@gmail.com>
 # Comments: Steven E. Pav
 
-require(orthopolynom)
-
-
 # compute the cumulants of the upsilon
 # distribution. this is distributed as
 #

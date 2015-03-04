@@ -24,50 +24,52 @@
 
 # compute the cumulants of the sumchi
 # distribution. 
-sumchi.cumuls <- function(wts,df,order.max=3) {
-	subkappa <- mapply(function(w,dd) 
-										 { (w ^ (1:order.max)) * chi.cumuls(df=dd,order.max=order.max) },
-										 wts,df,SIMPLIFY=FALSE)
+sumchi.cumuls <- function(wts,df,ncp=0,order.max=3) {
+	subkappa <- mapply(function(w,dd,nn) 
+										 { (w ^ (1:order.max)) * chi.cumuls(df=dd,ncp=nn,order.max=order.max) },
+										 wts,df,ncp,SIMPLIFY=FALSE)
 	kappa <- Reduce('+', subkappa)
 	return(kappa)
 }
 
 # dsumchi, psumchi, qsumchi, rsumchi#FOLDUP
-#' @title The sum of (non-central) chi-squares distribution.
+#' @title The sum of (non-central) chis distribution.
 #'
 #' @description 
 #'
 #' Density, distribution function, quantile function and random
 #' generation for the distribution of the weighted sum of non-central
-#' chi-squares.
+#' chis.
 #'
 #' @details
 #'
 #' Let \eqn{X_i \sim \chi^2\left(\delta_i, \nu_i\right)}{X_i ~ chi^2(delta_i, v_i)}
-#' be independently distributed non-central chi-squares. Let \eqn{a_i} be
-#' given constants. Suppose
-#' \deqn{Y = \sum_i a_i X_i.}{Y = sum a_i X_i.}
-#' Then \eqn{Y}{Y} follows a weighted sum of chi-squares distribution. When
-#' the weights are all one, and the chi-squares are all central, then 
-#' \eqn{Y}{Y} also follows a chi-square distribution.
+#' be independently distributed non-central chi-squares, where \eqn{\nu_i}{v_i}
+#' are the degrees of freedom, and \eqn{\delta_i}{delta_i} are the
+#' non-centrality parameters.  
+#' Let \eqn{w_i} be given constants. Suppose
+#' \deqn{Y = \sum_i w_i \sqrt{X_i}.}{Y = sum w_i sqrt(X_i).}
+#' Then \eqn{Y}{Y} follows a weighted sum of chis distribution. 
 #'
 #' @usage
 #'
-#' dsumchi(x, wts, df, order.max=6, log = FALSE)
+#' dsumchi(x, wts, df, ncp=0, order.max=6, log = FALSE)
 #'
-#' psumchi(q, wts, df, order.max=6, lower.tail = TRUE, log.p = FALSE)
+#' psumchi(q, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE)
 #'
-#' qsumchi(p, wts, df, order.max=6, lower.tail = TRUE, log.p = FALSE)
+#' qsumchi(p, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE)
 #'
-#' rsumchi(n, wts, df)
+#' rsumchi(n, wts, df, ncp=0)
 #'
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
 #' @param n number of observations. 
-#' @param wts the vector of weights. We do \emph{not} vectorize over
-#' \code{wts}, except against \code{df}.
-#' @param df the vector of degrees of freedom. We do \emph{not} vectorize over
-#' \code{df}, except against \code{wts}.
+#' @param wts the vector of weights. 
+#' We do \emph{not} recycle this against \code{x,q,p,n}.
+#' @param df the vector of degrees of freedom. 
+#' We do \emph{not} recycle this against \code{x,q,p,n}.
+#' @param ncp the vector of non-centrality parameters.
+#' We do \emph{not} recycle this against \code{x,q,p,n}.
 #' @template distribution
 #' @template apx_distribution
 #'
@@ -83,34 +85,35 @@ sumchi.cumuls <- function(wts,df,order.max=3) {
 #' @examples 
 #' wts <- c(1,-3,4)
 #' df <- c(100,20,10)
-#' rvs <- rsumchi(128, wts, df)
-#' dvs <- dsumchi(rvs, wts, df)
-#' qvs <- psumchi(rvs, wts, df)
-#' pvs <- qsumchi(ppoints(length(rvs)), wts, df)
+#' ncp <- c(0,2,1)
+#' rvs <- rsumchi(128, wts, df, ncp)
+#' dvs <- dsumchi(rvs, wts, df, ncp)
+#' qvs <- psumchi(rvs, wts, df, ncp)
+#' pvs <- qsumchi(ppoints(length(rvs)), wts, df, ncp)
 #' @rdname dsumchi
 #' @name sumchi
 #' @export 
-dsumchi <- function(x, wts, df, order.max=6, log = FALSE) {
-	kappa <- sumchi.cumuls(wts,df,order.max=order.max)
+dsumchi <- function(x, wts, df, ncp=0, order.max=6, log = FALSE) {
+	kappa <- sumchi.cumuls(wts,df,ncp,order.max=order.max)
 	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
 	return(retval)
 }
 #' @export
-psumchi <- function(q, wts, df, order.max=6, lower.tail = TRUE, log.p = FALSE) {
-	kappa <- sumchi.cumuls(wts,df,order.max=order.max)
+psumchi <- function(q, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE) {
+	kappa <- sumchi.cumuls(wts,df,ncp,order.max=order.max)
 	retval <- PDQutils::papx_edgeworth(q,kappa,lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
-qsumchi <- function(p, wts, df, order.max=6, lower.tail = TRUE, log.p = FALSE) {
-	kappa <- sumchi.cumuls(wts,df,order.max=order.max)
+qsumchi <- function(p, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE) {
+	kappa <- sumchi.cumuls(wts,df,ncp,order.max=order.max)
 	retval <- PDQutils::qapx_cf(p,kappa)
 	return(retval)
 }
 #' @export 
-rsumchi <- function(n, wts, df) {
-	subX <- mapply(function(w,dd) { w * sqrt(rchisq(n,df=dd)) },
-										 wts,df,SIMPLIFY=FALSE)
+rsumchi <- function(n, wts, df, ncp=0) {
+	subX <- mapply(function(w,dd,nn) { w * sqrt(rchisq(n,df=dd,ncp=nn)) },
+										 wts,df,ncp,SIMPLIFY=FALSE)
 	X <- Reduce('+', subX)
 	return(X)
 }

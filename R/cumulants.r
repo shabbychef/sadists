@@ -34,8 +34,8 @@ norm.cumuls <- function(mean=0,sd=1,order.max=3) {
 
 # compute the 1 through order.max raw cumulants
 # of the (central) chi distribution with df d.f.
-chi.cumuls <- function(df,order.max=3) {
-	retval <- moment2cumulant(chi.moms(df,order.max=order.max))
+chi.cumuls <- function(df,ncp=0,order.max=3) {
+	retval <- moment2cumulant(chi.moms(df,ncp=ncp,order.max=order.max))
 	return(retval)
 }
 
@@ -43,11 +43,18 @@ chi.cumuls <- function(df,order.max=3) {
 # of the (non-central) chi-square distribution with df d.f.
 # and noncentrality parameter ncp
 chisq.cumuls <- function(df,ncp=0,order.max=3,orders=1:order.max,log=FALSE) {
-	jvals <- 0:(order.max-1)
-	if (log) { 
-		retval <- ((orders-1) * log(2) + lfactorial((orders-1))) + log(df + ncp * orders)
+	if (ncp==0) {
+		if (log) { 
+			retval <- ((orders-1) * log(2) + lfactorial((orders-1))) + log(df + ncp * orders)
+		} else {
+			retval <- exp((orders-1) * log(2) + lfactorial((orders-1))) * (df + ncp * orders)
+		}
 	} else {
-		retval <- exp((orders-1) * log(2) + lfactorial((orders-1))) * (df + ncp * orders)
+		# easier to go this route, I think:
+		retval <- moment2cumulant(chisq.moms(df,ncp=ncp,orders=orders))
+		if (log) {
+			retval <- log(retval)
+		}
 	}
 	return(retval)
 }

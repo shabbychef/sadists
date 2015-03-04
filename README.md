@@ -157,15 +157,20 @@ It is not yet implemented in sadists.
 
 A [Lambda prime](http://arxiv.org/abs/1003.4890v1) random variable is the sum of a standard
 normal and an independent, scaled central chi random variable.
-It is not yet fully implemented, except as a special case of the upsilon distribution.
+It is not yet fully implemented, except as a special case of the upsilon distribution:
 
 
 ```r
 require(sadists)
 df <- 50
 ts <- 1.5
+# not yet, because inefficient recycling:
 # testf(list(d=dlambdap,p=plambdap,q=qlambdap,r=rlambdap),nobs=2^14,df,ts)
+testf(list(d = dupsilon, p = pupsilon, q = qupsilon, 
+    r = rupsilon), nobs = 2^14, df, ts)
 ```
+
+<img src="github_extra/figure/lambdap-1.png" title="plot of chunk lambdap" alt="plot of chunk lambdap" width="700px" height="1100px" />
 
 ## Upsilon distribution
 
@@ -202,19 +207,33 @@ testf(list(d = dnakagami, p = pnakagami, q = qnakagami,
 
 The [doubly non-central t distribution](https://en.wikipedia.org/wiki/Doubly_noncentral_t-distribution)
 generalizes the t distribution to the case where the denominator chi-square is non-central.
-It is not yet fully implemented.
 
 
 ```r
 require(sadists)
-k <- 5
-mu <- 1
-theta <- 2
-# testf(list(d=ddnt,p=pdnt,q=qdnt,r=rdnt),nobs=2^14,k,mu,theta)
+df <- 75
+ncp1 <- 2
+ncp2 <- 3
+testf(list(d = ddnt, p = pdnt, q = qdnt, r = rdnt), 
+    nobs = 2^14, df, ncp1, ncp2)
 ```
+
+<img src="github_extra/figure/dnt-1.png" title="plot of chunk dnt" alt="plot of chunk dnt" width="700px" height="1100px" />
 
 ## Doubly non-central F distribution
 
 The doubly non-central F distribution generalizes the F distribution to the case where the denominator
-chi-square is non-central. It has not yet been implemented.
+chi-square is non-central. 
 
+
+```r
+require(sadists)
+df1 <- 30
+df2 <- 50
+ncp1 <- 1.5
+ncp2 <- 2.5
+testf(list(d = ddnf, p = pdnf, q = qdnf, r = rdnf), 
+    nobs = 2^14, df1, df2, ncp1, ncp2)
+```
+
+<img src="github_extra/figure/dnf-1.png" title="plot of chunk dnf" alt="plot of chunk dnf" width="700px" height="1100px" />

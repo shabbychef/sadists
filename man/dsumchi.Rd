@@ -6,24 +6,27 @@
 \alias{qsumchi}
 \alias{rsumchi}
 \alias{sumchi}
-\title{The sum of (non-central) chi-squares distribution.}
+\title{The sum of (non-central) chis distribution.}
 \usage{
-dsumchi(x, wts, df, order.max=6, log = FALSE)
+dsumchi(x, wts, df, ncp=0, order.max=6, log = FALSE)
 
-psumchi(q, wts, df, order.max=6, lower.tail = TRUE, log.p = FALSE)
+psumchi(q, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE)
 
-qsumchi(p, wts, df, order.max=6, lower.tail = TRUE, log.p = FALSE)
+qsumchi(p, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE)
 
-rsumchi(n, wts, df)
+rsumchi(n, wts, df, ncp=0)
 }
 \arguments{
 \item{x,q}{vector of quantiles.}
 
-\item{wts}{the vector of weights. We do \emph{not} vectorize over
-\code{wts}, except against \code{df}.}
+\item{wts}{the vector of weights.
+We do \emph{not} recycle this against \code{x,q,p,n}.}
 
-\item{df}{the vector of degrees of freedom. We do \emph{not} vectorize over
-\code{df}, except against \code{wts}.}
+\item{df}{the vector of degrees of freedom.
+We do \emph{not} recycle this against \code{x,q,p,n}.}
+
+\item{ncp}{the vector of non-centrality parameters.
+We do \emph{not} recycle this against \code{x,q,p,n}.}
 
 \item{order.max}{the order to use in the approximate density,
 distribution, and quantile computations, via the Gram-Charlier,
@@ -52,16 +55,16 @@ Invalid arguments will result in return value \code{NaN} with a warning.
 \description{
 Density, distribution function, quantile function and random
 generation for the distribution of the weighted sum of non-central
-chi-squares.
+chis.
 }
 \details{
 Let \eqn{X_i \sim \chi^2\left(\delta_i, \nu_i\right)}{X_i ~ chi^2(delta_i, v_i)}
-be independently distributed non-central chi-squares. Let \eqn{a_i} be
-given constants. Suppose
-\deqn{Y = \sum_i a_i X_i.}{Y = sum a_i X_i.}
-Then \eqn{Y}{Y} follows a weighted sum of chi-squares distribution. When
-the weights are all one, and the chi-squares are all central, then
-\eqn{Y}{Y} also follows a chi-square distribution.
+be independently distributed non-central chi-squares, where \eqn{\nu_i}{v_i}
+are the degrees of freedom, and \eqn{\delta_i}{delta_i} are the
+non-centrality parameters.
+Let \eqn{w_i} be given constants. Suppose
+\deqn{Y = \sum_i w_i \sqrt{X_i}.}{Y = sum w_i sqrt(X_i).}
+Then \eqn{Y}{Y} follows a weighted sum of chis distribution.
 }
 \note{
 The PDF, CDF, and quantile function are approximated, via
@@ -72,10 +75,11 @@ You are warned.
 \examples{
 wts <- c(1,-3,4)
 df <- c(100,20,10)
-rvs <- rsumchi(128, wts, df)
-dvs <- dsumchi(rvs, wts, df)
-qvs <- psumchi(rvs, wts, df)
-pvs <- qsumchi(ppoints(length(rvs)), wts, df)
+ncp <- c(0,2,1)
+rvs <- rsumchi(128, wts, df, ncp)
+dvs <- dsumchi(rvs, wts, df, ncp)
+qvs <- psumchi(rvs, wts, df, ncp)
+pvs <- qsumchi(ppoints(length(rvs)), wts, df, ncp)
 }
 \author{
 Steven E. Pav \email{shabbychef@gmail.com}

@@ -51,9 +51,11 @@ sumchisq.support <- function(wts,df,ncp) {
 #' @details
 #'
 #' Let \eqn{X_i \sim \chi^2\left(\delta_i, \nu_i\right)}{X_i ~ chi^2(delta_i, v_i)}
-#' be independently distributed non-central chi-squares. Let \eqn{a_i} be
-#' given constants. Suppose
-#' \deqn{Y = \sum_i a_i X_i.}{Y = sum a_i X_i.}
+#' be independently distributed non-central chi-squares, where \eqn{\nu_i}{v_i}
+#' are the degrees of freedom, and \eqn{\delta_i}{delta_i} are the
+#' non-centrality parameters.  
+#' Let \eqn{w_i} be given constants. Suppose
+#' \deqn{Y = \sum_i w_i X_i.}{Y = sum w_i X_i.}
 #' Then \eqn{Y}{Y} follows a weighted sum of chi-squares distribution. When
 #' the weights are all one, and the chi-squares are all central, then 
 #' \eqn{Y}{Y} also follows a chi-square distribution.
