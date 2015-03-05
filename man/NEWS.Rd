@@ -5,5 +5,14 @@
 \title{News for package 'sadists'}
 \description{
 History of the 'sadists' package.
+
+\newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
+\newcommand{\sadists}{\CRANpkg{sadists}}
+}
+\section{\sadists{} Initial Version 0.1.0 (2015-03-07) }{
+
+\itemize{
+\item first CRAN release.
+}
 }
 

@@ -112,13 +112,15 @@ dsumchisq <- function(x, wts, df, ncp=0, order.max=6, log = FALSE) {
 #' @export
 psumchisq <- function(q, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE) {
 	kappa <- sumchisq_cumuls(wts,df,ncp,order.max=order.max)
-	retval <- PDQutils::papx_edgeworth(q,kappa,support=sumchisq.support(wts,df,ncp),lower.tail=lower.tail,log.p=log.p)
+	retval <- PDQutils::papx_edgeworth(q,kappa,support=sumchisq.support(wts,df,ncp),
+																		 lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
 qsumchisq <- function(p, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE) {
 	kappa <- sumchisq_cumuls(wts,df,ncp,order.max=order.max)
-	retval <- PDQutils::qapx_cf(p,kappa,support=sumchisq.support(wts,df,ncp),lower.tail=lower.tail,log.p=log.p)
+	retval <- PDQutils::qapx_cf(p,kappa,support=sumchisq.support(wts,df,ncp),
+															lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 

@@ -81,11 +81,11 @@ kprime_cumuls <- function(v1,v2,a,b,order.max=3) {
 #'
 #' @usage
 #'
-#' dkprime(x, v1, v2, a, b = 1, log = FALSE)
+#' dkprime(x, v1, v2, a, b = 1, order.max=6, log = FALSE)
 #'
-#' pkprime(q, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE)
+#' pkprime(q, v1, v2, a, b = 1, order.max=6, lower.tail = TRUE, log.p = FALSE)
 #'
-#' qkprime(p, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE)
+#' qkprime(p, v1, v2, a, b = 1, order.max=6, lower.tail = TRUE, log.p = FALSE)
 #'
 #' rkprime(n, v1, v2, a, b = 1)
 #'
@@ -129,19 +129,19 @@ kprime_cumuls <- function(v1,v2,a,b,order.max=3) {
 #' @rdname dkprime
 #' @name kprime
 #' @export 
-dkprime <- function(x, v1, v2, a, b=1, log = FALSE, order.max=6) {
+dkprime <- function(x, v1, v2, a, b=1, order.max=6, log = FALSE) {
 	kappa <- kprime_cumuls(v1,v2,a,b,order.max=order.max)
 	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
 	return(retval)
 }
 #' @export 
-pkprime <- function(q, v1, v2, a, b=1, lower.tail = TRUE, log.p = FALSE, order.max=6) {
+pkprime <- function(q, v1, v2, a, b=1, order.max=6, lower.tail = TRUE, log.p = FALSE) {
 	kappa <- kprime_cumuls(v1,v2,a,b,order.max=order.max)
 	retval <- PDQutils::papx_edgeworth(q,kappa,lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
-qkprime <- function(p, v1, v2, a, b=1, lower.tail = TRUE, log.p = FALSE, order.max=6) {
+qkprime <- function(p, v1, v2, a, b=1, order.max=6, lower.tail = TRUE, log.p = FALSE) {
 	kappa <- kprime_cumuls(v1,v2,a,b,order.max=order.max)
 	retval <- PDQutils::qapx_cf(p,kappa,lower.tail=lower.tail,log.p=log.p)
 	return(retval)

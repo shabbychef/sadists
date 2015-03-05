@@ -8,11 +8,11 @@
 \alias{rkprime}
 \title{The K prime distribution.}
 \usage{
-dkprime(x, v1, v2, a, b = 1, log = FALSE)
+dkprime(x, v1, v2, a, b = 1, order.max=6, log = FALSE)
 
-pkprime(q, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE)
+pkprime(q, v1, v2, a, b = 1, order.max=6, lower.tail = TRUE, log.p = FALSE)
 
-qkprime(p, v1, v2, a, b = 1, lower.tail = TRUE, log.p = FALSE)
+qkprime(p, v1, v2, a, b = 1, order.max=6, lower.tail = TRUE, log.p = FALSE)
 
 rkprime(n, v1, v2, a, b = 1)
 }
@@ -36,12 +36,12 @@ This is not recycled against the \code{x,q,p,n}.}
 \item{b}{the scaling parameter.
 This is not recycled against the \code{x,q,p,n}.}
 
-\item{log}{logical; if TRUE, densities \eqn{f} are given
-as \eqn{\mbox{log}(f)}{log(f)}.}
-
 \item{order.max}{the order to use in the approximate density,
 distribution, and quantile computations, via the Gram-Charlier,
 Edeworth, or Cornish-Fisher expansion.}
+
+\item{log}{logical; if TRUE, densities \eqn{f} are given
+as \eqn{\mbox{log}(f)}{log(f)}.}
 
 \item{p}{vector of probabilities.}
 

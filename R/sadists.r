@@ -23,7 +23,8 @@
 
 #' Some Additional Distributions.
 #'
-#' A collection of distributions not apparently available in R.
+#' A collection of distributions which can be approximated via
+#' Edgeworth and Cornish-Fisher expansions
 #' 
 #' @section Doubly Noncentral t:
 #'
@@ -101,15 +102,19 @@
 #' distribution; when \eqn{\nu_2=\infty}{v2=inf}, we recover a 
 #' Lambda prime distribution.
 #'
-#' @section K Square:
+#' @section Sum of (non-central) chi-square to powers:
 #'
-#' Introduced by Lecoutre, the K square family of distributions generalize
-#' the (singly) non-central F, and lambda square distributions.
-#' Suppose \eqn{y \sim \chi^2\left(q\right)}{y ~ x^2(q)}, and
-#' \eqn{x \sim F \left(m, r, a^2 y/q\right)}{x ~ F(m, r, a^2 y / q)}.
-#' Then the random variable \eqn{x}{x}
-#' takes a K square distribution with parameters m, q, r, a.
-#' ... 2FIX
+#' Let \eqn{X_i \sim \chi^2\left(\delta_i, \nu_i\right)}{X_i ~ chi^2(delta_i, v_i)}
+#' be independently distributed non-central chi-squares, where \eqn{\nu_i}{v_i}
+#' are the degrees of freedom, and \eqn{\delta_i}{delta_i} are the
+#' non-centrality parameters.  
+#' Let \eqn{w_i} and \eqn{p_i} be given constants. Suppose
+#' \deqn{Y = \sum_i w_i X_i^{p_i}.}{Y = sum w_i (X_i)^(p_i).}
+#' Then \eqn{Y}{Y} follows a weighted sum of chi-squares to power distribution. 
+#' The special case where all the \eqn{p_i}{p_i} are one is a 'sum of
+#' chi-squares' distribution; 
+#' The special case where all the \eqn{p_i}{p_i} are one half is a 'sum of
+#' chis' distribution; 
 #'
 #' @section Legal Mumbo Jumbo:
 #'
@@ -123,7 +128,7 @@
 #' @template ref-kprime
 #' @template ref-Walck
 #'
-#' @import hypergeo PDQutils
+#' @import hypergeo PDQutils orthopolynom
 #'
 #' @note 
 #' This package is maintained as a hobby. 
@@ -141,18 +146,18 @@ NULL
 #' 
 #' History of the 'sadists' package.
 #'
+#' \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
+#' \newcommand{\sadists}{\CRANpkg{sadists}}
+#'
+#' @section \sadists{} Initial Version 0.1.0 (2015-03-07) :
+#' \itemize{
+#' \item first CRAN release.
+#' }
 #'
 #' @name sadists-NEWS
 #' @rdname NEWS
 NULL
 
-# \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
-# \newcommand{\sadists}{\CRANpkg{sadists}}
-#
-# @section \sadists{} Initial Version 0.1.0 (2015-03-15) :
-# \itemize{
-# \item first CRAN release.
-# }
 
 #for vim modeline: (do not edit)
 # vim:fdm=marker:fmr=FOLDUP,UNFOLD:cms=#%s:syn=r:ft=r

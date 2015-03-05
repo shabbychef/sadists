@@ -31,6 +31,12 @@ sumchi_cumuls <- function(wts,df,ncp=0,order.max=3) {
 	kappa <- Reduce('+', subkappa)
 	return(kappa)
 }
+sumchi.support <- function(wts,df,ncp) {
+	minv <- ifelse(min(wts) < 0,-Inf,0)
+	maxv <- ifelse(max(wts) > 0,Inf,0)
+	retval <- c(minv,maxv)
+	return(retval)
+}
 
 # dsumchi, psumchi, qsumchi, rsumchi#FOLDUP
 #' @title The sum of (non-central) chis distribution.
@@ -96,19 +102,21 @@ sumchi_cumuls <- function(wts,df,ncp=0,order.max=3) {
 #' @export 
 dsumchi <- function(x, wts, df, ncp=0, order.max=6, log = FALSE) {
 	kappa <- sumchi_cumuls(wts,df,ncp,order.max=order.max)
-	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
+	retval <- PDQutils::dapx_edgeworth(x,kappa,support=sumchi.support(wts,df,ncp),log=log)
 	return(retval)
 }
 #' @export
 psumchi <- function(q, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE) {
 	kappa <- sumchi_cumuls(wts,df,ncp,order.max=order.max)
-	retval <- PDQutils::papx_edgeworth(q,kappa,lower.tail=lower.tail,log.p=log.p)
+	retval <- PDQutils::papx_edgeworth(q,kappa,support=sumchi.support(wts,df,ncp),
+																		 lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
 qsumchi <- function(p, wts, df, ncp=0, order.max=6, lower.tail = TRUE, log.p = FALSE) {
 	kappa <- sumchi_cumuls(wts,df,ncp,order.max=order.max)
-	retval <- PDQutils::qapx_cf(p,kappa)
+	retval <- PDQutils::qapx_cf(p,kappa,support=sumchi.support(wts,df,ncp),
+															lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 

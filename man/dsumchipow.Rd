@@ -28,6 +28,9 @@ This is recycled against the \code{wts, ncp, pow}, but not against the \code{x,q
 \item{ncp}{the vector of non-centrality parameters.
 This is recycled against the \code{wts, df, pow}, but not against the \code{x,q,p,n}.}
 
+\item{pow}{the vector of the power parameters.
+This is recycled against the \code{wts, df, ncp}, but not against the \code{x,q,p,n}.}
+
 \item{log}{logical; if TRUE, densities \eqn{f} are given
 as \eqn{\mbox{log}(f)}{log(f)}.}
 
@@ -38,9 +41,6 @@ Edeworth, or Cornish-Fisher expansion.}
 \item{p}{vector of probabilities.}
 
 \item{n}{number of observations.}
-
-\item{ncp}{the vector of the power parameters.
-This is recycled against the \code{wts, df, ncp}, but not against the \code{x,q,p,n}.}
 
 \item{log.p}{logical; if TRUE, probabilities p are given
 as \eqn{\mbox{log}(p)}{log(p)}.}

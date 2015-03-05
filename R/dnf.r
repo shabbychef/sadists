@@ -121,19 +121,19 @@ dnf_cumuls <- function(df1,df2,ncp1,ncp2,order.max=3) {
 #' @export 
 ddnf <- function(x, df1, df2, ncp1, ncp2, log = FALSE, order.max=6) {
 	kappa <- dnf_cumuls(df1,df2,ncp1,ncp2,order.max=order.max)
-	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
+	retval <- PDQutils::dapx_edgeworth(x,kappa,support=c(0,Inf),log=log)
 	return(retval)
 }
 #' @export 
 pdnf <- function(q, df1, df2, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.max=6) {
 	kappa <- dnf_cumuls(df1,df2,ncp1,ncp2,order.max=order.max)
-	retval <- PDQutils::papx_edgeworth(q,kappa,lower.tail=lower.tail,log.p=log.p)
+	retval <- PDQutils::papx_edgeworth(q,kappa,support=c(0,Inf),lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
 qdnf <- function(p, df1, df2, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.max=6) {
 	kappa <- dnf_cumuls(df1,df2,ncp1,ncp2,order.max=order.max)
-	retval <- PDQutils::qapx_cf(p,kappa,lower.tail=lower.tail,log.p=log.p)
+	retval <- PDQutils::qapx_cf(p,kappa,support=c(0,Inf),lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 

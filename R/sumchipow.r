@@ -77,7 +77,7 @@ sumchipow.support <- function(wts,df,ncp,pow) {
 #' This is recycled against the \code{wts, ncp, pow}, but not against the \code{x,q,p,n}.
 #' @param ncp the vector of non-centrality parameters. 
 #' This is recycled against the \code{wts, df, pow}, but not against the \code{x,q,p,n}.
-#' @param ncp the vector of the power parameters. 
+#' @param pow the vector of the power parameters. 
 #' This is recycled against the \code{wts, df, ncp}, but not against the \code{x,q,p,n}.
 #'
 #' @template distribution
@@ -115,13 +115,15 @@ dsumchipow <- function(x, wts, df, ncp=0, pow=1, log = FALSE, order.max=6) {
 #' @export
 psumchipow <- function(q, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=6) {
 	kappa <- sumchipow_cumuls(wts,df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::papx_edgeworth(q,kappa,support=sumchipow.support(wts,df,ncp,pow),lower.tail=lower.tail,log.p=log.p)
+	retval <- PDQutils::papx_edgeworth(q,kappa,support=sumchipow.support(wts,df,ncp,pow),
+																		 lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
 qsumchipow <- function(p, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=6) {
 	kappa <- sumchipow_cumuls(wts,df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::qapx_cf(p,kappa,support=sumchipow.support(wts,df,ncp,pow),lower.tail=lower.tail,log.p=log.p)
+	retval <- PDQutils::qapx_cf(p,kappa,support=sumchipow.support(wts,df,ncp,pow),
+															lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 

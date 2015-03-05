@@ -17,10 +17,12 @@ Description: Density, distribution, quantile and generation functions of some ob
     the (weighted) sum of non-central chis; the (weighted) sum of non-central chi-squares to a power;
 Depends: 
     R (>= 3.0.2),
-    PDQutils (>= 0.1.0),
+    PDQutils (>= 0.1.1),
     hypergeo,
     orthopolynom
 Imports:
+    PDQutils,
+    hypergeo,
 		orthopolynom
 Suggests: 
     testthat, 
