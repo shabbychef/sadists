@@ -21,18 +21,9 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-#' Some Auxiliary Distributions.
+#' Some Additional Distributions.
 #'
 #' A collection of distributions not apparently available in R.
-#'
-#' @section Non-central chi:
-#'
-#' The non-central chi distribution is the square root of the 
-#' non-central chi-square distribution. 
-#' 
-#' @section Nakagami:
-#'
-#' The Nakagami distribution is a rescaled central chi distribution.
 #' 
 #' @section Doubly Noncentral t:
 #'
@@ -74,18 +65,18 @@
 #' variable on a non-central t because 
 #' \deqn{t = \frac{Z' + T}{\sqrt{y/\nu}}}{t = (Z' + T)/sqrt(y/v)}
 #'
-#' @section Multiple Lambda Prime:
+#' @section Upsilon:
 #'
-#' A multiple lambda prime generalizes the lambda prime to the
+#' The upsilon distribution generalizes the lambda prime to the
 #' case of the sum of multiple chi variables. That is,
 #' suppose \eqn{y_i \sim \chi^2\left(\nu_i\right)}{y_i ~ x^2(v_i)}
 #' independently and independently of \eqn{Z}{Z}, a standard normal. 
 #' Then 
 #' \deqn{T = Z + \sum_i t_i \sqrt{y_i/\nu_i}}{T = Z + sum_i t_i sqrt(y_i/v_i)}
-#' takes a multiple lambda prime distribution with parameter vectors
+#' takes an upsilon distribution with parameter vectors
 #' \eqn{[\nu_1, \nu_2, \ldots, \nu_k]', [t_1, t_2, ..., t_k]'}{<v_1, v_2, ..., v_k>, <t_1, t_2, ..., t_k>}.
 #'
-#' The multiple lambda prime distribution is used in certain tests of
+#' The upsilon distribution is used in certain tests of
 #' the Sharpe ratio for independent observations.
 #'
 #' @section K Prime:
@@ -140,7 +131,7 @@
 #' @name sadists
 #' @rdname sadists
 #' @docType package
-#' @title Some Auxiliary Distributions
+#' @title Some Additional Distributions
 #' @keywords package
 NULL
 
@@ -158,7 +149,7 @@ NULL
 # \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 # \newcommand{\sadists}{\CRANpkg{sadists}}
 #
-# @section \sadists{} Initial Version 0.1.0 (2015-02-20) :
+# @section \sadists{} Initial Version 0.1.0 (2015-03-15) :
 # \itemize{
 # \item first CRAN release.
 # }

@@ -34,61 +34,12 @@ First some functions to test the 'dpqr' functions:
 
 ```r
 require(ggplot2)
-# from:
-# http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
-# Multiple plot function ggplot objects can be
-# passed in ..., or to plotlist (as a list of
-# ggplot objects) - cols: Number of columns in
-# layout - layout: A matrix specifying the layout.
-# If present, 'cols' is ignored.  If the layout is
-# something like matrix(c(1,2,3,3), nrow=2,
-# byrow=TRUE), then plot 1 will go in the upper
-# left, 2 will go in the upper right, and 3 will go
-# all the way across the bottom.
-multiplot <- function(..., plotlist = NULL, file, cols = 1, 
-    layout = NULL) {
-    require(grid)
-    
-    # Make a list from the ... arguments and plotlist
-    plots <- c(list(...), plotlist)
-    
-    numPlots = length(plots)
-    
-    # If layout is NULL, then use 'cols' to determine
-    # layout
-    if (is.null(layout)) {
-        # Make the panel ncol: Number of columns of plots
-        # nrow: Number of rows needed, calculated from # of
-        # cols
-        layout <- matrix(seq(1, cols * ceiling(numPlots/cols)), 
-            ncol = cols, nrow = ceiling(numPlots/cols))
-    }
-    
-    if (numPlots == 1) {
-        print(plots[[1]])
-        
-    } else {
-        # Set up the page
-        grid.newpage()
-        pushViewport(viewport(layout = grid.layout(nrow(layout), 
-            ncol(layout))))
-        
-        # Make each plot, in the correct location
-        for (i in 1:numPlots) {
-            # Get the i,j matrix positions of the regions that
-            # contain this subplot
-            matchidx <- as.data.frame(which(layout == 
-                i, arr.ind = TRUE))
-            
-            print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row, 
-                layout.pos.col = matchidx$col))
-        }
-    }
-}
+require(grid)
 testf <- function(dpqr, nobs, ...) {
-    rv <- dpqr$r(nobs, ...)
+    rv <- sort(dpqr$r(nobs, ...))
     data <- data.frame(draws = rv, pvals = dpqr$p(rv, 
         ...))
+    text.size <- 6  # sigh
     
     # http://stackoverflow.com/a/5688125/164611
     p1 <- qplot(rv, geom = "blank") + geom_line(aes(y = ..density.., 
@@ -97,18 +48,28 @@ testf <- function(dpqr, nobs, ...) {
             dpqr$d(x, ...)
         }, aes(colour = "Theoretical")) + geom_histogram(aes(y = ..density..), 
         alpha = 0.3) + scale_colour_manual(name = "Density", 
-        values = c("red", "blue")) + labs(title = "Density (tests dfunc)")
+        values = c("red", "blue")) + theme(text = element_text(size = text.size)) + 
+        labs(title = "Density (tests dfunc)")
     
     # Q-Q plot
     p2 <- ggplot(data, aes(sample = draws)) + stat_qq(dist = function(p) {
         dpqr$q(p, ...)
-    }) + labs(title = "Q-Q plot (tests qfunc)")
+    }) + geom_abline(slope = 1, intercept = 0, colour = "red") + 
+        theme(text = element_text(size = text.size)) + 
+        labs(title = "Q-Q plot (tests qfunc)")
     
     # empirical CDF of the p-values; should be uniform
     p3 <- ggplot(data, aes(sample = pvals)) + stat_qq(dist = qunif) + 
+        geom_abline(slope = 1, intercept = 0, colour = "red") + 
+        theme(text = element_text(size = text.size)) + 
         labs(title = "P-P plot (tests pfunc)")
     
-    multiplot(p1, p2, p3, cols = 1)
+    # Define grid layout to locate plots and print each
+    # graph
+    pushViewport(viewport(layout = grid.layout(2, 2)))
+    print(p1, vp = viewport(layout.pos.row = 1, layout.pos.col = 1:2))
+    print(p2, vp = viewport(layout.pos.row = 2, layout.pos.col = 1))
+    print(p3, vp = viewport(layout.pos.row = 2, layout.pos.col = 2))
 }
 ```
 
@@ -128,7 +89,7 @@ testf(list(d = dsumchisq, p = psumchisq, q = qsumchisq,
     r = rsumchisq), nobs = 2^14, wts, df, ncp)
 ```
 
-<img src="github_extra/figure/sumchisq-1.png" title="plot of chunk sumchisq" alt="plot of chunk sumchisq" width="700px" height="1100px" />
+<img src="github_extra/figure/sumchisq-1.png" title="plot of chunk sumchisq" alt="plot of chunk sumchisq" width="700px" height="600px" />
 
 ## Sum of (non-central) Chi 
 
@@ -145,7 +106,7 @@ testf(list(d = dsumchi, p = psumchi, q = qsumchi, r = rsumchi),
     nobs = 2^14, wts, df, ncp)
 ```
 
-<img src="github_extra/figure/sumchi-1.png" title="plot of chunk sumchi" alt="plot of chunk sumchi" width="700px" height="1100px" />
+<img src="github_extra/figure/sumchi-1.png" title="plot of chunk sumchi" alt="plot of chunk sumchi" width="700px" height="600px" />
 
 ## Sum of (non-central) Chisquare to power
 
@@ -163,7 +124,7 @@ testf(list(d = dsumchipow, p = psumchipow, q = qsumchipow,
     r = rsumchipow), nobs = 2^14, wts, df, ncp, pow)
 ```
 
-<img src="github_extra/figure/sumchipow-1.png" title="plot of chunk sumchipow" alt="plot of chunk sumchipow" width="700px" height="1100px" />
+<img src="github_extra/figure/sumchipow-1.png" title="plot of chunk sumchipow" alt="plot of chunk sumchipow" width="700px" height="600px" />
 
 ## K-prime distribution
 
@@ -182,7 +143,7 @@ testf(list(d = dkprime, p = pkprime, q = qkprime, r = rkprime),
     nobs = 2^14, v1, v2, a, b)
 ```
 
-<img src="github_extra/figure/kprime-1.png" title="plot of chunk kprime" alt="plot of chunk kprime" width="700px" height="1100px" />
+<img src="github_extra/figure/kprime-1.png" title="plot of chunk kprime" alt="plot of chunk kprime" width="700px" height="600px" />
 
 ## Lambda prime distribution
 
@@ -198,7 +159,7 @@ testf(list(d = dlambdap, p = plambdap, q = qlambdap,
     r = rlambdap), nobs = 2^14, df, ts)
 ```
 
-<img src="github_extra/figure/lambdap-1.png" title="plot of chunk lambdap" alt="plot of chunk lambdap" width="700px" height="1100px" />
+<img src="github_extra/figure/lambdap-1.png" title="plot of chunk lambdap" alt="plot of chunk lambdap" width="700px" height="600px" />
 
 ## Upsilon distribution
 
@@ -214,22 +175,7 @@ testf(list(d = dupsilon, p = pupsilon, q = qupsilon,
     r = rupsilon), nobs = 2^14, df, ts)
 ```
 
-<img src="github_extra/figure/upsilon-1.png" title="plot of chunk upsilon" alt="plot of chunk upsilon" width="700px" height="1100px" />
-
-## Nakagami distribution
-
-The Nakagami distribution is merely a re-scaled central chi distribution.
-
-
-```r
-require(sadists)
-m <- 120
-Omega <- 4
-testf(list(d = dnakagami, p = pnakagami, q = qnakagami, 
-    r = rnakagami), nobs = 2^14, m, Omega)
-```
-
-<img src="github_extra/figure/nakagami-1.png" title="plot of chunk nakagami" alt="plot of chunk nakagami" width="700px" height="1100px" />
+<img src="github_extra/figure/upsilon-1.png" title="plot of chunk upsilon" alt="plot of chunk upsilon" width="700px" height="600px" />
 
 ## Doubly non-central t distribution
 
@@ -246,7 +192,7 @@ testf(list(d = ddnt, p = pdnt, q = qdnt, r = rdnt),
     nobs = 2^14, df, ncp1, ncp2)
 ```
 
-<img src="github_extra/figure/dnt-1.png" title="plot of chunk dnt" alt="plot of chunk dnt" width="700px" height="1100px" />
+<img src="github_extra/figure/dnt-1.png" title="plot of chunk dnt" alt="plot of chunk dnt" width="700px" height="600px" />
 
 ## Doubly non-central F distribution
 
@@ -264,4 +210,4 @@ testf(list(d = ddnf, p = pdnf, q = qdnf, r = rdnf),
     nobs = 2^14, df1, df2, ncp1, ncp2)
 ```
 
-<img src="github_extra/figure/dnf-1.png" title="plot of chunk dnf" alt="plot of chunk dnf" width="700px" height="1100px" />
+<img src="github_extra/figure/dnf-1.png" title="plot of chunk dnf" alt="plot of chunk dnf" width="700px" height="600px" />

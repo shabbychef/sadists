@@ -13,7 +13,7 @@ opts_chunk$set(cache=TRUE,cache.path="cache/")
 #opts_chunk$set(fig.path="github_extra/figure/",dev=c("png","pdf"))
 opts_chunk$set(fig.path="github_extra/figure/",dev=c("png"))
 #opts_chunk$set(fig.width=5,fig.height=4,dpi=64)
-opts_chunk$set(fig.width=7,fig.height=11,dpi=150,out.width='700px',out.height='1100px')
+opts_chunk$set(fig.width=7,fig.height=6,dpi=150,out.width='700px',out.height='600px')
 
 opts_chunk$set(eval=TRUE,echo=TRUE)
 
@@ -67,55 +67,11 @@ First some functions to test the 'dpqr' functions:
 
 ```{r dpqr}
 require(ggplot2)
-# from: http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/
-# Multiple plot function
-#
-# ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)
-# - cols:   Number of columns in layout
-# - layout: A matrix specifying the layout. If present, 'cols' is ignored.
-#
-# If the layout is something like matrix(c(1,2,3,3), nrow=2, byrow=TRUE),
-# then plot 1 will go in the upper left, 2 will go in the upper right, and
-# 3 will go all the way across the bottom.
-#
-multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  require(grid)
-
-  # Make a list from the ... arguments and plotlist
-  plots <- c(list(...), plotlist)
-
-  numPlots = length(plots)
-
-  # If layout is NULL, then use 'cols' to determine layout
-  if (is.null(layout)) {
-    # Make the panel
-    # ncol: Number of columns of plots
-    # nrow: Number of rows needed, calculated from # of cols
-    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
-                    ncol = cols, nrow = ceiling(numPlots/cols))
-  }
-
- if (numPlots==1) {
-    print(plots[[1]])
-
-  } else {
-    # Set up the page
-    grid.newpage()
-    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
-
-    # Make each plot, in the correct location
-    for (i in 1:numPlots) {
-      # Get the i,j matrix positions of the regions that contain this subplot
-      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-
-      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
-                                      layout.pos.col = matchidx$col))
-    }
-  }
-}
+require(grid)
 testf <- function(dpqr,nobs,...) {
-	rv <- dpqr$r(nobs,...)
+	rv <- sort(dpqr$r(nobs,...))
 	data <- data.frame(draws=rv,pvals=dpqr$p(rv,...))
+	text.size <- 6   # sigh
 
 	# http://stackoverflow.com/a/5688125/164611
 	p1 <- qplot(rv, geom = 'blank') +   
@@ -123,17 +79,26 @@ testf <- function(dpqr,nobs,...) {
 		stat_function(fun = function(x) { dpqr$d(x,...) }, aes(colour = 'Theoretical')) +                       
 		geom_histogram(aes(y = ..density..), alpha = 0.3) +                        
 		scale_colour_manual(name = 'Density', values = c('red', 'blue')) +
+		theme(text=element_text(size=text.size)) + 
 		labs(title="Density (tests dfunc)")
 
 	# Q-Q plot
 	p2 <- ggplot(data, aes(sample = draws)) + stat_qq(dist=function(p) { dpqr$q(p,...) }) +
+		geom_abline(slope=1,intercept=0,colour='red') + 
+		theme(text=element_text(size=text.size)) + 
 		labs(title="Q-Q plot (tests qfunc)")
 
 	# empirical CDF of the p-values; should be uniform
 	p3 <- ggplot(data, aes(sample = pvals)) + stat_qq(dist=qunif) + 
+		geom_abline(slope=1,intercept=0,colour='red') + 
+		theme(text=element_text(size=text.size)) + 
 		labs(title="P-P plot (tests pfunc)")
 
-	multiplot(p1,p2,p3,cols=1)
+	# Define grid layout to locate plots and print each graph
+	pushViewport(viewport(layout = grid.layout(2, 2)))
+	print(p1, vp = viewport(layout.pos.row = 1, layout.pos.col = 1:2))
+	print(p2, vp = viewport(layout.pos.row = 2, layout.pos.col = 1))
+	print(p3, vp = viewport(layout.pos.row = 2, layout.pos.col = 2))
 }
 ```
 
@@ -215,17 +180,6 @@ require(sadists)
 df <- c(30,50,100,20,10)
 ts <- c(-3,2,5,-4,1)
 testf(list(d=dupsilon,p=pupsilon,q=qupsilon,r=rupsilon),nobs=2^14,df,ts)
-```
-
-## Nakagami distribution
-
-The Nakagami distribution is merely a re-scaled central chi distribution.
-
-```{r nakagami}
-require(sadists)
-m <- 120
-Omega <- 4
-testf(list(d=dnakagami,p=pnakagami,q=qnakagami,r=rnakagami),nobs=2^14,m,Omega)
 ```
 
 ## Doubly non-central t distribution
