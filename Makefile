@@ -30,9 +30,9 @@ GS_QUALITY 				?= 'ebook'
 M4_FILES					?= $(wildcard m4/*.m4)
 
 VMAJOR 						 = 0
-VMINOR 						 = 0
+VMINOR 						 = 1
 VPATCH  					 = 0
-VDEV 							 = .9600
+VDEV 							 = 
 VERSION 					 = $(VMAJOR).$(VMINOR).$(VPATCH)$(VDEV)
 TODAY 						:= $(shell date +%Y-%m-%d)
 
@@ -503,6 +503,11 @@ clean : texclean
 	-rm -rf $(RCHECK)
 	-rm -rf $(PKG_NAME).tex
 	-rm -rf $(PKG_NAME).pdf
+
+readmeclean : 
+	-rm -rf README.md
+	-rm -rf ./nodist/cache ./nodist/github_extra/figure/*.png
+	-rm -rf ./github_extra/figure/*png 
 
 realclean : clean
 	-rm -rf $(LOCAL)

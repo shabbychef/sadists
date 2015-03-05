@@ -60,7 +60,7 @@ Suppose \eqn{y \sim \chi^2\left(\nu\right)}{y ~ x^2(v)}, and
 takes a lambda prime distribution with parameters
 \eqn{\nu, t}{v, t}.
 A lambda prime random variable can be viewed as a confidence
-variable on a non-central t because
+level on a non-central t because
 \deqn{t = \frac{Z' + T}{\sqrt{y/\nu}}}{t = (Z' + T)/sqrt(y/v)}
 }
 \note{
@@ -96,6 +96,7 @@ Journal of Statistical Planning and Inference 79  (1999): 93--105.
 \seealso{
 t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
 K prime distribution functions, \code{\link{dkprime}, \link{pkprime}, \link{qkprime}, \link{rkprime}},
+upsilon distribution functions, \code{\link{dupsilon}, \link{pupsilon}, \link{qupsilon}, \link{rupsilon}},
 }
 \keyword{distribution}
 

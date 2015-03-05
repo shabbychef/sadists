@@ -29,7 +29,8 @@
 # where the chi^2 are independent chi-square
 # independent of Z
 upsilon_cumuls <- function(df,t,order.max=3) {
-	kappa <- norm_cumuls(0,1,order.max) + sumchi_cumuls(wts=t,df=df,order.max=order.max)
+	kappa <- norm_cumuls(0,1,order.max) + 
+		sumchisqpow_cumuls(wts=t/sqrt(df),df=df,ncp=0,pow=0.5,order.max=order.max)
 	return(kappa)
 }
 
@@ -83,8 +84,8 @@ upsilon_cumuls <- function(df,t,order.max=3) {
 #' @aliases dupsilon pupsilon qupsilon rupsilon
 #' @seealso lambda-prime distribution functions, 
 #' \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
-#' Sum of chis distribution functions,
-#' \code{\link{dsumchi}, \link{psumchi}, \link{qsumchi}, \link{rsumchi}}.
+#' Sum of chi-squares to power distribution functions,
+#' \code{\link{dsumchisqpow}, \link{psumchisqpow}, \link{qsumchisqpow}, \link{rsumchisqpow}}.
 #' @template etc
 #' @template distribution
 #' @template apx_distribution
@@ -129,7 +130,7 @@ qupsilon <- function(p, df, t, lower.tail = TRUE, log.p = FALSE, order.max=6) {
 }
 #' @export 
 rupsilon <- function(n, df, t) {
-	X <- rnorm(n) + rsumchi(n, wts=t, df=df) 
+	X <- rnorm(n) + rsumchisqpow(n, wts=t/sqrt(df), df=df, ncp=0, pow=0.5) 
 	return(X)
 }
 #UNFOLD

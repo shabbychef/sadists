@@ -22,9 +22,9 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-# compute the cumulants of the sumchipow
+# compute the cumulants of the sumchisqpow
 # distribution. 
-sumchipow_cumuls <- function(wts,df,ncp,pow,order.max=3) {
+sumchisqpow_cumuls <- function(wts,df,ncp=0,pow=1,order.max=3) {
 	#nterms <- max(vapply(list(wts,df,ncp),length,0))
 	subkappa <- mapply(function(w,dd,nn,pp) 
 										 { (w ^ (1:order.max)) * chipow_cumuls(df=dd,ncp=nn,pow=pp,order.max=order.max) },
@@ -32,14 +32,14 @@ sumchipow_cumuls <- function(wts,df,ncp,pow,order.max=3) {
 	kappa <- Reduce('+', subkappa)
 	return(kappa)
 }
-sumchipow.support <- function(wts,df,ncp,pow) {
+sumchisqpow_support <- function(wts,df,ncp=0,pow=1) {
 	minv <- ifelse(min(wts) < 0,-Inf,0)
 	maxv <- ifelse(max(wts) > 0,Inf,0)
 	retval <- c(minv,maxv)
 	return(retval)
 }
 
-# dsumchipow, psumchipow, qsumchipow, rsumchipow#FOLDUP
+# dsumchisqpow, psumchisqpow, qsumchisqpow, rsumchisqpow#FOLDUP
 #' @title The sum of (non-central) chi-squares raised to powers distribution.
 #'
 #' @description 
@@ -60,13 +60,13 @@ sumchipow.support <- function(wts,df,ncp,pow) {
 #'
 #' @usage
 #'
-#' dsumchipow(x, wts, df, ncp=0, pow=1, log = FALSE, order.max=6)
+#' dsumchisqpow(x, wts, df, ncp=0, pow=1, log = FALSE, order.max=6)
 #'
-#' psumchipow(q, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=6)
+#' psumchisqpow(q, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=6)
 #'
-#' qsumchipow(p, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=6)
+#' qsumchisqpow(p, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=6)
 #'
-#' rsumchipow(n, wts, df, ncp=0, pow=1)
+#' rsumchisqpow(n, wts, df, ncp=0, pow=1)
 #'
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
@@ -84,50 +84,49 @@ sumchipow.support <- function(wts,df,ncp,pow) {
 #' @template apx_distribution
 #' @template not-recycled
 #'
-#' @return \code{dsumchipow} gives the density, \code{psumchipow} gives the 
-#' distribution function, \code{qsumchipow} gives the quantile function, 
-#' and \code{rsumchipow} generates random deviates.
+#' @return \code{dsumchisqpow} gives the density, \code{psumchisqpow} gives the 
+#' distribution function, \code{qsumchisqpow} gives the quantile function, 
+#' and \code{rsumchisqpow} generates random deviates.
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
-#' @aliases dsumchipow psumchipow qsumchipow rsumchipow
+#' @aliases dsumchisqpow psumchisqpow qsumchisqpow rsumchisqpow
 #' @seealso 
-#' The special cases of the sum chi-square distribution
-#' \code{\link{dsumchisq}}, and the
-#' sum chi distribution \code{\link{dsumchi}}.
+#' The upsilon distribution, 
+#' \code{\link{dupsilon},\link{pupsilon},\link{qupsilon},\link{rupsilon}}.
 #' @template etc
 #' @examples 
 #' wts <- c(1,-3,4)
 #' df <- c(100,20,10)
 #' ncp <- c(5,3,1)
 #' pow <- c(1,0.5,1)
-#' rvs <- rsumchipow(128, wts, df, ncp, pow)
-#' dvs <- dsumchipow(rvs, wts, df, ncp, pow)
-#' qvs <- psumchipow(rvs, wts, df, ncp, pow)
-#' pvs <- qsumchipow(ppoints(length(rvs)), wts, df, ncp, pow)
-#' @rdname dsumchipow
-#' @name sumchipow
+#' rvs <- rsumchisqpow(128, wts, df, ncp, pow)
+#' dvs <- dsumchisqpow(rvs, wts, df, ncp, pow)
+#' qvs <- psumchisqpow(rvs, wts, df, ncp, pow)
+#' pvs <- qsumchisqpow(ppoints(length(rvs)), wts, df, ncp, pow)
+#' @rdname dsumchisqpow
+#' @name sumchisqpow
 #' @export 
-dsumchipow <- function(x, wts, df, ncp=0, pow=1, log = FALSE, order.max=6) {
-	kappa <- sumchipow_cumuls(wts,df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::dapx_edgeworth(x,kappa,support=sumchipow.support(wts,df,ncp,pow),log=log)
+dsumchisqpow <- function(x, wts, df, ncp=0, pow=1, log = FALSE, order.max=6) {
+	kappa <- sumchisqpow_cumuls(wts,df,ncp,pow,order.max=order.max)
+	retval <- PDQutils::dapx_edgeworth(x,kappa,support=sumchisqpow_support(wts,df,ncp,pow),log=log)
 	return(retval)
 }
 #' @export
-psumchipow <- function(q, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=6) {
-	kappa <- sumchipow_cumuls(wts,df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::papx_edgeworth(q,kappa,support=sumchipow.support(wts,df,ncp,pow),
+psumchisqpow <- function(q, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=6) {
+	kappa <- sumchisqpow_cumuls(wts,df,ncp,pow,order.max=order.max)
+	retval <- PDQutils::papx_edgeworth(q,kappa,support=sumchisqpow_support(wts,df,ncp,pow),
 																		 lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
-qsumchipow <- function(p, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=6) {
-	kappa <- sumchipow_cumuls(wts,df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::qapx_cf(p,kappa,support=sumchipow.support(wts,df,ncp,pow),
+qsumchisqpow <- function(p, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=6) {
+	kappa <- sumchisqpow_cumuls(wts,df,ncp,pow,order.max=order.max)
+	retval <- PDQutils::qapx_cf(p,kappa,support=sumchisqpow_support(wts,df,ncp,pow),
 															lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
-rsumchipow <- function(n, wts, df, ncp=0, pow=1) {
+rsumchisqpow <- function(n, wts, df, ncp=0, pow=1) {
 	subX <- mapply(function(w,dd,nn,pp) { w * (rchisq(n,df=dd,ncp=nn) ^ pp) },
 										 wts,df,ncp,pow,SIMPLIFY=FALSE)
 	X <- Reduce('+', subX)

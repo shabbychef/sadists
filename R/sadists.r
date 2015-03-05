@@ -26,31 +26,19 @@
 #' A collection of distributions which can be approximated via
 #' Edgeworth and Cornish-Fisher expansions
 #' 
-#' @section Doubly Noncentral t:
+#' @section Sum of (non-central) chi-square to powers:
 #'
-#' The doubly noncentral t distribution generalizes the (singly)
-#' noncentral t distribution to the case where the numerator is
-#' the square root of a scaled noncentral chi-square distribution.
-#' That is, if 
-#' \eqn{X \sim \mathcal{N}\left(\mu,1\right)}{X ~ N(u,1)} independently
-#' of \eqn{Y \sim \chi^2\left(k,\theta\right)}{Y ~ x^2(k,theta)}, then
-#' the random variable
-#' \deqn{T = \frac{X}{\sqrt{Y/k}}}{T = X / sqrt(Y/k)}
-#' takes a doubly non-central t distribution with parameters
-#' \eqn{k, \mu, \theta}{k, mu, theta}.
-#'
-#' @section Doubly Noncentral F:
-#'
-#' The doubly noncentral F distribution generalizes the (singly)
-#' noncentral F distribution to the case where the numerator is
-#' a scaled noncentral chi-square distribution.
-#' That is, if 
-#' \eqn{X \sim \chi^2\left(n_1,\theta_1\right)}{X ~ x^2(n1,theta1)} independently 
-#' of \eqn{Y \sim \chi^2\left(n_2,\theta_2\right)}{Y ~ x^2(n2,theta2)}, then
-#' the random variable
-#' \deqn{T = \frac{X / n_1}{Y / n_2}}{T = (X/n1) / (Y/n2)}
-#' takes a doubly non-central F distribution with parameters
-#' \eqn{n_1, n_2, \theta_1, \theta_2}{n1, n2, theta1, theta2}. 
+#' Let \eqn{X_i \sim \chi^2\left(\delta_i, \nu_i\right)}{X_i ~ chi^2(delta_i, v_i)}
+#' be independently distributed non-central chi-squares, where \eqn{\nu_i}{v_i}
+#' are the degrees of freedom, and \eqn{\delta_i}{delta_i} are the
+#' non-centrality parameters.  
+#' Let \eqn{w_i} and \eqn{p_i} be given constants. Suppose
+#' \deqn{Y = \sum_i w_i X_i^{p_i}.}{Y = sum w_i (X_i)^(p_i).}
+#' Then \eqn{Y}{Y} follows a weighted sum of chi-squares to power distribution. 
+#' The special case where all the \eqn{p_i}{p_i} are one is a 'sum of
+#' chi-squares' distribution; 
+#' The special case where all the \eqn{p_i}{p_i} are one half is a 'sum of
+#' chis' distribution; 
 #'
 #' @section Lambda Prime:
 #'
@@ -65,6 +53,7 @@
 #' A lambda prime random variable can be viewed as a confidence
 #' variable on a non-central t because 
 #' \deqn{t = \frac{Z' + T}{\sqrt{y/\nu}}}{t = (Z' + T)/sqrt(y/v)}
+#'
 #'
 #' @section Upsilon:
 #'
@@ -102,19 +91,41 @@
 #' distribution; when \eqn{\nu_2=\infty}{v2=inf}, we recover a 
 #' Lambda prime distribution.
 #'
-#' @section Sum of (non-central) chi-square to powers:
+#' @section Doubly Noncentral t:
 #'
-#' Let \eqn{X_i \sim \chi^2\left(\delta_i, \nu_i\right)}{X_i ~ chi^2(delta_i, v_i)}
-#' be independently distributed non-central chi-squares, where \eqn{\nu_i}{v_i}
-#' are the degrees of freedom, and \eqn{\delta_i}{delta_i} are the
-#' non-centrality parameters.  
-#' Let \eqn{w_i} and \eqn{p_i} be given constants. Suppose
-#' \deqn{Y = \sum_i w_i X_i^{p_i}.}{Y = sum w_i (X_i)^(p_i).}
-#' Then \eqn{Y}{Y} follows a weighted sum of chi-squares to power distribution. 
-#' The special case where all the \eqn{p_i}{p_i} are one is a 'sum of
-#' chi-squares' distribution; 
-#' The special case where all the \eqn{p_i}{p_i} are one half is a 'sum of
-#' chis' distribution; 
+#' The doubly noncentral t distribution generalizes the (singly)
+#' noncentral t distribution to the case where the numerator is
+#' the square root of a scaled noncentral chi-square distribution.
+#' That is, if 
+#' \eqn{X \sim \mathcal{N}\left(\mu,1\right)}{X ~ N(u,1)} independently
+#' of \eqn{Y \sim \chi^2\left(k,\theta\right)}{Y ~ x^2(k,theta)}, then
+#' the random variable
+#' \deqn{T = \frac{X}{\sqrt{Y/k}}}{T = X / sqrt(Y/k)}
+#' takes a doubly non-central t distribution with parameters
+#' \eqn{k, \mu, \theta}{k, mu, theta}.
+#'
+#' @section Doubly Noncentral F:
+#'
+#' The doubly noncentral F distribution generalizes the (singly)
+#' noncentral F distribution to the case where the numerator is
+#' a scaled noncentral chi-square distribution.
+#' That is, if 
+#' \eqn{X \sim \chi^2\left(n_1,\theta_1\right)}{X ~ x^2(n1,theta1)} independently 
+#' of \eqn{Y \sim \chi^2\left(n_2,\theta_2\right)}{Y ~ x^2(n2,theta2)}, then
+#' the random variable
+#' \deqn{T = \frac{X / n_1}{Y / n_2}}{T = (X/n1) / (Y/n2)}
+#' takes a doubly non-central F distribution with parameters
+#' \eqn{n_1, n_2, \theta_1, \theta_2}{n1, n2, theta1, theta2}. 
+#'
+#' @section Parameter recycling:
+#'
+#' It should be noted that the functions provided by sadists do \emph{not}
+#' recycle their distribution parameters against the 
+#' \code{x, p, q} or \code{n} parameters. This is in contrast to the 
+#' common R idiom, and may cause some confusion. This is mostly for reasons
+#' of performance, but also because some of the distributions have vector-valued
+#' parameters; recycling over these would require the user to provide \emph{lists}
+#' of parameters, which would be unpleasant.
 #'
 #' @section Legal Mumbo Jumbo:
 #'

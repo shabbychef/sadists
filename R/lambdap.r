@@ -28,7 +28,9 @@
 #
 # where the chi^2 is a chi-square independent of Z
 lambdap_cumuls <- function(df,t,order.max=3) {
-	kappa <- norm_cumuls(0,1,order.max) + schi_cumuls(df=df,scal=t,order.max=order.max)
+	# should check that they are scalars here
+	stopifnot(length(df) == 1,length(t) == 1)
+	kappa <- upsilon_cumuls(df,t,order.max)
 	return(kappa)
 }
 # compute the raw moments of the lambda-prime
@@ -58,7 +60,7 @@ lambdap_moms <- function(df,t,order.max=3) {
 #' takes a lambda prime distribution with parameters 
 #' \eqn{\nu, t}{v, t}.
 #' A lambda prime random variable can be viewed as a confidence
-#' variable on a non-central t because 
+#' level on a non-central t because 
 #' \deqn{t = \frac{Z' + T}{\sqrt{y/\nu}}}{t = (Z' + T)/sqrt(y/v)}
 #'
 #' @usage
@@ -87,6 +89,7 @@ lambdap_moms <- function(df,t,order.max=3) {
 #' @aliases dlambdap plambdap qlambdap rlambdap
 #' @seealso t distribution functions, \code{\link{dt}, \link{pt}, \link{qt}, \link{rt}},
 #' K prime distribution functions, \code{\link{dkprime}, \link{pkprime}, \link{qkprime}, \link{rkprime}},
+#' upsilon distribution functions, \code{\link{dupsilon}, \link{pupsilon}, \link{qupsilon}, \link{rupsilon}},
 #' @template etc
 #' @template ref-lambdap
 #' @template distribution

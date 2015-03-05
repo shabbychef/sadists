@@ -114,8 +114,8 @@ Journal of Statistical Planning and Inference 79  (1999): 93--105.
 \seealso{
 lambda-prime distribution functions,
 \code{\link{dlambdap}, \link{plambdap}, \link{qlambdap}, \link{rlambdap}}.
-Sum of chis distribution functions,
-\code{\link{dsumchi}, \link{psumchi}, \link{qsumchi}, \link{rsumchi}}.
+Sum of chi-squares to power distribution functions,
+\code{\link{dsumchisqpow}, \link{psumchisqpow}, \link{qsumchisqpow}, \link{rsumchisqpow}}.
 }
 \keyword{distribution}
 

@@ -73,45 +73,15 @@ testf <- function(dpqr, nobs, ...) {
 }
 ```
 
-## Sum of (non-central) Chi-squares
+## Weighted sum of (non-central) chi-squares to power
 
-The weighted sum of chi-squares is not a commonly seen random variable. However, its cumulants can be
-easily computed, so these can be used to compute the 'PDQ' functions. Moreover, its distribution and quantile
-functions can be used in computation of those of the doubly non-central F.
-
-
-```r
-require(sadists)
-wts <- c(1, -3, 4)
-df <- c(100, 20, 10)
-ncp <- c(5, 3, 1)
-testf(list(d = dsumchisq, p = psumchisq, q = qsumchisq, 
-    r = rsumchisq), nobs = 2^14, wts, df, ncp)
-```
-
-<img src="github_extra/figure/sumchisq-1.png" title="plot of chunk sumchisq" alt="plot of chunk sumchisq" width="700px" height="600px" />
-
-## Sum of (non-central) Chi 
-
-The weighted sum of non-central chis is also not a commonly seen random variable. However, it is one normal shy of
-an Upsilon distribution, which see. 
-
-
-```r
-require(sadists)
-wts <- c(-3, 2, 5, -4, 1)
-df <- c(30, 50, 100, 20, 10)
-ncp <- c(1, 0, 0, 0, 2)
-testf(list(d = dsumchi, p = psumchi, q = qsumchi, r = rsumchi), 
-    nobs = 2^14, wts, df, ncp)
-```
-
-<img src="github_extra/figure/sumchi-1.png" title="plot of chunk sumchi" alt="plot of chunk sumchi" width="700px" height="600px" />
-
-## Sum of (non-central) Chisquare to power
-
-A generalization of the previous two, this is the weighted sum of independent 
+This distribution is the weighted sum of independent 
 non-central chi-square variates taken to some powers.
+The special case where the powers are all one half 
+is related to the upsilon distribution. The 
+special case where the powers are all one could be used
+to compute the distribution of the (doubly non-central)
+F distribution.
 
 
 ```r
@@ -120,11 +90,11 @@ wts <- c(-1, 1, 3, -3)
 df <- c(100, 200, 100, 50)
 ncp <- c(0, 1, 0.5, 2)
 pow <- c(1, 0.5, 2, 1.5)
-testf(list(d = dsumchipow, p = psumchipow, q = qsumchipow, 
-    r = rsumchipow), nobs = 2^14, wts, df, ncp, pow)
+testf(list(d = dsumchisqpow, p = psumchisqpow, q = qsumchisqpow, 
+    r = rsumchisqpow), nobs = 2^14, wts, df, ncp, pow)
 ```
 
-<img src="github_extra/figure/sumchipow-1.png" title="plot of chunk sumchipow" alt="plot of chunk sumchipow" width="700px" height="600px" />
+<img src="github_extra/figure/sumchisqpow-1.png" title="plot of chunk sumchisqpow" alt="plot of chunk sumchisqpow" width="700px" height="600px" />
 
 ## K-prime distribution
 
