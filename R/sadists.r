@@ -157,8 +157,7 @@ NULL
 #' 
 #' History of the 'sadists' package.
 #'
-#' \newcommand{\CRANpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
-#' \newcommand{\sadists}{\CRANpkg{sadists}}
+#' \newcommand{\sadists}{\href{https://github.com/shabbychef/sadists}}
 #'
 #' @section \sadists{} Initial Version 0.1.0 (2015-03-07) :
 #' \itemize{

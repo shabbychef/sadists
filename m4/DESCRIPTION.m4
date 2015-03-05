@@ -11,9 +11,10 @@ Date: DATE()
 License: LGPL-3
 Title: Some Additional Distributions
 BugReports: https://github.com/shabbychef/PKG_NAME()/issues
-Description: Density, distribution, quantile and generation functions of some obscure probability 
-    distributions, including doubly non-central t and F distributions; Lecoutre's lambda-prime and K-prime; 
-    the upsilon distribution; the (weighted) sum of non-central chi-squares to a power; 
+Description: Provides the density, distribution, quantile and generation functions of some obscure probability 
+    distributions, including the doubly non-central t and F distributions; 
+    Lecoutre's lambda-prime and K-prime; the upsilon distribution; the (weighted) sum of 
+    non-central chi-squares to a power.
 Depends: 
     R (>= 3.0.2)
 Imports:

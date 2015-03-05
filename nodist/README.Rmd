@@ -162,7 +162,7 @@ testf(list(d=dupsilon,p=pupsilon,q=qupsilon,r=rupsilon),nobs=2^14,df,ts)
 
 ## Doubly non-central t distribution
 
-The [doubly non-central t distribution](https://en.wikipedia.org/wiki/Doubly_noncentral_t-distribution)
+The [doubly non-central t distribution](http://www.math.wm.edu/~leemis/chart/UDR/PDFs/Doublynoncentralt.pdf)
 generalizes the t distribution to the case where the denominator chi-square is non-central.
 
 ```{r dnt}
