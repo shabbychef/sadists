@@ -2,7 +2,7 @@ Package: sadists
 Maintainer: Steven E. Pav <shabbychef@gmail.com>
 Authors@R: c(person(c("Steven", "E."), "Pav", role=c("aut","cre"),
     email="shabbychef@gmail.com"))
-Version: 0.1.0
+Version: 0.1.0.9000
 Date: 2015-03-05
 License: LGPL-3
 Title: Some Additional Distributions
@@ -16,7 +16,7 @@ Depends:
 Imports:
     PDQutils (>= 0.1.1),
     hypergeo,
-		orthopolynom
+    orthopolynom
 Suggests: 
     testthat, 
     ggplot2, 
@@ -30,6 +30,7 @@ Collate:
     'kprime.r'
     'lambdap.r'
     'moments.r'
+    'prodchisqpow.r'
     'sadists.r'
     'sumchisqpow.r'
     'upsilon.r'

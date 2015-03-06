@@ -36,6 +36,7 @@ First some functions to test the 'dpqr' functions:
 require(ggplot2)
 require(grid)
 testf <- function(dpqr, nobs, ...) {
+    set.seed(3940071)
     rv <- sort(dpqr$r(nobs, ...))
     data <- data.frame(draws = rv, pvals = dpqr$p(rv, 
         ...))
@@ -95,6 +96,23 @@ testf(list(d = dsumchisqpow, p = psumchisqpow, q = qsumchisqpow,
 ```
 
 <img src="github_extra/figure/sumchisqpow-1.png" title="plot of chunk sumchisqpow" alt="plot of chunk sumchisqpow" width="700px" height="600px" />
+
+## Product of (non-central) chi-squares to power
+
+This distribution is the product of independent 
+non-central chi-square variates taken to some powers.
+
+
+```r
+require(sadists)
+df <- c(100, 200, 100, 50)
+ncp <- c(0, 1, 0.5, 2)
+pow <- c(1, 0.5, 2, 1.5)
+testf(list(d = dprodchisqpow, p = pprodchisqpow, q = qprodchisqpow, 
+    r = rprodchisqpow), nobs = 2^14, df, ncp, pow)
+```
+
+<img src="github_extra/figure/prodchisqpow-1.png" title="plot of chunk prodchisqpow" alt="plot of chunk prodchisqpow" width="700px" height="600px" />
 
 ## K-prime distribution
 
