@@ -193,7 +193,7 @@ testf(list(d=ddnf,p=pdnf,q=qdnf,r=rdnf),nobs=2^14,df1,df2,ncp1,ncp2)
 
 The [doubly non-central Beta distribution](http://www.jstor.org/stable/25051626)
 can be viewed as a transformation of the doubly non-central F 
-distribution. We can create DPQR functions for it as follows:
+distribution. 
 
 ```{r dnbeta}
 require(sadists)
@@ -201,20 +201,11 @@ df1 <- 40
 df2 <- 80
 ncp1 <- 1.5
 ncp2 <- 2.5
-ddnbeta <- function(x,df1,df2,ncp1,ncp2,...) {
-	(df2/df1) * ddnf((df2/df1) * x / (1-x),df1,df2,ncp1,ncp2,...) / ((1-x)^2)
-}
-pdnbeta <- function(q,df1,df2,ncp1,ncp2,...) { pdnf((df2/df1) * q/(1-q),df1,df2,ncp1,ncp2,...) }
-qdnbeta <- function(p,df1,df2,ncp1,ncp2,...) { FF <- qdnf(p,df1,df2,ncp1,ncp2,...)
-	GG <- (df1/df2) * FF
-	Q <- GG / (1 + GG)
-}
-rdnbeta <- function(n,df1,df2,ncp1,ncp2) { X1 <- rchisq(n,df1,ncp=ncp1)
-	X2 <- rchisq(n,df2,ncp=ncp2)
-	X <- X1 / (X1 + X2) }
 testf(list(d=ddnbeta,p=pdnbeta,q=qdnbeta,r=rdnbeta),nobs=2^14,df1,df2,ncp1,ncp2)
+rf <- rdnbeta(2^14,df1=df1,df2=df2,ncp1=ncp1,ncp2=ncp2)
+pv <- pdnbeta(rf,df1=df1,df2=df2,ncp1=ncp1,ncp2=ncp2)
+qv <- qdnbeta(ppoints(length(rf)),df1=df1,df2=df2,ncp1=ncp1,ncp2=ncp2)
 ```
-
 
 ## Product of (non-central) chi-squares to power
 

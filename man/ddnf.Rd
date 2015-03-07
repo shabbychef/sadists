@@ -58,7 +58,7 @@ Suppose \eqn{x_i \sim \chi^2\left(\delta_i,\nu_i\right)}{x_i ~ X^2(delta_i,v_i)}
 be independent non-central chi-squares for \eqn{i=1,2}{i=1,2}.
 Then
 \deqn{Y = \frac{x_1/\nu_1}{x_2/\nu_2}}{Y = (x_1/v_1) / (x_2/v_2)}
-takes an doubly non-central F distribution with degrees of freedom
+takes a doubly non-central F distribution with degrees of freedom
 \eqn{\nu_1, \nu_2}{v_1, v_2} and non-centrality parameters
 \eqn{\delta_1,\delta_2}{delta_1,delta_2}.
 }

@@ -1,4 +1,4 @@
-# Copyright 2014-2014 Steven E. Pav. All Rights Reserved.
+# Copyright 2014-2015 Steven E. Pav. All Rights Reserved.
 # Author: Steven E. Pav
 #
 # This file is part of sadists.
@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with sadists.  If not, see <http://www.gnu.org/licenses/>.
 
-# Created: 2014.02.14
-# Copyright: Steven E. Pav, 2014
+# Created: 2015.02.14
+# Copyright: Steven E. Pav, 2015
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
@@ -66,7 +66,7 @@ dnf_cumuls <- function(df1,df2,ncp1,ncp2,order.max=3) {
 #' be independent non-central chi-squares for \eqn{i=1,2}{i=1,2}.
 #' Then 
 #' \deqn{Y = \frac{x_1/\nu_1}{x_2/\nu_2}}{Y = (x_1/v_1) / (x_2/v_2)}
-#' takes an doubly non-central F distribution with degrees of freedom
+#' takes a doubly non-central F distribution with degrees of freedom
 #' \eqn{\nu_1, \nu_2}{v_1, v_2} and non-centrality parameters
 #' \eqn{\delta_1,\delta_2}{delta_1,delta_2}.
 #'
