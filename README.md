@@ -40,7 +40,7 @@ testf <- function(dpqr, nobs, ...) {
     rv <- sort(dpqr$r(nobs, ...))
     data <- data.frame(draws = rv, pvals = dpqr$p(rv, 
         ...))
-    text.size <- 6  # sigh
+    text.size <- 8  # sigh
     
     # http://stackoverflow.com/a/5688125/164611
     p1 <- qplot(rv, geom = "blank") + geom_line(aes(y = ..density.., 
@@ -97,22 +97,6 @@ testf(list(d = dsumchisqpow, p = psumchisqpow, q = qsumchisqpow,
 
 <img src="github_extra/figure/sumchisqpow-1.png" title="plot of chunk sumchisqpow" alt="plot of chunk sumchisqpow" width="700px" height="600px" />
 
-## Product of (non-central) chi-squares to power
-
-This distribution is the product of independent 
-non-central chi-square variates taken to some powers.
-
-
-```r
-require(sadists)
-df <- c(100, 200, 100, 50)
-ncp <- c(0, 1, 0.5, 2)
-pow <- c(1, 0.5, 2, 1.5)
-testf(list(d = dprodchisqpow, p = pprodchisqpow, q = qprodchisqpow, 
-    r = rprodchisqpow), nobs = 2^14, df, ncp, pow)
-```
-
-<img src="github_extra/figure/prodchisqpow-1.png" title="plot of chunk prodchisqpow" alt="plot of chunk prodchisqpow" width="700px" height="600px" />
 
 ## K-prime distribution
 
@@ -152,7 +136,7 @@ testf(list(d = dlambdap, p = plambdap, q = qlambdap,
 ## Upsilon distribution
 
 An upsilon random variable is the sum of a standard
-normal and the weigted sum of several indpendent central chis.
+normal and the weighted sum of several indpendent central chis.
 
 
 ```r
@@ -199,3 +183,88 @@ testf(list(d = ddnf, p = pdnf, q = qdnf, r = rdnf),
 ```
 
 <img src="github_extra/figure/dnf-1.png" title="plot of chunk dnf" alt="plot of chunk dnf" width="700px" height="600px" />
+
+## Doubly non-central Beta distribution
+
+The [doubly non-central Beta distribution](http://www.jstor.org/stable/25051626)
+can be viewed as a transformation of the doubly non-central F 
+distribution. We can create DPQR functions for it as follows:
+
+
+```r
+require(sadists)
+df1 <- 40
+df2 <- 80
+ncp1 <- 1.5
+ncp2 <- 2.5
+ddnbeta <- function(x, df1, df2, ncp1, ncp2, ...) {
+    (df2/df1) * ddnf((df2/df1) * x/(1 - x), df1, df2, 
+        ncp1, ncp2, ...)/((1 - x)^2)
+}
+pdnbeta <- function(q, df1, df2, ncp1, ncp2, ...) {
+    pdnf((df2/df1) * q/(1 - q), df1, df2, ncp1, ncp2, 
+        ...)
+}
+qdnbeta <- function(p, df1, df2, ncp1, ncp2, ...) {
+    FF <- qdnf(p, df1, df2, ncp1, ncp2, ...)
+    GG <- (df1/df2) * FF
+    Q <- GG/(1 + GG)
+}
+rdnbeta <- function(n, df1, df2, ncp1, ncp2) {
+    X1 <- rchisq(n, df1, ncp = ncp1)
+    X2 <- rchisq(n, df2, ncp = ncp2)
+    X <- X1/(X1 + X2)
+}
+testf(list(d = ddnbeta, p = pdnbeta, q = qdnbeta, r = rdnbeta), 
+    nobs = 2^14, df1, df2, ncp1, ncp2)
+```
+
+<img src="github_extra/figure/dnbeta-1.png" title="plot of chunk dnbeta" alt="plot of chunk dnbeta" width="700px" height="600px" />
+
+
+## Product of (non-central) chi-squares to power
+
+This distribution is the product of independent 
+non-central chi-square variates taken to some powers.
+
+
+```r
+require(sadists)
+df <- c(100, 200, 100, 50)
+ncp <- c(0, 1, 0.5, 2)
+pow <- c(1, 0.5, 2, 1.5)
+testf(list(d = dprodchisqpow, p = pprodchisqpow, q = qprodchisqpow, 
+    r = rprodchisqpow), nobs = 2^14, df, ncp, pow)
+```
+
+<img src="github_extra/figure/prodchisqpow-1.png" title="plot of chunk prodchisqpow" alt="plot of chunk prodchisqpow" width="700px" height="600px" />
+
+Hmmm, the density approximation does not look too hot. Probably we should be looking
+at the distribution of the log product, equivalently the weighted sum of logs of non-central
+chi-squares. Let's look at that:
+
+
+```r
+require(sadists)
+df <- c(100, 200, 100, 50)
+ncp <- c(0, 1, 0.5, 2)
+pow <- c(1, 0.5, 2, 1.5)
+dlpc <- function(x, ...) {
+    dprodchisqpow(exp(x), ...) * exp(x)
+}
+plpc <- function(q, ...) {
+    pprodchisqpow(exp(q), ...)
+}
+qlpc <- function(p, ...) {
+    log(qprodchisqpow(p, ...))
+}
+rlpc <- function(n, ...) {
+    log(rprodchisqpow(n, ...))
+}
+testf(list(d = dlpc, p = plpc, q = qlpc, r = rlpc), 
+    nobs = 2^14, df, ncp, pow)
+```
+
+<img src="github_extra/figure/logprodchisqpow-1.png" title="plot of chunk logprodchisqpow" alt="plot of chunk logprodchisqpow" width="700px" height="600px" />
+
+Well, that didn't help, did it?

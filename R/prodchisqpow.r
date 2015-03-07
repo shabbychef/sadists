@@ -106,19 +106,19 @@ prodchisqpow_cumuls <- function(df,ncp=0,pow=1,order.max=3) {
 #' @export 
 dprodchisqpow <- function(x, df, ncp=0, pow=1, log = FALSE, order.max=5) {
 	kappa <- prodchisqpow_cumuls(df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
+	retval <- PDQutils::dapx_edgeworth(x,kappa,support=c(0,Inf),log=log)
 	return(retval)
 }
 #' @export
 pprodchisqpow <- function(q, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=5) {
 	kappa <- prodchisqpow_cumuls(df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::papx_edgeworth(q,kappa,lower.tail=lower.tail,log.p=log.p)
+	retval <- PDQutils::papx_edgeworth(q,kappa,support=c(0,Inf),lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
 qprodchisqpow <- function(p, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=5) {
 	kappa <- prodchisqpow_cumuls(df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::qapx_cf(p,kappa,lower.tail=lower.tail,log.p=log.p)
+	retval <- PDQutils::qapx_cf(p,kappa,support=c(0,Inf),lower.tail=lower.tail,log.p=log.p)
 	return(retval)
 }
 #' @export 
