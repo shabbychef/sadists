@@ -203,14 +203,23 @@ testf(list(d = ddnbeta, p = pdnbeta, q = qdnbeta, r = rdnbeta),
 
 <img src="github_extra/figure/dnbeta-1.png" title="plot of chunk dnbeta" alt="plot of chunk dnbeta" width="700px" height="600px" />
 
+## Doubly non-central eta distribution
+
+The doubly non-central eta distribution can be viewed as the square root
+of the doubly non-central Beta distribution. It is a transform of the
+doubly non-central t distribution.
+
+
 ```r
-rf <- rdnbeta(2^14, df1 = df1, df2 = df2, ncp1 = ncp1, 
-    ncp2 = ncp2)
-pv <- pdnbeta(rf, df1 = df1, df2 = df2, ncp1 = ncp1, 
-    ncp2 = ncp2)
-qv <- qdnbeta(ppoints(length(rf)), df1 = df1, df2 = df2, 
-    ncp1 = ncp1, ncp2 = ncp2)
+require(sadists)
+df <- 100
+ncp1 <- 0.5
+ncp2 <- 2.5
+testf(list(d = ddneta, p = pdneta, q = qdneta, r = rdneta), 
+    nobs = 2^14, df, ncp1, ncp2)
 ```
+
+<img src="github_extra/figure/dneta-1.png" title="plot of chunk dneta" alt="plot of chunk dneta" width="700px" height="600px" />
 
 ## Product of (non-central) chi-squares to power
 
