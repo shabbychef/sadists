@@ -114,7 +114,7 @@ pdneta <- function(q, df, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.ma
 		minv <- log(minv)
 		maxv <- log(maxv)
 	}
-	retval[q < 0] <- minv
+	retval[q < -1] <- minv
 	retval[q >= 1] <- maxv
 	return(retval)
 }
