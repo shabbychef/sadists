@@ -22,12 +22,12 @@
 # Comments: Steven E. Pav
 
 # ddneta, pdneta, qdneta, rdneta#FOLDUP
-#' @title The doubly non-central Beta distribution.
+#' @title The doubly non-central Eta distribution.
 #'
 #' @description 
 #'
 #' Density, distribution function, quantile function and random
-#' generation for the doubly non-central eta distribution.
+#' generation for the doubly non-central Eta distribution.
 #'
 #' @details
 #'
@@ -36,10 +36,10 @@
 #' a non-central chi-square with \eqn{\nu_2}{v_2} degrees of freedom
 #' and non-centrality parameter \eqn{\delta_2}{delta_2}. Then
 #' \deqn{Y = \frac{Z}{\sqrt{Z^2 + X}}}{Y = Z/sqrt(Z^2 + X)}
-#' takes a doubly non-central eta distribution with 
+#' takes a doubly non-central Eta distribution with 
 #' \eqn{\nu_2}{v_2} degrees of freedom and non-centrality parameters
 #' \eqn{\delta_1,\delta_2}{delta_1,delta_2}. The \emph{square} of
-#' a doubly non-central eta is a doubly non-central Beta variate.
+#' a doubly non-central Eta is a doubly non-central Beta variate.
 #'
 #' @usage
 #'

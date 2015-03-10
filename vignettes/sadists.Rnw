@@ -571,11 +571,11 @@ ncp2 <- 2.5
 testf(list(d=ddnbeta,p=pdnbeta,q=qdnbeta,r=rdnbeta),nobs=2^14,df1,df2,ncp1,ncp2)
 @
 %UNFOLD
-\section{Doubly non-central eta distribution}%FOLDUP
+\section{Doubly non-central Eta distribution}%FOLDUP
 
 \label{sec:dneta}
 
-The doubly non-central eta distribution is to the doubly non-central Beta what
+The doubly non-central Eta distribution is to the doubly non-central Beta what
 the doubly non-central t is to the doubly non-central F. 
 Let $X_2 \sim \chi^2_{\nu_2}\left(\delta_2\right)$ be a non-central
 chi-square variate, with non-centrality parameter $\delta_2$ and $\nu_2$
@@ -583,9 +583,9 @@ degrees of freedom. Let $X_2$ be independent of $Z$, a standard normal. Then
 $$
 Y = \frac{Z}{\sqrt{Z^2 + X_2}}
 $$
-follows a doubly non-central eta distribution with degrees of freedom $\nu_2$ and
+follows a doubly non-central Eta distribution with degrees of freedom $\nu_2$ and
 non-centrality parameters $\delta_1, \delta_2$. The square of a doubly
-non-central eta is a doubly non-central Beta, see \secref{dnbeta}.
+non-central Eta is a doubly non-central Beta, see \secref{dnbeta}.
 Note that
 $$
 t = {\sqrt{\nu_2}}\frac{Y}{\sqrt{1-Y^2}}
@@ -593,7 +593,7 @@ $$
 follows a doubly non-central t distribution. The `PDQ' functions use this
 relationship.
 
-<<'dneta',echo=TRUE,eval=TRUE,fig.cap="Confirming the dpqr functions of the doubly non-central eta distribution.">>=
+<<'dneta',echo=TRUE,eval=TRUE,fig.cap="Confirming the dpqr functions of the doubly non-central Eta distribution.">>=
 require(sadists)
 df <- 100
 ncp1 <- 0.5

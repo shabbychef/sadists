@@ -203,9 +203,9 @@ testf(list(d = ddnbeta, p = pdnbeta, q = qdnbeta, r = rdnbeta),
 
 <img src="github_extra/figure/dnbeta-1.png" title="plot of chunk dnbeta" alt="plot of chunk dnbeta" width="700px" height="600px" />
 
-## Doubly non-central eta distribution
+## Doubly non-central Eta distribution
 
-The doubly non-central eta distribution can be viewed as the square root
+The doubly non-central Eta distribution can be viewed as the square root
 of the doubly non-central Beta distribution. It is a transform of the
 doubly non-central t distribution.
 

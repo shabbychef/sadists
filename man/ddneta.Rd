@@ -6,7 +6,7 @@
 \alias{pdneta}
 \alias{qdneta}
 \alias{rdneta}
-\title{The doubly non-central Beta distribution.}
+\title{The doubly non-central Eta distribution.}
 \usage{
 ddneta(x, df, ncp1, ncp2, log = FALSE, order.max=6)
 
@@ -51,7 +51,7 @@ Invalid arguments will result in return value \code{NaN} with a warning.
 }
 \description{
 Density, distribution function, quantile function and random
-generation for the doubly non-central eta distribution.
+generation for the doubly non-central Eta distribution.
 }
 \details{
 Suppose \eqn{Z}{Z} is a normal with mean \eqn{\delta_1}{delta_1},
@@ -59,10 +59,10 @@ independent of \eqn{X \sim \chi^2\left(\delta_2,\nu_2\right)}{X ~ X^2(delta_2,v_
 a non-central chi-square with \eqn{\nu_2}{v_2} degrees of freedom
 and non-centrality parameter \eqn{\delta_2}{delta_2}. Then
 \deqn{Y = \frac{Z}{\sqrt{Z^2 + X}}}{Y = Z/sqrt(Z^2 + X)}
-takes a doubly non-central eta distribution with
+takes a doubly non-central Eta distribution with
 \eqn{\nu_2}{v_2} degrees of freedom and non-centrality parameters
 \eqn{\delta_1,\delta_2}{delta_1,delta_2}. The \emph{square} of
-a doubly non-central eta is a doubly non-central Beta variate.
+a doubly non-central Eta is a doubly non-central Beta variate.
 }
 \note{
 The PDF, CDF, and quantile function are approximated, via
