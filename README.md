@@ -239,6 +239,8 @@ testf(list(d = dproddnf, p = pproddnf, q = qproddnf,
 
 <img src="github_extra/figure/proddnf-1.png" title="plot of chunk proddnf" alt="plot of chunk proddnf" width="700px" height="600px" />
 
+Ack! Well, that didn't go so well. Another approach is needed here.
+
 ## Product of (non-central) chi-squares to power
 
 This distribution is the product of independent 
