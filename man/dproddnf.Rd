@@ -55,10 +55,8 @@ generation for the product of multiple independent
 doubly non-central F variates.
 }
 \details{
-2FIX
-
 Let
-\deqn{x_j \sim F(\delta_{1,j},\delta_{2,j},\nu_{1,j},\nu_{2,j}\right)}{x_j ~ F(delta_1j,delta_2j,v_1j,v_2j)}
+\deqn{x_j \sim F\left(\delta_{1,j},\delta_{2,j},\nu_{1,j},\nu_{2,j}\right)}{x_j ~ F(delta_1j,delta_2j,v_1j,v_2j)}
 be independent doubly non-central F variates with non-centrality parameters
 \eqn{\delta_{i,j}}{delta_ij} and degrees of freedom
 \eqn{\nu_{i,j}}{v_ij} for \eqn{i=1,2,\ldots,I}{i=1,2,...,I} and

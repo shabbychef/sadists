@@ -237,7 +237,9 @@ testf(list(d = dproddnf, p = pproddnf, q = qproddnf,
     r = rproddnf), nobs = 2^14, df1, df2, ncp1, ncp2)
 ```
 
-<img src="github_extra/figure/proddnf-1.png" title="plot of chunk proddnf" alt="plot of chunk proddnf" width="700px" height="600px" />
+```
+## Error in sort(dpqr$r(nobs, ...)): object 'dproddnf' not found
+```
 
 ## Product of (non-central) chi-squares to power
 
