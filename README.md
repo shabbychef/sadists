@@ -221,6 +221,24 @@ testf(list(d = ddneta, p = pdneta, q = qdneta, r = rdneta),
 
 <img src="github_extra/figure/dneta-1.png" title="plot of chunk dneta" alt="plot of chunk dneta" width="700px" height="600px" />
 
+## Product of doubly non-central F variates
+
+This distribution is the product of independent 
+doubly non-central F variates.
+
+
+```r
+require(sadists)
+df1 <- c(10, 20, 5)
+df2 <- c(1000, 500, 150)
+ncp1 <- c(1, 0, 2.5)
+ncp2 <- c(0, 1.5, 5)
+testf(list(d = dproddnf, p = pproddnf, q = qproddnf, 
+    r = rproddnf), nobs = 2^14, df1, df2, ncp1, ncp2)
+```
+
+<img src="github_extra/figure/proddnf-1.png" title="plot of chunk proddnf" alt="plot of chunk proddnf" width="700px" height="600px" />
+
 ## Product of (non-central) chi-squares to power
 
 This distribution is the product of independent 
