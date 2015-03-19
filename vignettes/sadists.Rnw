@@ -601,6 +601,50 @@ ncp2 <- 2.5
 testf(list(d=ddneta,p=pdneta,q=qdneta,r=rdneta),nobs=2^14,df,ncp1,ncp2)
 @
 %UNFOLD
+\section{Sum of logs of (non-central) chi-squares}%FOLDUP
+
+Let $X_i \sim \chi^2_{\nu_i}\left(\delta_i\right)$ be independent non-central
+chi-square variates, where $\delta_i$ are the non-centrality parameters and
+$\nu_i$ are the degrees of freedom. Let $w_i$ be given constants. Then
+$$
+Y = \sum_i w_i \log{X_i}
+$$
+follows a weighted sum of log of non-central chi-squares distribution. 
+This is not a common distribution. 
+
+<<'sumlogchisq',echo=TRUE,eval=TRUE,fig.cap="Confirming the dpqr functions of the sum of log of chi-squares distribution.">>=
+require(sadists)
+wts <- c(5,-4,10,-15)
+df <- c(100,200,100,50)
+ncp <- c(0,1,0.5,2)
+testf(list(d=dsumlogchisq,p=psumlogchisq,q=qsumlogchisq,r=rsumlogchisq),nobs=2^14,wts,df,ncp)
+@
+
+
+
+Let $X_j \sim F_{\nu_{1,j},\nu_{2,j}}\left(\delta_{1,j},\delta_{2,j}\right)$ 
+be independent doubly non-central F variates, where $\delta_{i,j}$ are the 
+non-centrality parameters and $\nu_{i,j}$ are the degrees of freedom. 
+Then
+$$
+Y = \prod_j X_j
+$$
+follows a product of doubly non-central Fs distribution. 
+This is not a common distribution. 
+Its moments can be computed, so the `pdq' functions can be
+approximated by classical expansions. This distribution
+displays the limitations of the Edgeworth and Cornish Fisher
+expansions, displaying poor convergence properties
+
+<<'proddnf',echo=TRUE,eval=TRUE,fig.cap="Confirming the dpqr functions of the product of doubly non-central Fs distribution.">>=
+require(sadists)
+df1 <- c(10,20,5)
+df2 <- c(1000,500,150)
+ncp1 <- c(1,0,2.5)
+ncp2 <- c(0,1.5,5)
+testf(list(d=dproddnf,p=pproddnf,q=qproddnf,r=rproddnf),nobs=2^14,df1,df2,ncp1,ncp2)
+@
+%UNFOLD
 \section{Product of doubly non-central F variates}%FOLDUP
 
 Let $X_j \sim F_{\nu_{1,j},\nu_{2,j}}\left(\delta_{1,j},\delta_{2,j}\right)$ 

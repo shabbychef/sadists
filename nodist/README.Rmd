@@ -218,6 +218,19 @@ ncp2 <- 2.5
 testf(list(d=ddneta,p=pdneta,q=qdneta,r=rdneta),nobs=2^14,df,ncp1,ncp2)
 ```
 
+## Sum of logs of (non-central) chi-squares 
+
+This distribution is the sum of logs of independent 
+non-central chi-square variates.
+
+```{r sumlogchisq}
+require(sadists)
+wts <- c(5,-4,10,-15)
+df <- c(100,200,100,50)
+ncp <- c(0,1,0.5,2)
+testf(list(d=dsumlogchisq,p=psumlogchisq,q=qsumlogchisq,r=rsumlogchisq),nobs=2^14,wts,df,ncp)
+```
+
 ## Product of doubly non-central F variates
 
 This distribution is the product of independent 
@@ -232,7 +245,8 @@ ncp2 <- c(0,1.5,5)
 testf(list(d=dproddnf,p=pproddnf,q=qproddnf,r=rproddnf),nobs=2^14,df1,df2,ncp1,ncp2)
 ```
 
-Ack! Well, that didn't go so well. Another approach is needed here.
+Ack! Well, that didn't go so well. Another approach is needed here. Probably this will have
+to use the sum of logs of chi-squares distribution and a transform.
 
 ## Product of (non-central) chi-squares to power
 

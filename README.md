@@ -221,6 +221,23 @@ testf(list(d = ddneta, p = pdneta, q = qdneta, r = rdneta),
 
 <img src="github_extra/figure/dneta-1.png" title="plot of chunk dneta" alt="plot of chunk dneta" width="700px" height="600px" />
 
+## Sum of logs of (non-central) chi-squares 
+
+This distribution is the sum of logs of independent 
+non-central chi-square variates.
+
+
+```r
+require(sadists)
+wts <- c(5, -4, 10, -15)
+df <- c(100, 200, 100, 50)
+ncp <- c(0, 1, 0.5, 2)
+testf(list(d = dsumlogchisq, p = psumlogchisq, q = qsumlogchisq, 
+    r = rsumlogchisq), nobs = 2^14, wts, df, ncp)
+```
+
+<img src="github_extra/figure/sumlogchisq-1.png" title="plot of chunk sumlogchisq" alt="plot of chunk sumlogchisq" width="700px" height="600px" />
+
 ## Product of doubly non-central F variates
 
 This distribution is the product of independent 
