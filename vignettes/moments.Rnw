@@ -349,7 +349,7 @@ of the moments. The moments can then be converted to the cumulants.
 The cumulants are then used in the Edgeworth expansion to approximate
 the density. For a small number of factors, the Edgeworth expansion
 is inaccurate, sometimes yielding negative estimates, as illustrated 
-in \figref{naiveprochisq}. 
+in \figref{naiveprodchisq}. 
 
 <<'naiveprodchisq',echo=TRUE,eval=TRUE,fig.cap="The Edgeworth expansion is inaccurate for the product of chi-squares variates.">>=
 # moments of chi-square
@@ -431,6 +431,7 @@ The derivative of the log of the Gamma function is the `psi' function, while
 its derivatives are the `polygamma' functions. \cite[6.3, 6.4]{abramowitz_stegun}
 Letting \cumul{j} be the \kth{j} raw cumulant of $y$, we have
 \begin{equation}
+\label{eqn:chisq_cumuls}
 \cumul{j} = \begin{cases}
 \log{2} + \psif{\half[\df]},& \text{if } j = 1,\\
 \polygam[j-1]{\half[\df]},& \text{if } j > 1.
@@ -453,7 +454,100 @@ That is,
 
 To compute the moments of the log of the \emph{non-central} Chi-square,
 the crucial observation is that the density of the non-central Chi-square
-can be expressed as a Poisson mixture of central chi-squares. 
+can be expressed as a Poisson mixture of central 
+chi-squares.  \cite{walck:1996} That is, 
+if \chisqpdf{x}{\df} is the density of the central chi-square distribution
+with \df degrees of freedom, and \nchisqpdf{x}{\nccp,\df} is the density
+of the non-central chi-square with \df degrees of freedom and non-centrality
+parameter \nccp, then 
+\begin{equation}
+\nchisqpdf{x}{\nccp,\df} = \sum_{j=0}^{\infty} \exp{-\halff[\nccp]}
+\frac{\wrapParens{\half[\nccp]}^j}{j!} \chisqpdf{x}{\df + 2j}.
+\end{equation}
+
+Using the change of variables formula, if $y$ is the log of a non-central
+chi-square variate with \df degrees of freedom and non-centrality parameter
+\nccp, then the density of $y$ follows a similar relationship:
+\begin{equation}
+\FOOpdf{Y}{y}{\nccp,\df} = 
+\exp{y} \nchisqpdf{\exp{y}}{\nccp,\df} = 
+\exp{y} \sum_{j=0}^{\infty} \exp{-\halff[\nccp]}
+\frac{\wrapParens{\half[\nccp]}^j}{j!} \chisqpdf{\exp{y}}{\df + 2j}.
+\end{equation}
+
+Because the uncentered moments are defined in terms of an integral, which
+is a linear operator, the moments of $y$ can be expressed as a similar sum:
+\begin{equation}
+\begin{split}
+\E{y^k} &= 
+\sum_{j=0}^{\infty} \exp{-\halff[\nccp]} 
+\frac{\wrapParens{\half[\nccp]}^j}{j!} 
+\int_{-\infty}^{\infty} \exp{z} \chisqpdf{\exp{z}}{\df + 2j} z^k \dx[z],\\
+&=
+\sum_{j=0}^{\infty} \exp{-\halff[\nccp]} 
+\frac{\wrapParens{\half[\nccp]}^j}{j!} \cmom{k,\df+2j},
+\end{split}
+\end{equation}
+where \cmom{k,\df+2j} is the \kth{k} moment of the log of the central
+chi-square distribution with $\df+2j$ degrees of freedom.
+
+For the particular case of $k=1$, because the first cumulant is the first
+moment, via \eqnref{chisq_cumuls}, we have
+\begin{equation}
+\E{y} = \log{2} + \sum_{j=0}^{\infty} \exp{-\halff[\nccp]} 
+\frac{\wrapParens{\half[\nccp]}^j}{j!} \psif{j + \halff[\df]}.
+\end{equation}
+
+Note that this does not seem to match the equation found by 
+Moser, even in the simple case $\nccp=0$. \cite{moser2004}
+To check this formula, a simple Monte Carlo experiment is
+reassuring:
+
+<<'mc_check',echo=TRUE,eval=TRUE,results='as-is'>>=
+require(PDQutils)
+# cumulants of the log of the central chi-square
+lc_cumuls <- function(df,order.max=3,orders=c(1:order.max)) {
+	kappa <- psigamma(df/2,deriv=orders-1)
+	kappa[1] <- kappa[1] + log(2)
+	return(kappa)
+}
+# moments of the log of the central chi-square
+lc_moments <- function(df,order.max=3,orders=c(1:order.max)) {
+	kappa <- lc_cumuls(df,orders=orders)
+	mu <- PDQutils::cumulant2moment(kappa)
+	return(mu)
+}
+# moments of the log of the non-central chi-square
+lnc_moments <- function(df,ncp=0,order.max=3,orders=c(1:order.max)) {
+	stopifnot(ncp >=0)
+	if (ncp > 0) {
+		hancp <- ncp / 2.0
+		# should be smarter about 0:100 here.
+		allmu <- sapply(0:100,function(iv) {
+										exp(-hancp + iv * log(hancp) - lfactorial(iv)) * lc_moments(df+2*iv,orders=orders)
+			},simplify=FALSE)
+		mu <- Reduce('+',allmu)
+	} else {
+		mu <- lc_moments(df=df,orders=orders)
+	}
+	return(mu)
+}
+set.seed(1231591)
+df <- 50
+ncp <- 1.5
+x <- rchisq(1e6,df=df,ncp=ncp)
+y <- log(x)
+
+nord <- 6
+empirical.mu <- sapply(1:nord,function(k) { mean(y^k) })
+theoretical.mu <- lnc_moments(df=df,ncp=ncp,order.max=nord)
+summa.df <- data.frame(order=1:nord,empirical=empirical.mu,theoretical=theoretical.mu)
+
+library(xtable)
+xtable(summa.df)
+@
+
+
 
 
 
@@ -469,268 +563,6 @@ can be expressed as a Poisson mixture of central chi-squares.
 %\bibliographystyle{acm}
 \bibliography{sadists,rauto}
 %UNFOLD
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\appendix%FOLDUP
-
-%\section{Confirming the scalar Gaussian case}
-
-%\begin{example}%FOLDUP
-%To sanity check 
-%\theoremref{theta_asym_var_gaussian},
-%consider the $\nlatf = 1$ Gaussian case. In this case, 
-%$$
-%\fvech{\pvsm} = \asvec{1,\pmu,\psig^2 + \pmu^2},\quad\mbox{and}\quad
-%\fvech{\minv{\pvsm}} =
- %\asvec{1 + \frac{\pmu^2}{\psig^2},- \frac{\pmu}{\psig^2},\oneby{\psig^2}}.
-%$$
-%Let $\smu, \ssig^2$ be the unbiased sample estimates. By well 
-%known results \cite{spiegel2007schaum}, $\smu$ and $\ssig^2$ are independent,
-%and have asymptotic variances of $\psig^2/\ssiz$ and $2\psig^4/\ssiz$ 
-%respectively. By the delta method, the asymptotic variance of
-%$\Unun \fvech{\svsm}$ and $\fvech{\minv{\svsm}}$ can be computed as
-%\begin{equation}
-%\begin{split}
-%\VAR{\Unun \fvech{\svsm}} &\rightsquigarrow 
-%\oneby{\ssiz}\qform{\twobytwossym{\psig^2}{0}{2\psig^4}}{\twobytwo{1}{2\pmu}{0}{1}},\\
-%&= \oneby{\ssiz}\twobytwossym{\psig^2}{2\pmu\psig^2}{4\pmu^2\psig^2 +
-%2\psig^4}.
-%\label{eqn:gauss_confirm_theta}
-%\end{split}
-%\end{equation}
-%\begin{equation}
-%\begin{split}
-%\VAR{\fvech{\minv{\svsm}}} &\rightsquigarrow 
-%\oneby{\ssiz}\qform{\twobytwossym{\psig^2}{0}{2\psig^4}}{\twobythree{\frac{2\pmu}{\psig^2}}{-\frac{1}{\psig^2}}{0}{-\frac{\pmu^2}{\psig^4}}{\frac{\pmu}{\psig^4}}{-\frac{1}{\psig^4}}},\\
-%&=
-%\oneby{\ssiz}\gram{\twobythree{2\psnr}{-\frac{1}{\psig}}{0}{-\sqrt{2}\psnr^2}{\sqrt{2}\frac{\psnr}{\psig}}{-\frac{\sqrt{2}}{\psig^2}}},\\
-%&= \oneby{\ssiz}\threebythreessym{2\psnr^2\wrapParens{2 + \psnr^2}}{-\frac{2\psnr}{\psig}\wrapParens{1+\psnr^2}}{2\frac{\psnr^2}{\psig^2}}{\frac{1 +
-%2\psnr^2}{\psig^2}}{-\frac{2\psnr}{\psig^3}}{\frac{2}{\psig^4}}.
-%\label{eqn:gauss_confirm_itheta}
-%\end{split}
-%\end{equation}
-
-%Now it remains to compute $\VAR{\Unun \fvech{\svsm}}$ via 
-%\theoremref{theta_asym_var_gaussian}, and then 
-%\VAR{\fvech{\minv{\svsm}}} via
-%\theoremref{inv_distribution}, and confirm they match the values above.
-%This is a rather tedious computation best left to a computer. Below is 
-%an excerpt of an iPython notebook using Sympy \cite{PER-GRA:2007,sympy}
-%which performs this computation. 
-%This notebook is available online. \cite{SEP2013example}
-
-%% SYMPY from here out%FOLDUP
-    %\begin{Verbatim}[commandchars=\\\{\}]
-%{\color{incolor}In [{\color{incolor}1}]:} \PY{c}{\PYZsh{} confirm the asymptotic distribution of Theta}
-        %\PY{c}{\PYZsh{} for scalar Gaussian case.}
-        %\PY{k+kn}{from} \PY{n+nn}{\PYZus{}\PYZus{}future\PYZus{}\PYZus{}} \PY{k+kn}{import} \PY{n}{division}
-        %\PY{k+kn}{from} \PY{n+nn}{sympy} \PY{k+kn}{import} \PY{o}{*}
-        %\PY{k+kn}{from} \PY{n+nn}{sympy.physics.quantum} \PY{k+kn}{import} \PY{n}{TensorProduct}
-        %\PY{n}{init\PYZus{}printing}\PY{p}{(}\PY{n}{use\PYZus{}unicode}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{,} \PY{n}{wrap\PYZus{}line}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{,} \PYZbs{}
-                      %\PY{n}{no\PYZus{}global}\PY{o}{=}\PY{n+nb+bp}{True}\PY{p}{)}
-        %\PY{n}{mu} \PY{o}{=} \PY{n}{symbols}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{mu}\PY{l+s}{\PYZsq{}}\PY{p}{)}
-        %\PY{n}{sg} \PY{o}{=} \PY{n}{symbols}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{sigma}\PY{l+s}{\PYZsq{}}\PY{p}{)} 
-        %\PY{c}{\PYZsh{} the elimination, duplication and U\PYZus{}\PYZob{}\PYZhy{}1\PYZcb{} matrices:}
-        %\PY{n}{Elim} \PY{o}{=} \PY{n}{Matrix}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}  \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}   \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
-        %\PY{n}{Dupp} \PY{o}{=} \PY{n}{Matrix}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
-        %\PY{n}{Unun} \PY{o}{=} \PY{n}{Matrix}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}  \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
-        %\PY{k}{def} \PY{n+nf}{Qform}\PY{p}{(}\PY{n}{A}\PY{p}{,}\PY{n}{x}\PY{p}{)}\PY{p}{:}
-            %\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}compute the quadratic form x\PYZsq{}Ax\PYZdq{}\PYZdq{}\PYZdq{}}
-            %\PY{k}{return} \PY{n}{x}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)} \PY{o}{*} \PY{n}{A} \PY{o}{*} \PY{n}{x}
-%\end{Verbatim}
-
-    %\begin{Verbatim}[commandchars=\\\{\}]
-%{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{Theta} \PY{o}{=} \PY{n}{Matrix}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{mu}\PY{p}{,}\PY{n}{mu}\PY{p}{,}\PY{n}{mu}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{n}{sg}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
-        %\PY{n}{Theta}
-%\end{Verbatim}
-%\texttt{\color{outcolor}Out[{\color{outcolor}2}]:}
-    
-    
-        %\begin{equation*}
-        %\left[\begin{matrix}1 & \mu\\\mu & \mu^{2} + \sigma^{2}\end{matrix}\right]
-        %\end{equation*}
-
-    
-
-    %\begin{Verbatim}[commandchars=\\\{\}]
-%{\color{incolor}In [{\color{incolor}3}]:} \PY{c}{\PYZsh{} compute tensor products and }
-        %\PY{c}{\PYZsh{} the derivative d vech(Theta\PYZca{}\PYZhy{}1) / d vech(Theta)}
-        %\PY{c}{\PYZsh{} see also \theoremref{inv_distribution}}
-        %\PY{n}{Theta\PYZus{}Theta} \PY{o}{=} \PY{n}{TensorProduct}\PY{p}{(}\PY{n}{Theta}\PY{p}{,}\PY{n}{Theta}\PY{p}{)}
-        %\PY{n}{iTheta\PYZus{}iTheta} \PY{o}{=} \PY{n}{TensorProduct}\PY{p}{(}\PY{n}{Theta}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{Theta}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-        %\PY{n}{theta\PYZus{}i\PYZus{}deriv} \PY{o}{=} \PY{n}{Elim} \PY{o}{*} \PY{p}{(}\PY{n}{iTheta\PYZus{}iTheta}\PY{p}{)} \PY{o}{*} \PY{n}{Dupp}
-%\end{Verbatim}
-
-    %\begin{Verbatim}[commandchars=\\\{\}]
-%{\color{incolor}In [{\color{incolor}4}]:} \PY{c}{\PYZsh{} towards \theoremref{theta_asym_var_gaussian}}
-        %\PY{n}{DTTD} \PY{o}{=} \PY{n}{Qform}\PY{p}{(}\PY{n}{Theta\PYZus{}Theta}\PY{p}{,}\PY{n}{Dupp}\PY{p}{)}
-        %\PY{n}{D\PYZus{}DTTD\PYZus{}D} \PY{o}{=} \PY{n}{Qform}\PY{p}{(}\PY{n}{DTTD}\PY{p}{,}\PY{n}{theta\PYZus{}i\PYZus{}deriv}\PY{p}{)}
-        %\PY{n}{iOmega} \PY{o}{=} \PY{n}{Qform}\PY{p}{(}\PY{n}{D\PYZus{}DTTD\PYZus{}D}\PY{p}{,}\PY{n}{Unun}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-        %\PY{n}{Omega} \PY{o}{=} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{iOmega}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)}
-        %\PY{n}{simplify}\PY{p}{(}\PY{n}{Omega}\PY{p}{)}
-%\end{Verbatim}
-%\texttt{\color{outcolor}Out[{\color{outcolor}4}]:}
-    
-    
-        %\begin{equation*}
-        %\left[\begin{matrix}\sigma^{2} & 2 \mu \sigma^{2}\\2 \mu \sigma^{2} & 2 \sigma^{2} \left(2 \mu^{2} + \sigma^{2}\right)\end{matrix}\right]
-        %\end{equation*}
-
-    
-
-    %\begin{Verbatim}[commandchars=\\\{\}]
-%{\color{incolor}In [{\color{incolor}5}]:} \PY{c}{\PYZsh{} this matches the computation in \eqnref{gauss_confirm_theta}}
-        %\PY{c}{\PYZsh{} on to the inverse:}
-        %\PY{c}{\PYZsh{} actually use \theoremref{inv_distribution}}
-        %\PY{n}{theta\PYZus{}i\PYZus{}deriv\PYZus{}t} \PY{o}{=} \PY{n}{theta\PYZus{}i\PYZus{}deriv}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}
-        %\PY{n}{theta\PYZus{}inv\PYZus{}var} \PY{o}{=} \PY{n}{Qform}\PY{p}{(}\PY{n}{Qform}\PY{p}{(}\PY{n}{Omega}\PY{p}{,}\PY{n}{Unun}\PY{p}{)}\PY{p}{,}\PY{n}{theta\PYZus{}i\PYZus{}deriv\PYZus{}t}\PY{p}{)}
-        %\PY{n}{simplify}\PY{p}{(}\PY{n}{theta\PYZus{}inv\PYZus{}var}\PY{p}{)}
-%\end{Verbatim}
-%\texttt{\color{outcolor}Out[{\color{outcolor}5}]:}
-    
-    
-        %\begin{equation*}
-        %\left[\begin{matrix}\frac{2 \mu^{2}}{\sigma^{4}} \left(\mu^{2} + 2 \sigma^{2}\right) & - \frac{2 \mu}{\sigma^{4}} \left(\mu^{2} + \sigma^{2}\right) & \frac{2 \mu^{2}}{\sigma^{4}}\\- \frac{2 \mu}{\sigma^{4}} \left(\mu^{2} + \sigma^{2}\right) & \frac{1}{\sigma^{4}} \left(2 \mu^{2} + \sigma^{2}\right) & - \frac{2 \mu}{\sigma^{4}}\\\frac{2 \mu^{2}}{\sigma^{4}} & - \frac{2 \mu}{\sigma^{4}} & \frac{2}{\sigma^{4}}\end{matrix}\right]
-        %\end{equation*}
-
-    
-
-    %\begin{Verbatim}[commandchars=\\\{\}]
-%{\color{incolor}In [{\color{incolor}6}]:} \PY{c}{\PYZsh{} this matches the computation in \eqnref{gauss_confirm_itheta}}
-        %\PY{c}{\PYZsh{} now check \conjectureref{theta_asym_var_gaussian}}
-        %\PY{n}{conjec} \PY{o}{=} \PY{n}{Qform}\PY{p}{(}\PY{n}{Theta\PYZus{}Theta}\PY{p}{,}\PY{n}{Dupp}\PY{p}{)}
-        %\PY{n}{e1} \PY{o}{=} \PY{n}{Matrix}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
-        %\PY{n}{convar} \PY{o}{=} \PY{l+m+mi}{2} \PY{o}{*} \PY{p}{(}\PY{n}{conjec}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{e1} \PY{o}{*} \PY{n}{e1}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-        %\PY{n}{simplify}\PY{p}{(}\PY{n}{convar}\PY{p}{)}
-%\end{Verbatim}
-%\texttt{\color{outcolor}Out[{\color{outcolor}6}]:}
-    
-    
-        %\begin{equation*}
-        %\left[\begin{matrix}\frac{2 \mu^{2}}{\sigma^{4}} \left(\mu^{2} + 2 \sigma^{2}\right) & - \frac{2 \mu}{\sigma^{4}} \left(\mu^{2} + \sigma^{2}\right) & \frac{2 \mu^{2}}{\sigma^{4}}\\- \frac{2 \mu}{\sigma^{4}} \left(\mu^{2} + \sigma^{2}\right) & \frac{1}{\sigma^{4}} \left(2 \mu^{2} + \sigma^{2}\right) & - \frac{2 \mu}{\sigma^{4}}\\\frac{2 \mu^{2}}{\sigma^{4}} & - \frac{2 \mu}{\sigma^{4}} & \frac{2}{\sigma^{4}}\end{matrix}\right]
-        %\end{equation*}
-
-    
-
-    %\begin{Verbatim}[commandchars=\\\{\}]
-%{\color{incolor}In [{\color{incolor}7}]:} \PY{c}{\PYZsh{} are they the same?}
-        %\PY{n}{simplify}\PY{p}{(}\PY{n}{theta\PYZus{}inv\PYZus{}var} \PY{o}{\PYZhy{}} \PY{n}{convar}\PY{p}{)}
-%\end{Verbatim}
-%\texttt{\color{outcolor}Out[{\color{outcolor}7}]:}
-    
-    
-        %\begin{equation*}
-        %\left[\begin{matrix}0 & 0 & 0\\0 & 0 & 0\\0 & 0 & 0\end{matrix}\right]
-        %\end{equation*}
-
-    
-
-
-    %%UNFOLD
-    
-%%%  OLD%FOLDUP
-    %%\begin{Verbatim}[commandchars=\\\{\}]
-%%{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{from} \PY{n+nn}{\PYZus{}\PYZus{}future\PYZus{}\PYZus{}} \PY{k+kn}{import} \PY{n}{division}
-        %%\PY{k+kn}{from} \PY{n+nn}{sympy} \PY{k+kn}{import} \PY{o}{*}
-        %%\PY{k+kn}{from} \PY{n+nn}{sympy.physics.quantum} \PY{k+kn}{import} \PY{n}{TensorProduct}
-        %%\PY{n}{init\PYZus{}printing}\PY{p}{(}\PY{n}{use\PYZus{}unicode}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{,} \PY{n}{wrap\PYZus{}line}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{,} \PY{n}{no\PYZus{}global}\PY{o}{=}\PY{n+nb+bp}{True}\PY{p}{)}
-        %%\PY{n}{mu} \PY{o}{=} \PY{n}{symbols}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{mu}\PY{l+s}{\PYZsq{}}\PY{p}{)}
-        %%\PY{n}{sg} \PY{o}{=} \PY{n}{symbols}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{sigma}\PY{l+s}{\PYZsq{}}\PY{p}{)} 
-        %%\PY{c}{\PYZsh{} the elimination, duplication and U\PYZus{}\PYZob{}\PYZhy{}1\PYZcb{} matrices:}
-        %%\PY{n}{Elim} \PY{o}{=} \PY{n}{Matrix}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}  \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}   \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
-        %%\PY{n}{Dupp} \PY{o}{=} \PY{n}{Matrix}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
-        %%\PY{n}{Unun} \PY{o}{=} \PY{n}{Matrix}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}  \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
-        %%\PY{k}{def} \PY{n+nf}{quad\PYZus{}form}\PY{p}{(}\PY{n}{A}\PY{p}{,}\PY{n}{x}\PY{p}{)}\PY{p}{:}
-            %%\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}compute the quadratic form x\PYZsq{}Ax\PYZdq{}\PYZdq{}\PYZdq{}}
-            %%\PY{k}{return} \PY{n}{x}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)} \PY{o}{*} \PY{n}{A} \PY{o}{*} \PY{n}{x}
-%%\end{Verbatim}
-
-    %%\begin{Verbatim}[commandchars=\\\{\}]
-%%{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{Theta} \PY{o}{=} \PY{n}{Matrix}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{mu}\PY{p}{,}\PY{n}{mu}\PY{p}{,}\PY{n}{mu}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{n}{sg}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
-        %%\PY{n}{Theta}
-%%\end{Verbatim}
-%%\texttt{\color{outcolor}Out[{\color{outcolor}2}]:}
-    
-    
-        %%\begin{equation*}
-        %%\left[\begin{matrix}1 & \mu\\\mu & \mu^{2} + \sigma^{2}\end{matrix}\right]
-        %%\end{equation*}
-
-    
-
-    %%\begin{Verbatim}[commandchars=\\\{\}]
-%%{\color{incolor}In [{\color{incolor}3}]:} \PY{c}{\PYZsh{} compute tensor products and }
-        %%\PY{c}{\PYZsh{} the derivative d vech(Theta\PYZca{}\PYZhy{}1) / d vech(Theta)}
-        %%\PY{n}{Theta\PYZus{}Theta} \PY{o}{=} \PY{n}{TensorProduct}\PY{p}{(}\PY{n}{Theta}\PY{p}{,}\PY{n}{Theta}\PY{p}{)}
-        %%\PY{n}{iTheta\PYZus{}iTheta} \PY{o}{=} \PY{n}{TensorProduct}\PY{p}{(}\PY{n}{Theta}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{Theta}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-        %%\PY{n}{theta\PYZus{}i\PYZus{}deriv} \PY{o}{=} \PY{n}{Elim} \PY{o}{*} \PY{p}{(}\PY{n}{iTheta\PYZus{}iTheta}\PY{p}{)} \PY{o}{*} \PY{n}{Dupp}
-%%\end{Verbatim}
-
-    %%\begin{Verbatim}[commandchars=\\\{\}]
-%%{\color{incolor}In [{\color{incolor}4}]:} \PY{c}{\PYZsh{} towards thm \ref{theorem:theta_asym_var_gaussian}}
-        %%\PY{n}{DTTD} \PY{o}{=} \PY{n}{quad\PYZus{}form}\PY{p}{(}\PY{n}{Theta\PYZus{}Theta}\PY{p}{,}\PY{n}{Dupp}\PY{p}{)}
-        %%\PY{n}{D\PYZus{}DTTD\PYZus{}D} \PY{o}{=} \PY{n}{quad\PYZus{}form}\PY{p}{(}\PY{n}{DTTD}\PY{p}{,}\PY{n}{theta\PYZus{}i\PYZus{}deriv}\PY{p}{)}
-        %%\PY{n}{iOmega} \PY{o}{=} \PY{n}{quad\PYZus{}form}\PY{p}{(}\PY{n}{D\PYZus{}DTTD\PYZus{}D}\PY{p}{,}\PY{n}{Unun}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-        %%\PY{n}{Omega} \PY{o}{=} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{iOmega}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)}
-        %%\PY{n}{simplify}\PY{p}{(}\PY{n}{Omega}\PY{p}{)}
-%%\end{Verbatim}
-%%\texttt{\color{outcolor}Out[{\color{outcolor}4}]:}
-    
-    
-        %%\begin{equation*}
-        %%\left[\begin{matrix}\sigma^{2} & 2 \mu \sigma^{2}\\2 \mu \sigma^{2} & 2 \sigma^{2} \left(2 \mu^{2} + \sigma^{2}\right)\end{matrix}\right]
-        %%\end{equation*}
-
-%%This matches the computation in \eqnref{gauss_confirm_theta}. On to the
-%%inverse:
-    
-
-    %%\begin{Verbatim}[commandchars=\\\{\}]
-%%{\color{incolor}In [{\color{incolor}5}]:} \PY{c}{\PYZsh{} now use theorem \ref{theorem:inv_distribution}}
-        %%\PY{n}{theta\PYZus{}inv\PYZus{}var} \PY{o}{=} \PY{n}{quad\PYZus{}form}\PY{p}{(}\PY{n}{quad\PYZus{}form}\PY{p}{(}\PY{n}{Omega}\PY{p}{,}\PY{n}{Unun}\PY{p}{)}\PY{p}{,}\PY{n}{theta\PYZus{}i\PYZus{}deriv}\PY{o}{.}\PY{n}{transpose}\PY{p}{(}\PY{p}{)}\PY{p}{)}
-        %%\PY{n}{simplify}\PY{p}{(}\PY{n}{theta\PYZus{}inv\PYZus{}var}\PY{p}{)}
-%%\end{Verbatim}
-%%\texttt{\color{outcolor}Out[{\color{outcolor}5}]:}
-    
-    
-        %%\begin{equation*}
-        %%\left[\begin{matrix}\frac{2 \mu^{2}}{\sigma^{4}} \left(\mu^{2} + 2 \sigma^{2}\right) & - \frac{2 \mu}{\sigma^{4}} \left(\mu^{2} + \sigma^{2}\right) & \frac{2 \mu^{2}}{\sigma^{4}}\\- \frac{2 \mu}{\sigma^{4}} \left(\mu^{2} + \sigma^{2}\right) & \frac{1}{\sigma^{4}} \left(2 \mu^{2} + \sigma^{2}\right) & - \frac{2 \mu}{\sigma^{4}}\\\frac{2 \mu^{2}}{\sigma^{4}} & - \frac{2 \mu}{\sigma^{4}} & \frac{2}{\sigma^{4}}\end{matrix}\right]
-        %%\end{equation*}
-
-%%This matches the computation in \eqnref{gauss_confirm_itheta}.  Check
-%%the conjecture:
-    
-
-    %%\begin{Verbatim}[commandchars=\\\{\}]
-%%{\color{incolor}In [{\color{incolor}6}]:} \PY{c}{\PYZsh{} now conjecture \ref{conjecture:theta_asym_var_gaussian}}
-        %%\PY{n}{conjec} \PY{o}{=} \PY{n}{quad\PYZus{}form}\PY{p}{(}\PY{n}{Theta\PYZus{}Theta}\PY{p}{,}\PY{n}{Dupp}\PY{p}{)}
-        %%\PY{n}{convar} \PY{o}{=} \PY{l+m+mi}{2} \PY{o}{*} \PY{p}{(}\PY{n}{conjec}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{Matrix}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}
-        %%\PY{n}{simplify}\PY{p}{(}\PY{n}{convar}\PY{p}{)}
-%%\end{Verbatim}
-%%\texttt{\color{outcolor}Out[{\color{outcolor}6}]:}
-    
-    
-        %%\begin{equation*}
-        %%\left[\begin{matrix}\frac{2 \mu^{2}}{\sigma^{4}} \left(\mu^{2} + 2 \sigma^{2}\right) & - \frac{2 \mu}{\sigma^{4}} \left(\mu^{2} + \sigma^{2}\right) & \frac{2 \mu^{2}}{\sigma^{4}}\\- \frac{2 \mu}{\sigma^{4}} \left(\mu^{2} + \sigma^{2}\right) & \frac{1}{\sigma^{4}} \left(2 \mu^{2} + \sigma^{2}\right) & - \frac{2 \mu}{\sigma^{4}}\\\frac{2 \mu^{2}}{\sigma^{4}} & - \frac{2 \mu}{\sigma^{4}} & \frac{2}{\sigma^{4}}\end{matrix}\right]
-        %%\end{equation*}
-
-    
-
-    %%\begin{Verbatim}[commandchars=\\\{\}]
-%%{\color{incolor}In [{\color{incolor}7}]:} \PY{c}{\PYZsh{} are they the same?}
-        %%\PY{n}{simplify}\PY{p}{(}\PY{n}{theta\PYZus{}inv\PYZus{}var} \PY{o}{\PYZhy{}} \PY{n}{convar}\PY{p}{)}
-%%\end{Verbatim}
-%%\texttt{\color{outcolor}Out[{\color{outcolor}7}]:}
-    
-    
-        %%\begin{equation*}
-        %%\left[\begin{matrix}0 & 0 & 0\\0 & 0 & 0\\0 & 0 & 0\end{matrix}\right]
-        %%\end{equation*}
-
-    %%%UNFOLD
-
-%\end{example}%UNFOLD
-%%UNFOLD
 
 \end{document}
 %for vim modeline: (do not edit)

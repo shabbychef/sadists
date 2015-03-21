@@ -602,9 +602,13 @@
 
 %chisq
 \providecommand{\prvchisq}{\chi^2}
+\providecommand{\chisqpdf}[2]{\FOOpdf{\prvchisq}{#1}{#2}}
 \providecommand{\chisqcdf}[2]{\FOOcdf{\prvchisq}{#1}{#2}}
 \providecommand{\chisqqnt}[2]{\FOOqnt{\prvchisq}{#1}{#2}}
 \providecommand{\chisqlaw}[1]{\makelaw{\prvchisq}{#1}}
+
+\providecommand{\prvnchisq}{\chi^{2\prime}}
+\providecommand{\nchisqpdf}[2]{\FOOpdf{\prvnchisq}{#1}{#2}}
 
 % gamma distribution
 \providecommand{\prvgamma}{\Gamma}
@@ -674,6 +678,7 @@
 
 
 %noncentrality parameters
+\providecommand{\nccp}[1][]{\mathSUB{\lambda}{#1}}
 \providecommand{\nctp}[1][]{\mathSUB{\delta}{#1}}
 \providecommand{\ncfp}[1][]{\mathSUB{\delta}{#1}}
 
