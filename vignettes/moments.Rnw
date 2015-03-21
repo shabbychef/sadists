@@ -498,12 +498,15 @@ moment, via \eqnref{chisq_cumuls}, we have
 \frac{\wrapParens{\half[\nccp]}^j}{j!} \psif{j + \halff[\df]}.
 \end{equation}
 
-Note that this does not seem to match the equation found by 
+Note that this does not seem to match the equations given by 
 Moser, even in the simple case $\nccp=0$. \cite{moser2004}
-To check this formula, a simple Monte Carlo experiment is
-reassuring:
+(It appears that Moser's result is missing a summand of $\log{2}$.)
+It is easy to check this formula via Monte Carlo simulations,
+as below. The results of these experiments, reported in 
+\tabref{mc_check} indicate that the equations are
+indeed accurate.
 
-<<'mc_check',echo=TRUE,eval=TRUE,results='as-is'>>=
+<<'mc_check',echo=TRUE,eval=TRUE,results='asis'>>=
 require(PDQutils)
 # cumulants of the log of the central chi-square
 lc_cumuls <- function(df,order.max=3,orders=c(1:order.max)) {
@@ -535,23 +538,72 @@ lnc_moments <- function(df,ncp=0,order.max=3,orders=c(1:order.max)) {
 set.seed(1231591)
 df <- 50
 ncp <- 1.5
-x <- rchisq(1e6,df=df,ncp=ncp)
+nsim <- 1e6
+x <- rchisq(nsim,df=df,ncp=ncp)
 y <- log(x)
 
 nord <- 6
 empirical.mu <- sapply(1:nord,function(k) { mean(y^k) })
 theoretical.mu <- lnc_moments(df=df,ncp=ncp,order.max=nord)
+@
+<<'mc_check_table',echo=FALSE,eval=TRUE,results='asis'>>=
 summa.df <- data.frame(order=1:nord,empirical=empirical.mu,theoretical=theoretical.mu)
-
 library(xtable)
-xtable(summa.df)
+print(xtable(summa.df,label='tab:mc_check',
+	caption=paste0('Empirical and theoretical moments up to order ',nord,
+	' are shown for $10^',log10(nsim),
+	'$ draws from the log of a non-central chi-square distribution with ',
+	df,' degrees of freedom and non-centrality parameter ',
+	ncp,'.')),include.rownames=FALSE)
 @
 
-
-
-
-
 %UNFOLD
+\section{Using the Moments}
+
+While the moments computation is perhaps of theoretical interest, the nominal
+impetus for this work was more accurate simulation of the density of products
+of non-central chi-squares taken to powers. Here we first approximate the
+density of the log of such a distribution, using additivity of cumulants, 
+via an Edgeworth expansion, then use change of variables to recover the density
+of the product of chi-squares.
+
+<<'betterprodchisq',echo=TRUE,eval=TRUE>>=
+# cumulants of the log of the non-central chi-square
+lnc_cumuls <- function(df,ncp=0,order.max=3,orders=c(1:order.max)) {
+	mu <- lnc_moments(df,ncp,orders=orders)
+	kappa <- PDQutils::moment2cumulant(mu)
+	return(kappa)
+}
+# compute the cumulants of the sumlogchisq
+# distribution. 
+sumlogchisq_cumuls <- function(wts,df,ncp=0,order.max=3) {
+	subkappa <- mapply(function(w,dd,nn) 
+										 { (w ^ (1:order.max)) * lnc_cumuls(df=dd,ncp=nn,order.max=order.max) },
+										 wts,df,ncp,SIMPLIFY=FALSE)
+	kappa <- Reduce('+', subkappa)
+	return(kappa)
+}
+dsumlogchisq <- function(x, wts, df, ncp=0, log = FALSE, order.max=6) {
+	kappa <- sumlogchisq_cumuls(wts,df,ncp,order.max=order.max)
+	retval <- PDQutils::dapx_edgeworth(x,kappa,log=log)
+	return(retval)
+}
+
+# use change of variables:
+dprodchisq2 <- function(x,dfs,log=FALSE) {
+	dx <- dsumlogchisq(log(x),wts=1,df=dfs,ncp=0,log=log)
+	if (log) {
+		dx <- dx - log(x)
+	} else {
+		dx <- dx / x
+	}
+	return(dx)
+}
+
+dfs <- c(40,30,50,20,10)
+test_dens(list(r=rprodchisq,d=dprodchisq2),nobs=2^14,dfs)
+@
+
 \nocite{walck:1996,moser2004,PDQutils-Manual}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
