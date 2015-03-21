@@ -319,20 +319,25 @@ lseq <- function(from,to,length.out) {
 \begin{document}
 
 \title{Moments of the log non-central chi-square distribution}
-\author{Steven E. Pav}% \thanks{\email{shabbychef@gmail.com}}}
+\author{Steven E. Pav \thanks{\email{spav@alumni.cmu.edu}}}
 %\date{\today, \currenttime}
 
 \maketitle
 %UNFOLD
 
 \providecommand{\df}[1][{}]{\mathUL{\nu}{}{#1}}
+\providecommand{\Kgf}[1]{\MATHIT{K\wrapNeParens{#1}}}
+\providecommand{\psif}[1]{\MATHIT{\psi\wrapNeParens{#1}}}
+\providecommand{\polygam}[2][{1}]{\mathUL{\psi}{(#1)}{}\wrapNeParens{#2}}
+\providecommand{\cumul}[1]{\mathUL{\kappa}{}{#1}}
+\providecommand{\cmom}[1]{\mathUL{\mu'}{}{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}%FOLDUP
 The cumulants and moments of the log of the non-central chi-square
 distribution are derived. For example, the expected log of a 
 chi-square random variable with \df degrees of freedom is
-$\log{2} + \psi{\half[\df]}$. 
+$\log{2} + \psif{\half[\df]}$. 
 Applications to modeling probability distributions are discussed.
 \end{abstract}%UNFOLD
 \section{Introduction}%FOLDUP
@@ -344,13 +349,13 @@ that these expansions are inaccurate for one-sided and highly skewed
 probability distributions. \cite{1998A&AS..130..193B,edgeworthCF}
 
 For example, consider a random variable which is the product of 
-several chi-square random variables. The \kth{r} raw moment of
+several chi-square random variables. The \kth{k} raw moment of
 a chi-square random variable with \df degrees of freedom is
-$2^r \fracc{\GAM{r + \df/2}}{\GAM{\df/2}}$. The raw moments of the
+$2^k \fracc{\GAM{k + \df/2}}{\GAM{\df/2}}$. The raw moments of the
 product of multiple independent chi-squares is simply the product
 of the moments. The moments can then be converted to the cumulants.
 The cumulants are then used in the Edgeworth expansion to approximate
-the density. For a small number of factors, the Edgeworth expansion
+the density. For even a small number of factors, the Edgeworth expansion
 is inaccurate, sometimes yielding negative estimates, as illustrated 
 in \figref{naiveprodchisq}. 
 
@@ -403,13 +408,7 @@ test_dens(list(r=rprodchisq,d=dprodchisq),nobs=2^14,dfs)
 % 2FIX
 
 %UNFOLD
-\section{Moments of the log Chi-square distribution}%FOLDUP
-
-\providecommand{\Kgf}[1]{\MATHIT{K\wrapNeParens{#1}}}
-\providecommand{\psif}[1]{\MATHIT{\psi\wrapNeParens{#1}}}
-\providecommand{\polygam}[2][{1}]{\mathUL{\psi}{(#1)}{}\wrapNeParens{#2}}
-\providecommand{\cumul}[1]{\mathUL{\kappa}{}{#1}}
-\providecommand{\cmom}[1]{\mathUL{\mu'}{}{#1}}
+\section{Moments of the log chi-square distribution}%FOLDUP
 
 One possible fix to this problem is to use the Edgeworth
 expansions to approximate the density of the \emph{log}
@@ -430,8 +429,9 @@ $$
 \Kgf{t} = t \log{2} + \log{\GAM{\half[\df] + t}} - \log{\GAM{\half[\df]}}.
 $$
 The \kth{k} cumulant of $y$ is the \kth{k} derivative evaluated at $t=0$.
-The derivative of the log of the Gamma function is the `psi' function, while
-its derivatives are the `polygamma' functions. \cite[6.3, 6.4]{abramowitz_stegun}
+The derivative of the log of the Gamma function is the `psi' function,
+$\psif{\cdot}$, while its derivatives are the `polygamma' functions,
+$\polygam[n]{\cdot}$.  \cite[6.3, 6.4]{abramowitz_stegun}
 Letting \cumul{j} be the \kth{j} raw cumulant of $y$, we have
 \begin{equation}
 \label{eqn:chisq_cumuls}
@@ -446,17 +446,16 @@ formula:
 \begin{equation}
 \cmom{n} = \cumul{n} + \sum_{m=1}^{n-1} {n-1 \choose m-1} \cumul{m} \cmom{n-m}.
 \end{equation}
-Note that the first raw cumulant and the first raw moment are identical.
-That is,
+Note that the first raw cumulant equals the first moment.  That is,
 \begin{equation}
 \E{y} = \log{2} + \psif{\half[\df]}.
 \end{equation}
 
 %UNFOLD
-\section{Moments of the log non-central Chi-square distribution}%FOLDUP
+\section{Moments of the log non-central chi-square distribution}%FOLDUP
 
-To compute the moments of the log of the \emph{non-central} Chi-square,
-the crucial observation is that the density of the non-central Chi-square
+To compute the moments of the log of the \emph{non-central} chi-square,
+the crucial observation is that the density of the non-central chi-square
 can be expressed as a Poisson mixture of central 
 chi-squares.  \cite{walck:1996} That is, 
 if \chisqpdf{x}{\df} is the density of the central chi-square distribution
