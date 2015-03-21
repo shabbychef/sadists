@@ -325,14 +325,17 @@ lseq <- function(from,to,length.out) {
 \maketitle
 %UNFOLD
 
+\providecommand{\df}[1][{}]{\mathUL{\nu}{}{#1}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}%FOLDUP
 The cumulants and moments of the log of the non-central chi-square
-distribution are derived.
+distribution are derived. For example, the expected log of a 
+chi-square random variable with \df degrees of freedom is
+$\log{2} + \psi{\half[\df]}$. 
+Applications to modeling probability distributions are discussed.
 \end{abstract}%UNFOLD
 \section{Introduction}%FOLDUP
-
-\providecommand{\df}[1][{}]{\mathUL{\nu}{}{#1}}
 
 The Edgeworth and Cornish-Fisher expansions allow one to approximate
 the density, distribution, and quantile functions of probability
@@ -565,9 +568,10 @@ impetus for this work was more accurate simulation of the density of products
 of non-central chi-squares taken to powers. Here we first approximate the
 density of the log of such a distribution, using additivity of cumulants, 
 via an Edgeworth expansion, then use change of variables to recover the density
-of the product of chi-squares.
+of the product of chi-squares. The resultant density estimator, shown in 
+\figref{betterprodchisq}, is an improvement, at least under an `eyeball test.'
 
-<<'betterprodchisq',echo=TRUE,eval=TRUE>>=
+<<'betterprodchisq',echo=TRUE,eval=TRUE,fig.cap="Applying the Edgeworth expansion to the sum of log chi-squares, then performing a change of variables, results in a more accurate density estimate.">>=
 # cumulants of the log of the non-central chi-square
 lnc_cumuls <- function(df,ncp=0,order.max=3,orders=c(1:order.max)) {
 	mu <- lnc_moments(df,ncp,orders=orders)
