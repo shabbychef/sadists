@@ -24,6 +24,7 @@ Imports:
 Suggests: 
     testthat, 
     ggplot2, 
+    xtable,
     knitr
 URL: https://github.com/shabbychef/PKG_NAME()
 VignetteBuilder: knitr
