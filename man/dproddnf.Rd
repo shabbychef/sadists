@@ -80,8 +80,8 @@ and generation functions. This is for simplicity of
 implementation and performance. It is, however, in contrast
 to the usual R idiom for dpqr functions.
 
-This distribution code is not yet ready for prime-time. Use
-at your own risk!
+The PDQ functions are computed by translation of the
+sum of log chi-squares distribution functions.
 }
 \examples{
 df1 <- c(10,20,5)
@@ -108,8 +108,16 @@ qqplot(x=rv,y=q1)
 Steven E. Pav \email{shabbychef@gmail.com}
 }
 \seealso{
+The sum of log of chi-squares distribution,
+\code{\link{dsumlogchisq}},
+\code{\link{psumlogchisq}},
+\code{\link{qsumlogchisq}},
+\code{\link{rsumlogchisq}},
 (doubly non-central) F distribution functions,
-\code{\link{ddnf}}, \code{\link{pdnf}}, \code{\link{qf}}, \code{\link{rf}}.
+\code{\link{ddnf}},
+\code{\link{pdnf}},
+\code{\link{qdnf}},
+\code{\link{rdnf}}.
 }
 \keyword{distribution}
 

@@ -22,22 +22,6 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-# compute the moments of the prodchisqpow
-# distribution. 
-prodchisqpow_moments <- function(df,ncp=0,pow=1,order.max=3) {
-	submu <- mapply(function(dd,nn,pp) 
-										 { chipow_moms(df=dd,ncp=nn,pow=pp,order.max=order.max) },
-										 df,ncp,pow,SIMPLIFY=FALSE)
-	mu <- Reduce('*', submu)
-	return(mu)
-}
-# compute the cumulants of the prodchisqpow
-# distribution. 
-prodchisqpow_cumuls <- function(df,ncp=0,pow=1,order.max=3) {
-	kappa <- moment2cumulant(prodchisqpow_moments(df,ncp,pow,order.max))
-	return(kappa)
-}
-
 # dprodchisqpow, pprodchisqpow, qprodchisqpow, rprodchisqpow#FOLDUP
 #' @title The product of (non-central) chi-squares raised to powers distribution.
 #'
@@ -80,6 +64,8 @@ prodchisqpow_cumuls <- function(df,ncp=0,pow=1,order.max=3) {
 #' @template distribution
 #' @template apx_distribution
 #' @template not-recycled
+#' @note The PDQ functions are computed by translation of the 
+#' sum of log chi-squares distribution functions.
 #'
 #' @return \code{dprodchisqpow} gives the density, \code{pprodchisqpow} gives the 
 #' distribution function, \code{qprodchisqpow} gives the quantile function, 
@@ -88,10 +74,21 @@ prodchisqpow_cumuls <- function(df,ncp=0,pow=1,order.max=3) {
 #' Invalid arguments will result in return value \code{NaN} with a warning.
 #' @aliases dprodchisqpow pprodchisqpow qprodchisqpow rprodchisqpow
 #' @seealso 
+#' The sum of log of chi-squares distribution,
+#' \code{\link{dsumlogchisq}},
+#' \code{\link{psumlogchisq}},
+#' \code{\link{qsumlogchisq}},
+#' \code{\link{rsumlogchisq}},
 #' The upsilon distribution, 
-#' \code{\link{dupsilon},\link{pupsilon}},\code{\link{qupsilon},\link{rupsilon}}.
+#' \code{\link{dupsilon}},
+#' \code{\link{pupsilon}},
+#' \code{\link{qupsilon}},
+#' \code{\link{rupsilon}}.
 #' The sum of chi-square powers distribution, 
-#' \code{\link{dsumchisqpow},\link{psumchisqpow}},\code{\link{qsumchisqpow},\link{rsumchisqpow}}.
+#' \code{\link{dsumchisqpow}},
+#' \code{\link{psumchisqpow}},
+#' \code{\link{qsumchisqpow}},
+#' \code{\link{rsumchisqpow}}.
 #' @template etc
 #' @examples 
 #' df <- c(100,20,10)
@@ -105,20 +102,23 @@ prodchisqpow_cumuls <- function(df,ncp=0,pow=1,order.max=3) {
 #' @name prodchisqpow
 #' @export 
 dprodchisqpow <- function(x, df, ncp=0, pow=1, log = FALSE, order.max=5) {
-	kappa <- prodchisqpow_cumuls(df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::dapx_edgeworth(x,kappa,support=c(0,Inf),log=log)
+	retval <- dsumlogchisq(x=log(x),wts=pow,df=df,ncp=ncp,log=log,order.max=order.max)
+	if (log) {
+		retval <- retval - log(x)
+	} else {
+		retval <- retval/x
+	}
 	return(retval)
 }
 #' @export
 pprodchisqpow <- function(q, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=5) {
-	kappa <- prodchisqpow_cumuls(df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::papx_edgeworth(q,kappa,support=c(0,Inf),lower.tail=lower.tail,log.p=log.p)
+	retval <- psumlogchisq(log(q),wts=pow,df=df,ncp=ncp,lower.tail=lower.tail,log.p=log.p,order.max=order.max)
 	return(retval)
 }
 #' @export 
 qprodchisqpow <- function(p, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE, order.max=5) {
-	kappa <- prodchisqpow_cumuls(df,ncp,pow,order.max=order.max)
-	retval <- PDQutils::qapx_cf(p,kappa,support=c(0,Inf),lower.tail=lower.tail,log.p=log.p)
+	retval <- qsumlogchisq(p,wts=pow,df=df,ncp=ncp,lower.tail=lower.tail,log.p=log.p,order.max=order.max)
+	retval <- exp(retval)
 	return(retval)
 }
 #' @export 

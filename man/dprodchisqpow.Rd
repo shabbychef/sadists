@@ -78,6 +78,9 @@ for, respectively, the density, distribution, quantile
 and generation functions. This is for simplicity of
 implementation and performance. It is, however, in contrast
 to the usual R idiom for dpqr functions.
+
+The PDQ functions are computed by translation of the
+sum of log chi-squares distribution functions.
 }
 \examples{
 df <- c(100,20,10)
@@ -92,10 +95,21 @@ pvs <- qprodchisqpow(ppoints(length(rvs)), df, ncp, pow)
 Steven E. Pav \email{shabbychef@gmail.com}
 }
 \seealso{
+The sum of log of chi-squares distribution,
+\code{\link{dsumlogchisq}},
+\code{\link{psumlogchisq}},
+\code{\link{qsumlogchisq}},
+\code{\link{rsumlogchisq}},
 The upsilon distribution,
-\code{\link{dupsilon},\link{pupsilon}},\code{\link{qupsilon},\link{rupsilon}}.
+\code{\link{dupsilon}},
+\code{\link{pupsilon}},
+\code{\link{qupsilon}},
+\code{\link{rupsilon}}.
 The sum of chi-square powers distribution,
-\code{\link{dsumchisqpow},\link{psumchisqpow}},\code{\link{qsumchisqpow},\link{rsumchisqpow}}.
+\code{\link{dsumchisqpow}},
+\code{\link{psumchisqpow}},
+\code{\link{qsumchisqpow}},
+\code{\link{rsumchisqpow}}.
 }
 \keyword{distribution}
 

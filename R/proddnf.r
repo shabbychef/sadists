@@ -21,20 +21,14 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-# compute the moments of the product of doubly non-central
-# F distribution. 
-proddnf_moments <- function(df1,df2,ncp1,ncp2,order.max=3) {
-	submu <- mapply(function(d1,d2,n1,n2)
-										 { dnf_moments(df1=d1,df2=d2,ncp1=n1,ncp2=n2,order.max=order.max) },
-										 df1,df2,ncp1,ncp2,SIMPLIFY=FALSE)
-	mu <- Reduce('*', submu)
-	return(mu)
-}
-
-proddnf_cumuls <- function(...) {
-	mu <- proddnf_moments(...)
-	kappa <- PDQutils::moment2cumulant(mu)
-	return(kappa)
+# transform the problem
+dnf_tprob <- function(df1,df2,ncp1,ncp2) {
+	n <- sum(mapply(function(d1,d2,n1,n2) { 1 },df1,df2,ncp1,ncp2,SIMPLIFY=TRUE))
+	pow <- c(rep(1,n),rep(-1,n))
+	df <- c(rep_len(df1,n),rep_len(df2,n))
+	ncp <- c(rep_len(ncp1,n),rep_len(ncp2,n))
+	retval <- list(n=n,pow=pow,df=df,ncp=ncp)
+	return(retval)
 }
 
 # dproddnf, pproddnf, qproddnf, rproddnf#FOLDUP
@@ -85,13 +79,24 @@ proddnf_cumuls <- function(...) {
 #'
 #' Invalid arguments will result in return value \code{NaN} with a warning.
 #' @aliases dproddnf pproddnf qproddnf rproddnf
-#' @seealso (doubly non-central) F distribution functions, 
-#' \code{\link{ddnf}}, \code{\link{pdnf}}, \code{\link{qf}}, \code{\link{rf}}.
+#' @seealso 
+#' The sum of log of chi-squares distribution,
+#' \code{\link{dsumlogchisq}},
+#' \code{\link{psumlogchisq}},
+#' \code{\link{qsumlogchisq}},
+#' \code{\link{rsumlogchisq}},
+#' (doubly non-central) F distribution functions, 
+#' \code{\link{ddnf}},
+#' \code{\link{pdnf}}, 
+#' \code{\link{qdnf}}, 
+#' \code{\link{rdnf}}.
+#'
 #' @template etc
 #' @template distribution
 #' @template apx_distribution
 #' @template not-recycled
-#' @template NYI
+#' @note The PDQ functions are computed by translation of the 
+#' sum of log chi-squares distribution functions.
 #' @examples 
 #' df1 <- c(10,20,5)
 #' df2 <- c(1000,500,150)
@@ -116,20 +121,32 @@ proddnf_cumuls <- function(...) {
 #' @rdname dproddnf
 #' @export 
 dproddnf <- function(x, df1, df2, ncp1, ncp2, log = FALSE, order.max=4) {
-	kappa <- proddnf_cumuls(df1,df2,ncp1,ncp2,order.max=order.max)
-	retval <- PDQutils::dapx_edgeworth(x,kappa,support=c(0,Inf),log=log)
+	# beware bad recycling of the parameters!
+	sub_p <- dnf_tprob(df1,df2,ncp1,ncp2)
+	retval <- dsumlogchisq(log(x) + sum(sub_p$pow * log(sub_p$df)),
+												 wts=sub_p$pow,df=sub_p$df,ncp=sub_p$ncp,log=log,order.max=order.max)
+	if (log) {
+		retval <- retval - log(x)
+	} else {
+		retval <- retval / x
+	}
 	return(retval)
 }
 #' @export 
 pproddnf <- function(q, df1, df2, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.max=4) {
-	kappa <- proddnf_cumuls(df1,df2,ncp1,ncp2,order.max=order.max)
-	retval <- PDQutils::papx_edgeworth(q,kappa,support=c(0,Inf),lower.tail=lower.tail,log.p=log.p)
+	# beware bad recycling of the parameters!
+	sub_p <- dnf_tprob(df1,df2,ncp1,ncp2)
+	retval <- psumlogchisq(log(q) + sum(sub_p$pow * log(sub_p$df)),
+												 wts=sub_p$pow,df=sub_p$df,ncp=sub_p$ncp,
+												 lower.tail=lower.tail,log.p=log.p,order.max=order.max)
 	return(retval)
 }
 #' @export 
 qproddnf <- function(p, df1, df2, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.max=4) {
-	kappa <- proddnf_cumuls(df1,df2,ncp1,ncp2,order.max=order.max)
-	retval <- PDQutils::qapx_cf(p,kappa,support=c(0,Inf),lower.tail=lower.tail,log.p=log.p)
+	sub_p <- dnf_tprob(df1,df2,ncp1,ncp2)
+	retval <- qsumlogchisq(p,wts=sub_p$pow,df=sub_p$df,ncp=sub_p$ncp,
+												 lower.tail=lower.tail,log.p=log.p,order.max=order.max)
+	retval <- exp(retval - sum(sub_p$pow * log(sub_p$df)))
 	return(retval)
 }
 #' @export 

@@ -242,6 +242,8 @@ testf(list(d = dsumlogchisq, p = psumlogchisq, q = qsumlogchisq,
 
 This distribution is the product of independent 
 doubly non-central F variates.
+The PDQ functions are computed by 
+transformation on the sum of log chi-squares distribution.
 
 
 ```r
@@ -256,12 +258,12 @@ testf(list(d = dproddnf, p = pproddnf, q = qproddnf,
 
 <img src="github_extra/figure/proddnf-1.png" title="plot of chunk proddnf" alt="plot of chunk proddnf" width="700px" height="600px" />
 
-Ack! Well, that didn't go so well. Another approach is needed here.
-
 ## Product of (non-central) chi-squares to power
 
 This distribution is the product of independent 
-non-central chi-square variates taken to some powers.
+non-central chi-square variates taken to some powers. 
+The PDQ functions are computed by 
+transformation on the sum of log chi-squares distribution.
 
 
 ```r
@@ -275,32 +277,3 @@ testf(list(d = dprodchisqpow, p = pprodchisqpow, q = qprodchisqpow,
 
 <img src="github_extra/figure/prodchisqpow-1.png" title="plot of chunk prodchisqpow" alt="plot of chunk prodchisqpow" width="700px" height="600px" />
 
-Hmmm, the density approximation does not look too hot. Probably we should be looking
-at the distribution of the log product, equivalently the weighted sum of logs of non-central
-chi-squares. Let's look at that:
-
-
-```r
-require(sadists)
-df <- c(100, 200, 100, 50)
-ncp <- c(0, 1, 0.5, 2)
-pow <- c(1, 0.5, 2, 1.5)
-dlpc <- function(x, ...) {
-    dprodchisqpow(exp(x), ...) * exp(x)
-}
-plpc <- function(q, ...) {
-    pprodchisqpow(exp(q), ...)
-}
-qlpc <- function(p, ...) {
-    log(qprodchisqpow(p, ...))
-}
-rlpc <- function(n, ...) {
-    log(rprodchisqpow(n, ...))
-}
-testf(list(d = dlpc, p = plpc, q = qlpc, r = rlpc), 
-    nobs = 2^14, df, ncp, pow)
-```
-
-<img src="github_extra/figure/logprodchisqpow-1.png" title="plot of chunk logprodchisqpow" alt="plot of chunk logprodchisqpow" width="700px" height="600px" />
-
-Well, that didn't help, did it?
