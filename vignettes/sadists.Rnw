@@ -628,7 +628,7 @@ Let $X_i \sim \chi^2_{\nu_i}\left(\delta_i\right)$ be independent non-central
 chi-square variates, where $\delta_i$ are the non-centrality parameters and
 $\nu_i$ are the degrees of freedom. Let $p_i$ be given constants. Then
 $$
-Y = \prodi X_i^{p_i}
+Y = \prod_i X_i^{p_i}
 $$
 follows a product of non-central chi-squares to a power distribution. 
 This is not a common distribution. 
