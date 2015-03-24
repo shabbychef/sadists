@@ -602,6 +602,7 @@ testf(list(d=ddneta,p=pdneta,q=qdneta,r=rdneta),nobs=2^14,df,ncp1,ncp2)
 @
 %UNFOLD
 \section{Sum of logs of (non-central) chi-squares}%FOLDUP
+\label{sec:sumlogchisq}
 
 Let $X_i \sim \chi^2_{\nu_i}\left(\delta_i\right)$ be independent non-central
 chi-square variates, where $\delta_i$ are the non-centrality parameters and
@@ -610,7 +611,8 @@ $$
 Y = \sum_i w_i \log{X_i}
 $$
 follows a weighted sum of log of non-central chi-squares distribution. 
-This is not a common distribution. 
+This is not a common distribution. However, its cumulants can easily
+be computed.  \cite{pav2015lnc}
 
 <<'sumlogchisq',echo=TRUE,eval=TRUE,fig.cap="Confirming the dpqr functions of the sum of log of chi-squares distribution.">>=
 require(sadists)
@@ -618,6 +620,27 @@ wts <- c(5,-4,10,-15)
 df <- c(100,200,100,50)
 ncp <- c(0,1,0.5,2)
 testf(list(d=dsumlogchisq,p=psumlogchisq,q=qsumlogchisq,r=rsumlogchisq),nobs=2^14,wts,df,ncp)
+@
+%UNFOLD
+\section{Product of (non-central) chi-squares to a power}%FOLDUP
+
+Let $X_i \sim \chi^2_{\nu_i}\left(\delta_i\right)$ be independent non-central
+chi-square variates, where $\delta_i$ are the non-centrality parameters and
+$\nu_i$ are the degrees of freedom. Let $p_i$ be given constants. Then
+$$
+Y = \prodi X_i^{p_i}
+$$
+follows a product of non-central chi-squares to a power distribution. 
+This is not a common distribution. 
+The `PDQ' functions are computed using a transform of the 
+logs of chi-squares distribution, see \secref{sumlogchisq}.
+
+<<'prodchisqpow',echo=TRUE,eval=TRUE,fig.cap="Confirming the dpqr functions of the product of chi-squares to a power distribution.">>=
+require(sadists)
+df <- c(100,200,100,50)
+ncp <- c(0,1,0.5,2)
+pow <- c(1,0.5,2,1.5)
+testf(list(d=dprodchisqpow,p=pprodchisqpow,q=qprodchisqpow,r=rprodchisqpow),nobs=2^14,df,ncp,pow)
 @
 %UNFOLD
 \section{Product of doubly non-central F variates}%FOLDUP
@@ -631,10 +654,8 @@ Y = \prod_j X_j
 $$
 follows a product of doubly non-central Fs distribution. 
 This is not a common distribution. 
-Its moments can be computed, so the `pdq' functions can be
-approximated by classical expansions. This distribution
-displays the limitations of the Edgeworth and Cornish Fisher
-expansions, displaying poor convergence properties
+The `PDQ' functions are computed using a transform of the 
+logs of chi-squares distribution, see \secref{sumlogchisq}.
 
 <<'proddnf',echo=TRUE,eval=TRUE,fig.cap="Confirming the dpqr functions of the product of doubly non-central Fs distribution.">>=
 require(sadists)
