@@ -84,7 +84,7 @@ dnf_tprob <- function(df1,df2,ncp1,ncp2) {
 #' \code{\link{dsumlogchisq}},
 #' \code{\link{psumlogchisq}},
 #' \code{\link{qsumlogchisq}},
-#' \code{\link{rsumlogchisq}},
+#' \code{\link{rsumlogchisq}}.
 #' (doubly non-central) F distribution functions, 
 #' \code{\link{ddnf}},
 #' \code{\link{pdnf}}, 
@@ -95,6 +95,7 @@ dnf_tprob <- function(df1,df2,ncp1,ncp2) {
 #' @template distribution
 #' @template apx_distribution
 #' @template not-recycled
+#' @template ref-lnc
 #' @note The PDQ functions are computed by translation of the 
 #' sum of log chi-squares distribution functions.
 #' @examples 

@@ -159,6 +159,12 @@ NULL
 #'
 #' \newcommand{\sadists}{\href{https://github.com/shabbychef/sadists}}
 #'
+#' @section \sadists{} Version 0.2.0 (2015-04-01) :
+#' \itemize{
+#' \item add doubly non-central Beta and Eta distributions.
+#' \item add (sum of) log chi-square distribution.
+#' \item have products of chi-square depend on transform of this distribution.
+#' }
 #' @section \sadists{} Initial Version 0.1.0 (2015-03-07) :
 #' \itemize{
 #' \item first CRAN release.

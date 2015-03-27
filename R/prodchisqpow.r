@@ -61,9 +61,11 @@
 #' @param pow the vector of the power parameters. 
 #' This is recycled against the \code{df, ncp}, but not against the \code{x,q,p,n}.
 #'
+#' @template etc
 #' @template distribution
 #' @template apx_distribution
 #' @template not-recycled
+#' @template ref-lnc
 #' @note The PDQ functions are computed by translation of the 
 #' sum of log chi-squares distribution functions.
 #'
@@ -89,7 +91,6 @@
 #' \code{\link{psumchisqpow}},
 #' \code{\link{qsumchisqpow}},
 #' \code{\link{rsumchisqpow}}.
-#' @template etc
 #' @examples 
 #' df <- c(100,20,10)
 #' ncp <- c(5,3,1)

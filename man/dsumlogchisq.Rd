@@ -91,9 +91,16 @@ pvs <- qsumlogchisq(ppoints(length(rvs)), wts, df, ncp)
 \author{
 Steven E. Pav \email{shabbychef@gmail.com}
 }
+\references{
+Pav, Steven. Moments of the log non-central chi-square distribution.
+\url{http://arxiv.org/abs/1503.06266}
+}
 \seealso{
-The upsilon distribution,
-\code{\link{dupsilon},\link{pupsilon},\link{qupsilon},\link{rupsilon}}.
+The product of chi-squares to a power,
+\code{\link{dprodchisqpow}},
+\code{\link{pprodchisqpow}},
+\code{\link{qprodchisqpow}},
+\code{\link{rprodchisqpow}}.
 }
 \keyword{distribution}
 

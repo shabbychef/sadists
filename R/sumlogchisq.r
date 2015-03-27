@@ -91,9 +91,11 @@ sumlogchisq_cumuls <- function(wts,df,ncp=0,order.max=3) {
 #' @param ncp the vector of non-centrality parameters. 
 #' This is recycled against the \code{wts, df}, but not against the \code{x,q,p,n}.
 #'
+#' @template etc
 #' @template distribution
 #' @template apx_distribution
 #' @template not-recycled
+#' @template ref-lnc
 #'
 #' @return \code{dsumlogchisq} gives the density, \code{psumlogchisq} gives the 
 #' distribution function, \code{qsumlogchisq} gives the quantile function, 
@@ -102,9 +104,12 @@ sumlogchisq_cumuls <- function(wts,df,ncp=0,order.max=3) {
 #' Invalid arguments will result in return value \code{NaN} with a warning.
 #' @aliases dsumlogchisq psumlogchisq qsumlogchisq rsumlogchisq
 #' @seealso 
-#' The upsilon distribution, 
-#' \code{\link{dupsilon},\link{pupsilon},\link{qupsilon},\link{rupsilon}}.
-#' @template etc
+#' The product of chi-squares to a power,
+#' \code{\link{dprodchisqpow}},
+#' \code{\link{pprodchisqpow}},
+#' \code{\link{qprodchisqpow}},
+#' \code{\link{rprodchisqpow}}.
+#'
 #' @examples 
 #' wts <- c(1,-3,4)
 #' df <- c(100,20,10)
@@ -141,9 +146,6 @@ rsumlogchisq <- function(n, wts, df, ncp=0) {
 	return(X)
 }
 #UNFOLD
-
-
-
 
 #for vim modeline: (do not edit)
 # vim:fdm=marker:fmr=FOLDUP,UNFOLD:cms=#%s:syn=r:ft=r

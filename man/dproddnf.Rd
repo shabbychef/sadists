@@ -107,12 +107,16 @@ qqplot(x=rv,y=q1)
 \author{
 Steven E. Pav \email{shabbychef@gmail.com}
 }
+\references{
+Pav, Steven. Moments of the log non-central chi-square distribution.
+\url{http://arxiv.org/abs/1503.06266}
+}
 \seealso{
 The sum of log of chi-squares distribution,
 \code{\link{dsumlogchisq}},
 \code{\link{psumlogchisq}},
 \code{\link{qsumlogchisq}},
-\code{\link{rsumlogchisq}},
+\code{\link{rsumlogchisq}}.
 (doubly non-central) F distribution functions,
 \code{\link{ddnf}},
 \code{\link{pdnf}},
