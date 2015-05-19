@@ -108,6 +108,28 @@ upsilon_cumuls <- function(df,t,order.max=3) {
 #' \dontrun{
 #' qqplot(x=rv,y=q1)
 #' }
+#' \dontrun{
+#' require(SharpeR)
+#' ope <- 252
+#' n.sim <- 500
+#' n.term <- 3
+#' set.seed(234234)
+#' pp <- replicate(n.sim,{
+#'   # these are population parameters 
+#'   a <- rnorm(n.term) 
+#'   psi <- 6 * rnorm(length(a)) / sqrt(ope)
+#'   b <- sum(a * psi)
+#'   df <- 100 + ceiling(200 * runif(length(psi)))
+#'   comm <- 1 / sqrt(sum(a^2 / df))
+#'   cdf <- df - 1
+#'   # now independent draws from the SR distribution:
+#'   x <- rsr(length(df), df, zeta=psi, ope=1)
+#'   # now compute a p-value under the true null
+#'   pupsilon(comm * b,df=cdf,t=comm*a*x) 
+#'   })
+#' # ought to be uniform:
+#' plot(ecdf(pp)) 
+#' }
 #' @name upsilon
 #' @rdname dupsilon
 #' @export 
