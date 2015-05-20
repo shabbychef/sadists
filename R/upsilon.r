@@ -91,6 +91,7 @@ upsilon_cumuls <- function(df,t,order.max=3) {
 #' @template apx_distribution
 #' @template not-recycled
 #' @template ref-lambdap
+#' @template ref-upsilon
 #' @examples 
 #' mydf <- c(100,30,50)
 #' myt <- c(-1,3,5)
