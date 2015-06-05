@@ -101,9 +101,15 @@ schi_moms <- function(df,scal=1,order.max=3) {
 	return(retval)
 }
 
-gengamma_moms <- function(a,d,p,order.max=3) {
-
-
+# the generalized gamma.
+gengamma_moms <- function(a,d,p,order.max=3,orders=1:order.max,log=FALSE) {
+	dbyp <- d/p
+	if (log) {
+		retval <- orders * log(a) + lgamrat((orders/p) + dbyp,dbyp)
+	} else {
+		retval <- (a^(orders)) * gamrat((orders/p) + dbyp,dbyp)
+	}
+	return(retval)
 }
 #UNFOLD
 

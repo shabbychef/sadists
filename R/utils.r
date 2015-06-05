@@ -90,6 +90,15 @@ uniroot_helper <- function(fnc, x0=0, f0=NULL, xmin=-Inf, xmax=Inf,
 	return(soln)
 }
 
+# call gamma, then take to a power
+rgengamma <- function(n,a,d,p) {
+	# k, theta are shape, scale
+	k <- d / p
+	theta <- a ^ p
+	retv <- rgamma(n, shape=k, scale=theta)
+	retv <- retv ^ (1/p)
+	retv
+}
 
 #for vim modeline: (do not edit)
 # vim:fdm=marker:fmr=FOLDUP,UNFOLD:cms=#%s:syn=r:ft=r

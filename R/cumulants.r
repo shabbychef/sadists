@@ -72,7 +72,11 @@ schi_cumuls <- function(df,scal=1,order.max=3) {
 	return(retval)
 }
 
-
+# the generalized gamma.
+gengamma_cumuls <- function(a,d,p,order.max=3) {
+	retval <- moment2cumulant(gengamma_moms(a,d,p,order.max=order.max,log=FALSE))
+	return(retval)
+}
 
 #for vim modeline: (do not edit)
 # vim:fdm=marker:fmr=FOLDUP,UNFOLD:cms=#%s:syn=r:ft=r
