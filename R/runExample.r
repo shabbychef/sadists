@@ -52,7 +52,7 @@
 #' }
 #' @author Steven E. Pav \email{shabbychef@@gmail.com}
 runExample <- function(port=NULL,launch.browser=TRUE,host=getOption('shiny.host','127.0.0.1'),display.mode='auto') {
-  appDir <- system.file("shiny-examples", "myapp", package = "sadists")
+  appDir <- system.file("shiny-examples", "sadists", package = "sadists")
   if (appDir == "") {
     stop("Could not find example directory. Try re-installing `sadists`.", call. = FALSE)
   }
