@@ -105,7 +105,7 @@ ui <- shinyUI(fluidPage(
 				tabPanel("p-p",plotOutput("ppplot"))
 			)
 		))
-,title="Monte Carlo Simulations"))
+,title="Testing sadist distributions"))
 
 shinyUI(ui)
 

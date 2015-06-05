@@ -21,16 +21,44 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-# h/t Dean Attali http://deanattali.com/2015/04/21/r-package-shiny-app/
 
-#' @export
-runExample <- function() {
+#' @title Run Shiny Application
+#'
+#' @description 
+#'
+#' Runs a shiny application which draws from the given distributions, then
+#' illustrates the fidelity of the density, CDF, and quantile functions.
+#'
+#' @details
+#'
+#' Launches shiny applications, and optionally, your system's web browser.
+#' Draws are taken from the random variable, and d-d, q-q, and p-p plots
+#' are available.
+#'
+#' @usage
+#'
+#' runExample(port=NULL,launch.browser=TRUE,host=getOption('shiny.host','127.0.0.1'),display.mode='auto')
+#'
+#' @inheritParams shiny::runApp
+#' @references
+#'
+#' Attali, D. "Supplementing your R package with a shiny app."
+#' \url{http://deanattali.com/2015/04/21/r-package-shiny-app/}
+#'
+#' @export 
+#' @examples 
+#' \dontrun{
+#' runExample(launch.browser=TRUE)
+#' }
+#' @author Steven E. Pav \email{shabbychef@@gmail.com}
+runExample <- function(port=NULL,launch.browser=TRUE,host=getOption('shiny.host','127.0.0.1'),display.mode='auto') {
   appDir <- system.file("shiny-examples", "myapp", package = "sadists")
   if (appDir == "") {
     stop("Could not find example directory. Try re-installing `sadists`.", call. = FALSE)
   }
 
-  shiny::runApp(appDir, display.mode = "normal")
+  shiny::runApp(appDir, port=port, launch.browser=launch.browser,
+								host=host, display.mode=display.mode)
 }
 
 #for vim modeline: (do not edit)

@@ -100,6 +100,11 @@ schi_moms <- function(df,scal=1,order.max=3) {
 	}
 	return(retval)
 }
+
+gengamma_moms <- function(a,d,p,order.max=3) {
+
+
+}
 #UNFOLD
 
 #for vim modeline: (do not edit)
