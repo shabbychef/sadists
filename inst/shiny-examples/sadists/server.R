@@ -8,7 +8,7 @@ library(ggplot2)
 library(reshape2)
 library(sadists)
 
-text.size <<- 8   # sigh
+text.size <<- 12   # sigh
 
 # convert a string like "234, 12, 99" to an array of numerics c(234, 12, 99)
 chars_to_num <- function(astr) {
@@ -68,7 +68,7 @@ server <- function(input, output) {
 						},
 						prodchisqpow = {
 							argslist = list(df=chars_to_num(input$prodchisqpow_df),
-															ncp=chars_to_num(input$prodchisqpow_ncp),
+															ncp=pmax(0,chars_to_num(input$prodchisqpow_ncp)),
 															pow=chars_to_num(input$prodchisqpow_pow))
 							list(d=function(x) do.call(dprodchisqpow,c(argslist,list(x=x))),
 									 p=function(q) do.call(pprodchisqpow,c(argslist,list(q=q))),
@@ -78,8 +78,8 @@ server <- function(input, output) {
 						proddnf = {
 							argslist = list(df1=chars_to_num(input$proddnf_df1),
 															df2=chars_to_num(input$proddnf_df2),
-															ncp1=chars_to_num(input$proddnf_ncp1),
-															ncp2=chars_to_num(input$proddnf_ncp2))
+															ncp1=pmax(0,chars_to_num(input$proddnf_ncp1)),
+															ncp2=pmax(0,chars_to_num(input$proddnf_ncp2)))
 							list(d=function(x) do.call(dproddnf,c(argslist,list(x=x))),
 									 p=function(q) do.call(pproddnf,c(argslist,list(q=q))),
 									 q=function(p) do.call(qproddnf,c(argslist,list(p=p))),
@@ -87,8 +87,8 @@ server <- function(input, output) {
 						},
 						sumchisqpow = {
 							argslist = list(wts=chars_to_num(input$sumchisqpow_wts),
-															df=chars_to_num(input$sumchisqpow_df),
-															ncp=chars_to_num(input$sumchisqpow_ncp),
+															df=pmax(3,chars_to_num(input$sumchisqpow_df)),
+															ncp=pmax(0,chars_to_num(input$sumchisqpow_ncp)),
 															pow=chars_to_num(input$sumchisqpow_pow))
 							list(d=function(x) do.call(dsumchisqpow,c(argslist,list(x=x))),
 									 p=function(q) do.call(psumchisqpow,c(argslist,list(q=q))),
@@ -97,15 +97,15 @@ server <- function(input, output) {
 						},
 						sumlogchisq = {
 							argslist = list(wts=chars_to_num(input$sumlogchisq_wts),
-															df=chars_to_num(input$sumlogchisq_df),
-															ncp=chars_to_num(input$sumlogchisq_ncp))
+															df=pmax(3,chars_to_num(input$sumlogchisq_df)),
+															ncp=pmax(0,chars_to_num(input$sumlogchisq_ncp)))
 							list(d=function(x) do.call(dsumlogchisq,c(argslist,list(x=x))),
 									 p=function(q) do.call(psumlogchisq,c(argslist,list(q=q))),
 									 q=function(p) do.call(qsumlogchisq,c(argslist,list(p=p))),
 									 r=function(n) do.call(rsumlogchisq,c(argslist,list(n=n))))
 						},
 						upsilon = {
-							argslist = list(df=chars_to_num(input$upsilon_df),
+							argslist = list(df=pmax(3,chars_to_num(input$upsilon_df)),
 															t=chars_to_num(input$upsilon_t))
 							list(d=function(x) do.call(dupsilon,c(argslist,list(x=x))),
 									 p=function(q) do.call(pupsilon,c(argslist,list(q=q))),
@@ -129,6 +129,8 @@ server <- function(input, output) {
 		dpqr <- get_dpqr()
     data <- sims()
 
+		do.log <- (min(data$draws) > 0) && ((max(data$draws) / min(data$draws)) > 20)
+
 		# http://stackoverflow.com/a/5688125/164611
 		p1 <- qplot(data$draws, geom = 'blank') +   
 			geom_line(aes(y = ..density.., colour = 'Empirical'), stat = 'density') +  
@@ -136,7 +138,10 @@ server <- function(input, output) {
 			geom_histogram(aes(y = ..density..), alpha = 0.3) +                        
 			scale_colour_manual(name = 'Density', values = c('red', 'blue')) +
 			theme(text=element_text(size=text.size)) + 
-			labs(title="Density (tests dfunc)")
+			labs(x=paste0('draws from ',input$distro,' distribution'),
+					 title="Density (tests dfunc)")
+		#if (do.log)
+			#p1 <- p1 + scale_x_log10()
 		return(p1)
   })
 
@@ -145,11 +150,15 @@ server <- function(input, output) {
 		dpqr <- get_dpqr()
     data <- sims()
 
+		do.log <- (min(data$draws) > 0) && ((max(data$draws) / min(data$draws)) > 20)
+
 		# Q-Q plot
 		p2 <- ggplot(data, aes(sample = draws)) + stat_qq(dist=function(p) { dpqr$q(p) }) +
 			geom_abline(slope=1,intercept=0,colour='red') + 
 			theme(text=element_text(size=text.size)) + 
 			labs(title="Q-Q plot (tests qfunc)")
+		if (do.log)
+			p2 <- p2 + scale_x_log10() + scale_y_log10()
 		return(p2)
 	})
 
