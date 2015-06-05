@@ -281,7 +281,7 @@ testf(list(d = dprodchisqpow, p = pprodchisqpow, q = qprodchisqpow,
 ## Sum of generalized gammas 
 
 This distribution is the sum of independent 
-generalized gamma variates.
+generalized gamma variates. Clearly some work is required to improve the approximation...
 
 
 ```r
