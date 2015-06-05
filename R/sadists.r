@@ -159,6 +159,13 @@ NULL
 #'
 #' \newcommand{\sadists}{\href{https://github.com/shabbychef/sadists}}
 #'
+#' @section \sadists{} Version 0.3.0 (2015-07-01) :
+#' \itemize{
+#' \item shiny apps (h/t Dean Attali).
+#' \item add (sum of) log generalized gamma distribution.
+#' \item add (sum of) generalized gamma distribution.
+#' }
+#'
 #' @section \sadists{} Version 0.2.0 (2015-04-01) :
 #' \itemize{
 #' \item add doubly non-central Beta and Eta distributions.

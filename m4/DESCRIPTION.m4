@@ -24,6 +24,7 @@ Imports:
     hypergeo,
     orthopolynom
 Suggests: 
+	shiny,
     testthat, 
     ggplot2, 
     xtable,
