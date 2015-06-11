@@ -263,17 +263,3 @@ pow <- c(1,0.5,2,1.5)
 testf(list(d=dprodchisqpow,p=pprodchisqpow,q=qprodchisqpow,r=rprodchisqpow),nobs=2^14,df,ncp,pow)
 ```
 
-## Sum of generalized gammas 
-
-This distribution is the sum of independent 
-generalized gamma variates. Clearly some work is required to improve the approximation...
-
-```{r sumgengamma}
-require(sadists)
-wts <- c(8,-10)
-a <- c(10,2)
-d <- c(2,1)
-pow <- c(0.5,1.5)
-testf(list(d=dsumgengamma,p=psumgengamma,q=qsumgengamma,r=rsumgengamma),nobs=2^14,wts,a,d,pow)
-```
-

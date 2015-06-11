@@ -2,8 +2,8 @@ Package: sadists
 Maintainer: Steven E. Pav <shabbychef@gmail.com>
 Authors@R: c(person(c("Steven", "E."), "Pav", role=c("aut","cre"),
     email="shabbychef@gmail.com"))
-Version: 0.2.0.7000
-Date: 2015-06-04
+Version: 0.2.1
+Date: 2015-06-11
 License: LGPL-3
 Title: Some Additional Distributions
 BugReports: https://github.com/shabbychef/sadists/issues
@@ -41,7 +41,6 @@ Collate:
     'runExample.r'
     'sadists.r'
     'sumchisqpow.r'
-    'sumgengamma.r'
     'sumlogchisq.r'
     'upsilon.r'
     'utils.r'

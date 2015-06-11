@@ -666,27 +666,6 @@ ncp2 <- c(0,1.5,5)
 testf(list(d=dproddnf,p=pproddnf,q=qproddnf,r=rproddnf),nobs=2^14,df1,df2,ncp1,ncp2)
 @
 %UNFOLD
-\section{Sum of generalized gamma variates}%FOLDUP
-
-Let $X_i \sim G\left(a_i, d_i, p_i\right)$ 
-be independently distributed generalized gamma variates with parameters
-$a_i, d_i$ and inverse power $p_i$. \cite{stacey1962}
-Let $w_i$ be given constants. Then
-$$
-Y = \sum_i w_i X_i
-$$
-follows a sum of generalized gammas distribution.
-This is not a common distribution. 
-
-<<'sumgengamma',echo=TRUE,eval=TRUE,fig.cap="Confirming the dpqr functions of the sum of generalized gammas distribution.">>=
-require(sadists)
-wts <- c(8,-10)
-a <- c(10,2)
-d <- c(2,1)
-pow <- c(0.5,1.5)
-testf(list(d=dsumgengamma,p=psumgengamma,q=qsumgengamma,r=rsumgengamma),nobs=2^14,wts,a,d,pow)
-@
-%UNFOLD
 
 \nocite{paolella2007intermediate,Lecoutre1999,PoitLecoutre2010}
 
