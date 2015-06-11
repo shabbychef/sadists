@@ -37,7 +37,8 @@
 #'
 #' @usage
 #'
-#' runExample(port=NULL,launch.browser=TRUE,host=getOption('shiny.host','127.0.0.1'),display.mode='auto')
+#' runExample(port=NULL,launch.browser=TRUE,
+#'  host=getOption('shiny.host','127.0.0.1'),display.mode='auto')
 #'
 #' @inheritParams shiny::runApp
 #' @references

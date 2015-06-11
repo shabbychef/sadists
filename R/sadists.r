@@ -159,11 +159,9 @@ NULL
 #'
 #' \newcommand{\sadists}{\href{https://github.com/shabbychef/sadists}}
 #'
-#' @section \sadists{} Version 0.3.0 (2015-07-01) :
+#' @section \sadists{} Version 0.2.1 (2015-06-12) :
 #' \itemize{
-#' \item shiny apps (h/t Dean Attali).
-#' \item add (sum of) log generalized gamma distribution.
-#' \item add (sum of) generalized gamma distribution.
+#' \item shiny app (h/t Dean Attali).
 #' }
 #'
 #' @section \sadists{} Version 0.2.0 (2015-04-01) :
