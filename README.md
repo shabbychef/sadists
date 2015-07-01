@@ -3,6 +3,8 @@
 # sadists
 
 [![Build Status](https://travis-ci.org/shabbychef/sadists.png)](https://travis-ci.org/shabbychef/sadists)
+[![codecov.io](http://codecov.io/github/shabbychef/sadists/coverage.svg?branch=master)](http://codecov.io/github/shabbychef/sadists?branch=master)
+![](http://cranlogs-dev.r-pkg.org/badges/sadists)
 
 Some Additional Distributions apparently not available in R.
 
