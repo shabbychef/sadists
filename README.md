@@ -80,7 +80,7 @@ testf <- function(dpqr, nobs, ...) {
 ## Weighted sum of (non-central) chi-squares to power
 
 This distribution is the weighted sum of independent 
-non-central chi-square variates taken to some powers.
+(non-central) chi-square variates taken to some powers.
 The special case where the powers are all one half 
 is related to the upsilon distribution. The 
 special case where the powers are all one could be used
@@ -224,10 +224,10 @@ testf(list(d = ddneta, p = pdneta, q = qdneta, r = rdneta),
 
 <img src="github_extra/figure/dneta-1.png" title="plot of chunk dneta" alt="plot of chunk dneta" width="700px" height="600px" />
 
-## Sum of logs of (non-central) chi-squares 
+## Weighted sum of logs of (non-central) chi-squares 
 
 This distribution is the sum of logs of independent 
-non-central chi-square variates.
+(non-central) chi-square variates.
 
 
 ```r
