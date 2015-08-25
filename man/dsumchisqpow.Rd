@@ -81,6 +81,10 @@ for, respectively, the density, distribution, quantile
 and generation functions. This is for simplicity of
 implementation and performance. It is, however, in contrast
 to the usual R idiom for dpqr functions.
+
+The 'sum of chisquare power' distribution does \emph{not} generalize
+the 'chi-bar-square' distribution, whose \emph{density} is the sum of
+chi-square densities.
 }
 \examples{
 wts <- c(1,-3,4)
