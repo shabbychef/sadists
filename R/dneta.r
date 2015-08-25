@@ -130,7 +130,7 @@ qdneta <- function(p, df, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.ma
 #' @export 
 rdneta <- function(n, df, ncp1, ncp2) {
 	X1 <- rnorm(n,mean=ncp1)
-	X2 <- rchisq(n,df=df,ncp=ncp2)
+	X2 <- unbroken_rchisq(n,df=df,ncp=ncp2)
 	X <- X1 / sqrt((X1^2) + X2)
 	return(X)
 }

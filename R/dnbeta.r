@@ -124,8 +124,8 @@ qdnbeta <- function(p, df1, df2, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, o
 }
 #' @export 
 rdnbeta <- function(n, df1, df2, ncp1, ncp2) {
-	X1 <- rchisq(n,df=df1,ncp=ncp1)
-	X2 <- rchisq(n,df=df2,ncp=ncp2)
+	X1 <- unbroken_rchisq(n,df=df1,ncp=ncp1)
+	X2 <- unbroken_rchisq(n,df=df2,ncp=ncp2)
 	X <- X1 / (X1+X2)
 	return(X)
 }

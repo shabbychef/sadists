@@ -124,7 +124,7 @@ qprodchisqpow <- function(p, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FALSE,
 }
 #' @export 
 rprodchisqpow <- function(n, df, ncp=0, pow=1) {
-	subX <- mapply(function(dd,nn,pp) { (rchisq(n,df=dd,ncp=nn) ^ pp) },
+	subX <- mapply(function(dd,nn,pp) { (unbroken_rchisq(n,df=dd,ncp=nn) ^ pp) },
 										 df,ncp,pow,SIMPLIFY=FALSE)
 	X <- Reduce('*', subX)
 	return(X)

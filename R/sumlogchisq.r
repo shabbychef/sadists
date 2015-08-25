@@ -140,7 +140,7 @@ qsumlogchisq <- function(p, wts, df, ncp=0, lower.tail = TRUE, log.p = FALSE, or
 }
 #' @export 
 rsumlogchisq <- function(n, wts, df, ncp=0) {
-	subX <- mapply(function(w,dd,nn) { w * log(rchisq(n,df=dd,ncp=nn)) },
+	subX <- mapply(function(w,dd,nn) { w * log(unbroken_rchisq(n,df=dd,ncp=nn)) },
 										 wts,df,ncp,SIMPLIFY=FALSE)
 	X <- Reduce('+', subX)
 	return(X)

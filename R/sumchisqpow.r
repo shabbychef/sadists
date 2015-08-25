@@ -130,7 +130,7 @@ qsumchisqpow <- function(p, wts, df, ncp=0, pow=1, lower.tail = TRUE, log.p = FA
 }
 #' @export 
 rsumchisqpow <- function(n, wts, df, ncp=0, pow=1) {
-	subX <- mapply(function(w,dd,nn,pp) { w * (rchisq(n,df=dd,ncp=nn) ^ pp) },
+	subX <- mapply(function(w,dd,nn,pp) { w * (unbroken_rchisq(n,df=dd,ncp=nn) ^ pp) },
 										 wts,df,ncp,pow,SIMPLIFY=FALSE)
 	X <- Reduce('+', subX)
 	return(X)
