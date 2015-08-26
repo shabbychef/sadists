@@ -137,7 +137,7 @@ qdnt <- function(p, df, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, order.max=
 #' @export 
 rdnt <- function(n,df,ncp1,ncp2) {
 	X <- rnorm(n,mean=ncp1,sd=1)
-	Y <- unbroken_rchisq(n,df=df,ncp=ncp2)
+	Y <- rchisq(n,df=df,ncp=ncp2)
 	Z <- X / sqrt(Y / df)
 	return(Z)
 }
