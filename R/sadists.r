@@ -159,6 +159,11 @@ NULL
 #'
 #' \newcommand{\sadists}{\href{https://github.com/shabbychef/sadists}}
 #'
+#' @section \sadists{} Version 0.2.2 (2015-08-25) :
+#' \itemize{
+#' \item work around bad \code{rchisq} when \eqn{df=0=ncp}
+#' }
+#'
 #' @section \sadists{} Version 0.2.1 (2015-06-12) :
 #' \itemize{
 #' \item shiny app (h/t Dean Attali).

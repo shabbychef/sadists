@@ -296,7 +296,5 @@ testf(list(d = dsumgengamma, p = psumgengamma, q = qsumgengamma,
     r = rsumgengamma), nobs = 2^14, wts, a, d, pow)
 ```
 
-```
-## Error in sort(dpqr$r(nobs, ...)): object 'dsumgengamma' not found
-```
+<img src="github_extra/figure/sumgengamma-1.png" title="plot of chunk sumgengamma" alt="plot of chunk sumgengamma" width="700px" height="600px" />
 

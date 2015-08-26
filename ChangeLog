@@ -1,4 +1,7 @@
 
+2015-08-25 Steven E. Pav <shabbychef@gmail.com>
+* work around bad rchisq when df=0=ncp
+
 2015-06-12 Steven E. Pav <shabbychef@gmail.com>
 * 0.2.1 on CRAN
 * shiny app
