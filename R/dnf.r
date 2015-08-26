@@ -138,7 +138,7 @@ qdnf <- function(p, df1, df2, ncp1, ncp2, lower.tail = TRUE, log.p = FALSE, orde
 }
 #' @export 
 rdnf <- function(n, df1, df2, ncp1, ncp2) {
-	X <- (unbroken_rchisq(n,df=df1,ncp=ncp1)/df1) / (unbroken_rchisq(n,df=df2,ncp=ncp2)/df2)
+	X <- (rchisq(n,df=df1,ncp=ncp1)/df1) / (rchisq(n,df=df2,ncp=ncp2)/df2)
 	return(X)
 }
 #UNFOLD
