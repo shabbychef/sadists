@@ -104,8 +104,8 @@ rgengamma <- function(n,a,d,p) {
 # this is a not-recycled chisquare generator
 # which irons over the df=0,ncp=0 case.
 unbroken_rchisq <- function(n,df,ncp=0) {
-	stopifnot(length(df)==0,length(ncp)==0)
-	retv <- ifelse(ncp == 0,rchisq(n,df=df),rchisq(n,df=df,ncp=ncp))
+	retv <- rchisq(n,df=df,ncp=ncp)
+	retv[df==0 & ncp==0] <- 0
 	retv
 }
 
