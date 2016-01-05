@@ -23,6 +23,34 @@
 # Comments: Steven E. Pav
 
 
+# generate generalized gamma variates:
+# call gamma, then take to a power
+rgengamma <- function(n,a,d,p) {
+	# k, theta are shape, scale
+	k <- d / p
+	theta <- a ^ p
+	retv <- rgamma(n, shape=k, scale=theta)
+	retv <- retv ^ (1/p)
+	retv
+}
+
+# moments of the generalized gamma.
+gengamma_moms <- function(a,d,p,order.max=3,orders=1:order.max,log=FALSE) {
+	dbyp <- d/p
+	if (log) {
+		retval <- orders * log(a) + lgamrat((orders/p) + dbyp,dbyp)
+	} else {
+		retval <- (a^(orders)) * gamrat((orders/p) + dbyp,dbyp)
+	}
+	return(retval)
+}
+
+# the generalized gamma.
+gengamma_cumuls <- function(a,d,p,order.max=3) {
+	retval <- moment2cumulant(gengamma_moms(a,d,p,order.max=order.max,log=FALSE))
+	return(retval)
+}
+
 # compute the cumulants of the sumgengamma
 # distribution. 
 sumgengamma_cumuls <- function(wts,a,d,pow,order.max=3) {

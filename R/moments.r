@@ -21,15 +21,6 @@
 # Author: Steven E. Pav
 # Comments: Steven E. Pav
 
-# utilities#FOLDUP
-# central moments to standardized moments
-central2std <- function(mu.cent) {
-	#std <- sqrt(mu.cent[3])
-	mu.std <- mu.cent / (mu.cent[3] ^ ((0:(length(mu.cent)-1))/2))
-	return(mu.std)
-}
-#UNFOLD
-
 # we need a vectorized confluent hypergeometric function#FOLDUP
 F11 <- Vectorize(hypergeo::genhypergeo,vectorize.args=c("U","L","z"))
 ReF11 <- function(...) {
@@ -54,13 +45,6 @@ norm_moms <- function(mu=0,sigma=1,order.max=3) {
 }
 
 # compute the 1 through order.max raw, uncentered moment
-# of the (non-central) chi distribution with df d.f.
-#chi_moms <- function(df,ncp=0,order.max=3,orders=1:order.max,log=FALSE) {
-	#retval <- chisq_moms(df=df,ncp=ncp,orders=orders/2,log=log)
-	#return(retval)
-#}
-
-# compute the 1 through order.max raw, uncentered moment
 # of the (non-central) chisquare to power distribution.
 chipow_moms <- function(df,ncp=0,pow=1,order.max=3,orders=1:order.max,log=FALSE) {
 	retval <- chisq_moms(df=df,ncp=ncp,orders=pow * orders,log=log)
@@ -83,31 +67,6 @@ chisq_moms <- function(df,ncp=0,order.max=3,orders=1:order.max,log=FALSE) {
 		if (ncp != 0) {
 			retval <- (retval/exp(hancp)) * ReF11(orders + hadf,hadf,hancp)
 		}
-	}
-	return(retval)
-}
-
-# something like a nakagami, but really a scaled chi
-#schi_moms <- function(df,scal=1,order.max=3) {
-	#stopifnot(df > 0)
-	#orders <- 1:order.max
-	#if (is.infinite(df)) {
-		#retval <- scal ^ orders
-	#} else {
-		#retval <- chi_moms(df=df,orders=orders,log=TRUE)
-		#retval <- retval + orders * (log(abs(scal)) - 0.5 * log(df))
-		#retval <- exp(retval) * sign(scal)^orders
-	#}
-	#return(retval)
-#}
-
-# the generalized gamma.
-gengamma_moms <- function(a,d,p,order.max=3,orders=1:order.max,log=FALSE) {
-	dbyp <- d/p
-	if (log) {
-		retval <- orders * log(a) + lgamrat((orders/p) + dbyp,dbyp)
-	} else {
-		retval <- (a^(orders)) * gamrat((orders/p) + dbyp,dbyp)
 	}
 	return(retval)
 }
