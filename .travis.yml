@@ -1,8 +1,18 @@
 
+sudo: required
+
 language: r
 
 r_packages :
   - PDQutils
+
+r_binary_packages :
   - hypergeo
   - orthopolynom
+
+r_github_packages :
+  - jimhester/covr
+
+after_success:
+  - Rscript -e 'library(covr);codecov()'
 

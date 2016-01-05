@@ -32,7 +32,7 @@ M4_FILES					?= $(wildcard m4/*.m4)
 VMAJOR 						 = 0
 VMINOR 						 = 2
 VPATCH  					 = 1
-VDEV 							 = .9500
+VDEV 							 = .9600
 VERSION 					 = $(VMAJOR).$(VMINOR).$(VPATCH)$(VDEV)
 TODAY 						:= $(shell date +%Y-%m-%d)
 
@@ -65,7 +65,7 @@ RSCRIPT   				 = $(RBIN)/Rscript
 R_FLAGS 					?= -q --no-save --no-restore --no-init-file
 
 # packages I need to test this one
-TEST_DEPS  				 = testthat roxygen2 knitr xtable \
+TEST_DEPS  				 = testthat roxygen2 knitr xtable covr \
 										 hypergeo moments orthopolynom 
 INSTALLED_DEPS 		 = $(patsubst %,$(LOCAL)/%/DESCRIPTION,$(TEST_DEPS)) 
 PKG_TESTR 				 = tests/run-all.R
@@ -385,6 +385,18 @@ unit_test.log : $(LOCAL)/$(PKG_NAME)/INDEX $(LOCAL)/testthat/DESCRIPTION $(PKG_T
 testthat : unit_test.log
 
 tests    : unit_test.log
+
+loctest : deps $(LOCAL)/$(PKG_NAME)/INDEX
+	$(call WARN_DEPS)
+	R_LIBS=$(LOCAL) R_PROFILE=load.R \
+				 R_DEFAULT_PACKAGES=$(BASE_DEF_PACKAGES),testthat $(R) $(R_FLAGS) \
+				 --slave --silent \
+				 -e 'testthat::test_dir("tests/testthat")'
+
+coverage : deps $(LOCAL)/$(PKG_NAME)/INDEX
+	R_LIBS=$(LOCAL) R_PROFILE=load.R \
+				 R_DEFAULT_PACKAGES=$(BASE_DEF_PACKAGES),covr $(R) -q --no-save --silent \
+				 -e 'percent_coverage(package_coverage("."))'
 
 # drop into R shell in the 'local context'
 R : deps $(LOCAL)/$(PKG_NAME)/INDEX

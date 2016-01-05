@@ -91,8 +91,8 @@ sumgengamma_support <- function(wts,a,d,pow) {
 #' Invalid arguments will result in return value \code{NaN} with a warning.
 #' @aliases dsumgengamma psumgengamma qsumgengamma rsumgengamma
 #' @seealso 
-#' The sum of log gen gammas distribution,
-#' \code{\link{dsumloggengamma},\link{psumloggengamma},\link{qsumloggengamma},\link{rsumloggengamma}}.
+#' The sum of chi squares to powers distribution,
+#' \code{\link{dsumchisqpow},\link{psumchisqpow},\link{qsumchisqpow},\link{rsumchisqpow}}.
 #' @template etc
 #' @examples 
 #' wts <- c(1,-3,4)
