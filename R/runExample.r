@@ -52,7 +52,7 @@
 #' runExample(launch.browser=TRUE)
 #' }
 #' @author Steven E. Pav \email{shabbychef@@gmail.com}
-runExample <- function(port=NULL,launch.browser=TRUE,host=getOption('shiny.host','127.0.0.1'),display.mode='auto') {
+runExample <- function(port=NULL,launch.browser=TRUE,host=getOption('shiny.host','127.0.0.1'),display.mode='auto') { # nocov start
   appDir <- system.file("shiny-examples", "sadists", package = "sadists")
   if (appDir == "") {
     stop("Could not find example directory. Try re-installing `sadists`.", call. = FALSE)
@@ -60,7 +60,7 @@ runExample <- function(port=NULL,launch.browser=TRUE,host=getOption('shiny.host'
 
   shiny::runApp(appDir, port=port, launch.browser=launch.browser,
 								host=host, display.mode=display.mode)
-}
+} # nocov end
 
 #for vim modeline: (do not edit)
 # vim:fdm=marker:fmr=FOLDUP,UNFOLD:cms=#%s:syn=r:ft=r

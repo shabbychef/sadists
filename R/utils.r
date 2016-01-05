@@ -37,9 +37,11 @@ gamrat <- function(a,b) {
 # detected, then calls uniroot.
 #
 # the parameters tol and maxiter are passed to uniroot
+#
+# I think this function is orphaned ... 
 uniroot_helper <- function(fnc, x0=0, f0=NULL, xmin=-Inf, xmax=Inf,
 													 tol=.Machine$double.eps^0.25, maxiter=1000, 
-													 ...) {
+													 ...) {  # nocov start
 	if (is.null(f0)) 
 		f0 = fnc(x0,...)
 	if (f0 == 0)
@@ -88,7 +90,7 @@ uniroot_helper <- function(fnc, x0=0, f0=NULL, xmin=-Inf, xmax=Inf,
 									f.lower=flb,f.upper=fub,
 									tol=tol,maxiter=maxiter,...)$root
 	return(soln)
-}
+} # nocov end
 
 # call gamma, then take to a power
 rgengamma <- function(n,a,d,p) {
