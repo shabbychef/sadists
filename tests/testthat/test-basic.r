@@ -80,13 +80,15 @@ test_dpqr <- function(dpqr,nobs=1e4,...) {
 
 context("Basic Operations")#FOLDUP
 
+nobs_chk <- 2^11
+
 test_that("sum of (non-central) chi-squares to a power",{
 	set.char.seed('f8d988e6-e9ba-4448-aefe-51c50c0dbc02')
 	wts <- c(-1,1,3,-3)
 	df <- c(100,200,100,50)
 	ncp <- c(0,1,0.5,2)
 	pow <- c(1,0.5,2,1.5)
-	test_dpqr(list(d=dsumchisqpow,p=psumchisqpow,q=qsumchisqpow,r=rsumchisqpow),nobs=2^12,wts,df,ncp,pow)
+	test_dpqr(list(d=dsumchisqpow,p=psumchisqpow,q=qsumchisqpow,r=rsumchisqpow),nobs=nobs_chk,wts,df,ncp,pow)
 
 	# sentinel:
 	expect_true(TRUE)
@@ -98,7 +100,22 @@ test_that("K-prime distribution",{
 	v2 <- 80
 	a <- 0.5
 	b <- 1.5
-	test_dpqr(list(d=dkprime,p=pkprime,q=qkprime,r=rkprime),nobs=2^12,v1,v2,a,b)
+	test_dpqr(list(d=dkprime,p=pkprime,q=qkprime,r=rkprime),nobs=nobs_chk,v1,v2,a,b)
+
+	set.char.seed('1d6669ae-0d9c-4662-9dbe-dfc705eee9c3')
+	v1 <- 10
+	v2 <- 30
+	a <- 0
+	b <- 1.5
+	test_dpqr(list(d=dkprime,p=pkprime,q=qkprime,r=rkprime),nobs=nobs_chk,v1,v2,a,b)
+
+	set.char.seed('11df12e2-8542-4cf0-adaf-250ff652bed2')
+	v1 <- 100
+	v2 <- 2
+	a <- 2
+	b <- 0
+	test_dpqr(list(d=dkprime,p=pkprime,q=qkprime,r=rkprime),nobs=nobs_chk,v1,v2,a,b)
+
 	# sentinel:
 	expect_true(TRUE)
 })
@@ -108,7 +125,7 @@ test_that("Lambda prime distribution",{
 
 	df <- 50
 	ts <- 1.5
-	test_dpqr(list(d=dlambdap,p=plambdap,q=qlambdap,r=rlambdap),nobs=2^12,df,ts)
+	test_dpqr(list(d=dlambdap,p=plambdap,q=qlambdap,r=rlambdap),nobs=nobs_chk,df,ts)
 	# sentinel
 	expect_true(TRUE)
 })
@@ -117,7 +134,7 @@ test_that("Upsilon distribution",{
 	set.char.seed('ee481c35-006d-4be5-9989-1cecc3d8a2df')
 	df <- c(30,50,100,20,10)
 	ts <- c(-3,2,5,-4,1)
-	test_dpqr(list(d=dupsilon,p=pupsilon,q=qupsilon,r=rupsilon),nobs=2^12,df,ts)
+	test_dpqr(list(d=dupsilon,p=pupsilon,q=qupsilon,r=rupsilon),nobs=nobs_chk,df,ts)
 	# sentinel
 	expect_true(TRUE)
 })
@@ -127,7 +144,7 @@ test_that("Doubly non-central F distribution",{
 	df2 <- 80
 	ncp1 <- 1.5
 	ncp2 <- 2.5
-	test_dpqr(list(d=ddnf,p=pdnf,q=qdnf,r=rdnf),nobs=2^12,df1,df2,ncp1,ncp2)
+	test_dpqr(list(d=ddnf,p=pdnf,q=qdnf,r=rdnf),nobs=nobs_chk,df1,df2,ncp1,ncp2)
 	# sentinel
 	expect_true(TRUE)
 })
@@ -136,7 +153,7 @@ test_that("Doubly non-central t distribution",{
 	df <- 75
 	ncp1 <- 2
 	ncp2 <- 3
-	test_dpqr(list(d=ddnt,p=pdnt,q=qdnt,r=rdnt),nobs=2^12,df,ncp1,ncp2)
+	test_dpqr(list(d=ddnt,p=pdnt,q=qdnt,r=rdnt),nobs=nobs_chk,df,ncp1,ncp2)
 	# sentinel
 	expect_true(TRUE)
 })
@@ -146,7 +163,7 @@ test_that("Doubly non-central Beta distribution",{
 	df2 <- 80
 	ncp1 <- 1.5
 	ncp2 <- 2.5
-	test_dpqr(list(d=ddnbeta,p=pdnbeta,q=qdnbeta,r=rdnbeta),nobs=2^12,df1,df2,ncp1,ncp2)
+	test_dpqr(list(d=ddnbeta,p=pdnbeta,q=qdnbeta,r=rdnbeta),nobs=nobs_chk,df1,df2,ncp1,ncp2)
 	# sentinel
 	expect_true(TRUE)
 })
@@ -155,7 +172,7 @@ test_that("Doubly non-central Eta distribution",{
 	df <- 100
 	ncp1 <- 0.5
 	ncp2 <- 2.5
-	test_dpqr(list(d=ddneta,p=pdneta,q=qdneta,r=rdneta),nobs=2^12,df,ncp1,ncp2)
+	test_dpqr(list(d=ddneta,p=pdneta,q=qdneta,r=rdneta),nobs=nobs_chk,df,ncp1,ncp2)
 	# sentinel
 	expect_true(TRUE)
 })
@@ -164,7 +181,7 @@ test_that("Sum of logs of (non-central) chi-squares",{
 	wts <- c(5,-4,10,-15)
 	df <- c(100,200,100,50)
 	ncp <- c(0,1,0.5,2)
-	test_dpqr(list(d=dsumlogchisq,p=psumlogchisq,q=qsumlogchisq,r=rsumlogchisq),nobs=2^12,wts,df,ncp)
+	test_dpqr(list(d=dsumlogchisq,p=psumlogchisq,q=qsumlogchisq,r=rsumlogchisq),nobs=nobs_chk,wts,df,ncp)
 	# sentinel
 	expect_true(TRUE)
 })
@@ -173,7 +190,7 @@ test_that("Product of (non-central) chi-squares to a power",{
 	df <- c(100,200,100,50)
 	ncp <- c(0,1,0.5,2)
 	pow <- c(1,0.5,2,1.5)
-	test_dpqr(list(d=dprodchisqpow,p=pprodchisqpow,q=qprodchisqpow,r=rprodchisqpow),nobs=2^12,df,ncp,pow)
+	test_dpqr(list(d=dprodchisqpow,p=pprodchisqpow,q=qprodchisqpow,r=rprodchisqpow),nobs=nobs_chk,df,ncp,pow)
 	# sentinel
 	expect_true(TRUE)
 })
@@ -183,7 +200,7 @@ test_that("Product of doubly non-central F variates",{
 	df2 <- c(1000,500,150)
 	ncp1 <- c(1,0,2.5)
 	ncp2 <- c(0,1.5,5)
-	test_dpqr(list(d=dproddnf,p=pproddnf,q=qproddnf,r=rproddnf),nobs=2^12,df1,df2,ncp1,ncp2)
+	test_dpqr(list(d=dproddnf,p=pproddnf,q=qproddnf,r=rproddnf),nobs=nobs_chk,df1,df2,ncp1,ncp2)
 	# sentinel
 	expect_true(TRUE)
 })
