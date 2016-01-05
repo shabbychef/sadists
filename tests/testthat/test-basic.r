@@ -28,20 +28,53 @@ set.char.seed <- function(str) {
 }
 
 
+
+
 test_dpqr <- function(dpqr,nobs=1e4,...) {
 	rv <- sort(dpqr$r(nobs,...))
-	pv <- dpqr$p(rv,...)
-	dv <- dpqr$d(rv,...)
-	pp <- ppoints(length(rv)) 
-	qv <- dpqr$q(pp,...)
+	# stress test the d function...
+	subrv <- rv[1:3]
+	for (log.d in c(FALSE,TRUE)) {
+		throwaway <- dpqr$d(subrv,...,log=log.d)
+	}
+	# stress test the p function...
+	subrv <- rv[1:3]
+	for (lower.tail in c(FALSE,TRUE)) { 
+		for (log.p in c(FALSE,TRUE)) {
+			throwaway <- dpqr$p(rv,...,lower.tail=lower.tail,log.p=log.p)
+		}
+	}
+	# stress test the q function...
+	somep <- ppoints(5)
+	for (lower.tail in c(FALSE,TRUE)) { 
+		for (log.p in c(FALSE,TRUE)) {
+			if (log.p) { 
+				checkp <- log(somep)
+			} else {
+				checkp <- somep
+			}
+			throwaway <- dpqr$q(checkp,...,lower.tail=lower.tail,log.p=log.p)
+		}
+	}
+	
+	# not sure what to do with these:
+	#dv <- dpqr$d(rv,...)
+	#pv <- dpqr$p(rv,...)
+	#pvqv <- dpqr$q(pv,...)
+	# dunno how to test the qv function for correctness.
+
 
 	# anderson darling test: tests p function
+	pp <- ppoints(nobs)
+	qv <- dpqr$q(pp,...)
 	S <- sum(((2 * seq(1,nobs) - 1) / nobs) * (log(pp) + log(1 - rev(pp))))
 	A2 <- -nobs - S
 	expect_lt(A2,1.0)
 
-	# dunno how to test the qv function for correctness.
-
+	# should check whether the p function and q function are near inverses ... 
+	qvpv <- dpqr$p(qv,...)
+	maxdev <- max(abs(sort(qvpv) - sort(pp)))
+	expect_lt(maxdev,10.0/nobs)
 
 }
 

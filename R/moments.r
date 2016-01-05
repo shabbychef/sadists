@@ -55,10 +55,10 @@ norm_moms <- function(mu=0,sigma=1,order.max=3) {
 
 # compute the 1 through order.max raw, uncentered moment
 # of the (non-central) chi distribution with df d.f.
-chi_moms <- function(df,ncp=0,order.max=3,orders=1:order.max,log=FALSE) {
-	retval <- chisq_moms(df=df,ncp=ncp,orders=orders/2,log=log)
-	return(retval)
-}
+#chi_moms <- function(df,ncp=0,order.max=3,orders=1:order.max,log=FALSE) {
+	#retval <- chisq_moms(df=df,ncp=ncp,orders=orders/2,log=log)
+	#return(retval)
+#}
 
 # compute the 1 through order.max raw, uncentered moment
 # of the (non-central) chisquare to power distribution.
@@ -88,18 +88,18 @@ chisq_moms <- function(df,ncp=0,order.max=3,orders=1:order.max,log=FALSE) {
 }
 
 # something like a nakagami, but really a scaled chi
-schi_moms <- function(df,scal=1,order.max=3) {
-	stopifnot(df > 0)
-	orders <- 1:order.max
-	if (is.infinite(df)) {
-		retval <- scal ^ orders
-	} else {
-		retval <- chi_moms(df=df,orders=orders,log=TRUE)
-		retval <- retval + orders * (log(abs(scal)) - 0.5 * log(df))
-		retval <- exp(retval) * sign(scal)^orders
-	}
-	return(retval)
-}
+#schi_moms <- function(df,scal=1,order.max=3) {
+	#stopifnot(df > 0)
+	#orders <- 1:order.max
+	#if (is.infinite(df)) {
+		#retval <- scal ^ orders
+	#} else {
+		#retval <- chi_moms(df=df,orders=orders,log=TRUE)
+		#retval <- retval + orders * (log(abs(scal)) - 0.5 * log(df))
+		#retval <- exp(retval) * sign(scal)^orders
+	#}
+	#return(retval)
+#}
 
 # the generalized gamma.
 gengamma_moms <- function(a,d,p,order.max=3,orders=1:order.max,log=FALSE) {
