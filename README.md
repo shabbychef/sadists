@@ -59,14 +59,14 @@ testf <- function(dpqr, nobs, ...) {
         labs(title = "Density (tests dfunc)")
     
     # Q-Q plot
-    p2 <- ggplot(data, aes(sample = draws)) + stat_qq(dist = function(p) {
+    p2 <- ggplot(data, aes(sample = draws)) + stat_qq(distribution = function(p) {
         dpqr$q(p, ...)
     }) + geom_abline(slope = 1, intercept = 0, colour = "red") + 
         theme(text = element_text(size = text.size)) + 
         labs(title = "Q-Q plot (tests qfunc)")
     
     # empirical CDF of the p-values; should be uniform
-    p3 <- ggplot(data, aes(sample = pvals)) + stat_qq(dist = qunif) + 
+    p3 <- ggplot(data, aes(sample = pvals)) + stat_qq(distribution = qunif) + 
         geom_abline(slope = 1, intercept = 0, colour = "red") + 
         theme(text = element_text(size = text.size)) + 
         labs(title = "P-P plot (tests pfunc)")

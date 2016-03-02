@@ -140,6 +140,9 @@
 #' @template ref-Walck
 #'
 #' @import hypergeo PDQutils orthopolynom
+#' @importFrom stats coefficients
+#' @importFrom stats rchisq
+#' @importFrom stats rnorm
 #'
 #' @note 
 #' This package is maintained as a hobby. 
