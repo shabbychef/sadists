@@ -153,7 +153,7 @@ server <- function(input, output) {
 		do.log <- (min(data$draws) > 0) && ((max(data$draws) / min(data$draws)) > 20)
 
 		# Q-Q plot
-		p2 <- ggplot(data, aes(sample = draws)) + stat_qq(dist=function(p) { dpqr$q(p) }) +
+		p2 <- ggplot(data, aes(sample = draws)) + stat_qq(distribution=function(p) { dpqr$q(p) }) +
 			geom_abline(slope=1,intercept=0,colour='red') + 
 			theme(text=element_text(size=text.size)) + 
 			labs(title="Q-Q plot (tests qfunc)")
@@ -167,7 +167,7 @@ server <- function(input, output) {
     data <- sims()
 
 		# empirical CDF of the p-values; should be uniform
-		p3 <- ggplot(data, aes(sample = pvals)) + stat_qq(dist=qunif) + 
+		p3 <- ggplot(data, aes(sample = pvals)) + stat_qq(distribution=qunif) + 
 			geom_abline(slope=1,intercept=0,colour='red') + 
 			theme(text=element_text(size=text.size)) + 
 			labs(title="P-P plot (tests pfunc)")
