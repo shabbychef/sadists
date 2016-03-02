@@ -23,11 +23,11 @@ to the \code{shiny.host} option, if set, or \code{"127.0.0.1"} if not. See
 Details.}
 
 \item{display.mode}{The mode in which to display the application. If set to
-  the value \code{"showcase"}, shows application code and metadata from a
-  \code{DESCRIPTION} file in the application directory alongside the
-  application. If set to \code{"normal"}, displays the application normally.
-  Defaults to \code{"auto"}, which displays the application in the mode given
-  in its \code{DESCRIPTION} file, if any.}
+the value \code{"showcase"}, shows application code and metadata from a
+\code{DESCRIPTION} file in the application directory alongside the
+application. If set to \code{"normal"}, displays the application normally.
+Defaults to \code{"auto"}, which displays the application in the mode given
+in its \code{DESCRIPTION} file, if any.}
 }
 \description{
 Runs a shiny application which draws from the given distributions, then
