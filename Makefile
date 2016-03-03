@@ -15,6 +15,7 @@
 
 SHELL 						 = /bin/bash
 
+DOCKER 						?= $(shell which docker)
 BIN_TIME          ?= $(shell which time)
 
 R_DEV_FILES 			?= $(wildcard ./R/*.r)
@@ -32,11 +33,12 @@ M4_FILES					?= $(wildcard m4/*.m4)
 VMAJOR 						 = 0
 VMINOR 						 = 2
 VPATCH  					 = 2
-VDEV 							 = 
+VDEV 							 = .5000
 VERSION 					 = $(VMAJOR).$(VMINOR).$(VPATCH)$(VDEV)
 TODAY 						:= $(shell date +%Y-%m-%d)
 
 PKG_NAME 					:= sadists
+PKG_LCNAME 				:= $(shell echo $(PKG_NAME) | tr 'A-Z' 'a-z')
 PKG_VERSION				:= $(VERSION)
 PKG_SRC 					:= $(shell basename $(PWD))
 
@@ -325,6 +327,12 @@ $(PKG_TGZ) : $(STAGED_PKG)/DESCRIPTION $(INSTALLED_DEPS) $(EXTRA_PKG_DEPS)
 	$(BUILD_ENV) $(R_LOCALLY) CMD build $(BUILD_FLAGS) $(<D)
 
 #package : $(PKG_TGZ)
+
+.docker_img : docker/Dockerfile
+	$(DOCKER) build --rm -t $(USER)/$(PKG_LCNAME)-crancheck docker
+
+%.crancheck : %.tar.gz .docker_img
+	$(DOCKER) run -it --rm --volume $(PWD):/srv:ro $(USER)/$(PKG_LCNAME)-crancheck $< > $@
 
 build : $(PKG_TGZ)
 

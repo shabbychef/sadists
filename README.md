@@ -229,7 +229,7 @@ testf(list(d = ddneta, p = pdneta, q = qdneta, r = rdneta),
 
 ## Weighted sum of logs of (non-central) chi-squares 
 
-This distribution is the sum of logs of independent 
+This distribution is the weighted sum of logs of independent 
 (non-central) chi-square variates.
 
 
@@ -267,7 +267,7 @@ testf(list(d = dproddnf, p = pproddnf, q = qproddnf,
 ## Product of (non-central) chi-squares to power
 
 This distribution is the product of independent 
-non-central chi-square variates taken to some powers. 
+(non-central) chi-square variates taken to some powers. 
 The PDQ functions are computed by 
 transformation on the sum of log chi-squares distribution.
 

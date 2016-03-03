@@ -112,7 +112,7 @@ testf <- function(dpqr,nobs,...) {
 ## Weighted sum of (non-central) chi-squares to power
 
 This distribution is the weighted sum of independent 
-non-central chi-square variates taken to some powers.
+(non-central) chi-square variates taken to some powers.
 The special case where the powers are all one half 
 is related to the upsilon distribution. The 
 special case where the powers are all one could be used
@@ -224,10 +224,10 @@ ncp2 <- 2.5
 testf(list(d=ddneta,p=pdneta,q=qdneta,r=rdneta),nobs=2^14,df,ncp1,ncp2)
 ```
 
-## Sum of logs of (non-central) chi-squares 
+## Weighted sum of logs of (non-central) chi-squares 
 
-This distribution is the sum of logs of independent 
-non-central chi-square variates.
+This distribution is the weighted sum of logs of independent 
+(non-central) chi-square variates.
 
 ```{r sumlogchisq}
 require(sadists)
@@ -256,7 +256,7 @@ testf(list(d=dproddnf,p=pproddnf,q=qproddnf,r=rproddnf),nobs=2^14,df1,df2,ncp1,n
 ## Product of (non-central) chi-squares to power
 
 This distribution is the product of independent 
-non-central chi-square variates taken to some powers. 
+(non-central) chi-square variates taken to some powers. 
 The PDQ functions are computed by 
 transformation on the sum of log chi-squares distribution.
 
