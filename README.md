@@ -59,14 +59,14 @@ testf <- function(dpqr, nobs, ...) {
         labs(title = "Density (tests dfunc)")
     
     # Q-Q plot
-    p2 <- ggplot(data, aes(sample = draws)) + stat_qq(dist = function(p) {
+    p2 <- ggplot(data, aes(sample = draws)) + stat_qq(distribution = function(p) {
         dpqr$q(p, ...)
     }) + geom_abline(slope = 1, intercept = 0, colour = "red") + 
         theme(text = element_text(size = text.size)) + 
         labs(title = "Q-Q plot (tests qfunc)")
     
     # empirical CDF of the p-values; should be uniform
-    p3 <- ggplot(data, aes(sample = pvals)) + stat_qq(dist = qunif) + 
+    p3 <- ggplot(data, aes(sample = pvals)) + stat_qq(distribution = qunif) + 
         geom_abline(slope = 1, intercept = 0, colour = "red") + 
         theme(text = element_text(size = text.size)) + 
         labs(title = "P-P plot (tests pfunc)")
@@ -83,7 +83,7 @@ testf <- function(dpqr, nobs, ...) {
 ## Weighted sum of (non-central) chi-squares to power
 
 This distribution is the weighted sum of independent 
-non-central chi-square variates taken to some powers.
+(non-central) chi-square variates taken to some powers.
 The special case where the powers are all one half 
 is related to the upsilon distribution. The 
 special case where the powers are all one could be used
@@ -227,10 +227,10 @@ testf(list(d = ddneta, p = pdneta, q = qdneta, r = rdneta),
 
 <img src="github_extra/figure/dneta-1.png" title="plot of chunk dneta" alt="plot of chunk dneta" width="700px" height="600px" />
 
-## Sum of logs of (non-central) chi-squares 
+## Weighted sum of logs of (non-central) chi-squares 
 
-This distribution is the sum of logs of independent 
-non-central chi-square variates.
+This distribution is the weighted sum of logs of independent 
+(non-central) chi-square variates.
 
 
 ```r
@@ -267,7 +267,7 @@ testf(list(d = dproddnf, p = pproddnf, q = qproddnf,
 ## Product of (non-central) chi-squares to power
 
 This distribution is the product of independent 
-non-central chi-square variates taken to some powers. 
+(non-central) chi-square variates taken to some powers. 
 The PDQ functions are computed by 
 transformation on the sum of log chi-squares distribution.
 
