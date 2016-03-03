@@ -204,16 +204,6 @@ test_that("Product of doubly non-central F variates",{
 	# sentinel
 	expect_true(TRUE)
 })
-#test_that("Sum of generalized gamma variates",{
-	#set.char.seed('fb59f4c4-942a-4df6-a40c-8ddd72368b24')
-	#wts <- c(8,-10)
-	#a <- c(10,2)
-	#d <- c(2,1)
-	#pow <- c(0.5,1.5)
-	#test_dpqr(list(d=dsumgengamma,p=psumgengamma,q=qsumgengamma,r=rsumgengamma),nobs=nobs_chk,wts,a,d,pow)
-	## sentinel
-	#expect_true(TRUE)
-#})
 
 #UNFOLD
 

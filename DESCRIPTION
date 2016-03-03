@@ -41,7 +41,6 @@ Collate:
     'runExample.r'
     'sadists.r'
     'sumchisqpow.r'
-    'sumgengamma.r'
     'sumlogchisq.r'
     'upsilon.r'
     'utils.r'

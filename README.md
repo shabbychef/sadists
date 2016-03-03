@@ -283,21 +283,3 @@ testf(list(d = dprodchisqpow, p = pprodchisqpow, q = qprodchisqpow,
 
 <img src="github_extra/figure/prodchisqpow-1.png" title="plot of chunk prodchisqpow" alt="plot of chunk prodchisqpow" width="700px" height="600px" />
 
-## Sum of generalized gammas 
-
-This distribution is the sum of independent 
-generalized gamma variates. Clearly some work is required to improve the approximation...
-
-
-```r
-require(sadists)
-wts <- c(8, -10)
-a <- c(10, 2)
-d <- c(2, 1)
-pow <- c(0.5, 1.5)
-testf(list(d = dsumgengamma, p = psumgengamma, q = qsumgengamma, 
-    r = rsumgengamma), nobs = 2^14, wts, a, d, pow)
-```
-
-<img src="github_extra/figure/sumgengamma-1.png" title="plot of chunk sumgengamma" alt="plot of chunk sumgengamma" width="700px" height="600px" />
-
