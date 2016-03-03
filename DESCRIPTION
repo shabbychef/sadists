@@ -2,27 +2,27 @@ Package: sadists
 Maintainer: Steven E. Pav <shabbychef@gmail.com>
 Authors@R: c(person(c("Steven", "E."), "Pav", role=c("aut","cre"),
     email="shabbychef@gmail.com"))
-Version: 0.2.1.9700
+Version: 0.2.2.5000
 Date: 2016-03-02
 License: LGPL-3
 Title: Some Additional Distributions
 BugReports: https://github.com/shabbychef/sadists/issues
-Description: Provides the density, distribution, quantile and generation
-    functions of some obscure probability distributions, including the doubly non-
-    central t, F, Beta, and Eta distributions; Lecoutre's lambda-prime and K-prime;
-    the upsilon distribution; the (weighted) sum of non-central chi-squares to a
-    power; the (weighted) sum of log non-central chi-squares; the product of non-
-    central chi-squares to powers; the product of doubly non-central F variates.
-Depends:
+Description: Provides the density, distribution, quantile and generation functions of some obscure probability 
+    distributions, including the doubly non-central t, F, Beta, and Eta distributions; 
+    Lecoutre's lambda-prime and K-prime; the upsilon distribution; the (weighted) sum of 
+    non-central chi-squares to a power; the (weighted) sum of log non-central chi-squares;
+    the product of non-central chi-squares to powers; the product of doubly non-central
+	F variates.
+Depends: 
     R (>= 3.0.2)
 Imports:
     PDQutils (>= 0.1.1),
     hypergeo,
     orthopolynom
-Suggests:
-    shiny,
-    testthat,
-    ggplot2,
+Suggests: 
+	shiny,
+    testthat, 
+    ggplot2, 
     xtable,
     knitr
 URL: https://github.com/shabbychef/sadists
@@ -44,4 +44,3 @@ Collate:
     'sumlogchisq.r'
     'upsilon.r'
     'utils.r'
-RoxygenNote: 5.0.1
