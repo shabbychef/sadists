@@ -1,4 +1,7 @@
 
+2016-03-03 Steven E. Pav <shabbychef@gmail.com>
+* ggplot2 incompatibilities
+
 2015-08-25 Steven E. Pav <shabbychef@gmail.com>
 * work around bad rchisq when df=0=ncp
 
