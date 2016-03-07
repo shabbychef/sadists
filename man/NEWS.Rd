@@ -8,11 +8,18 @@ History of the 'sadists' package.
 
 \newcommand{\sadists}{\href{https://github.com/shabbychef/sadists}}
 }
+\section{\sadists{} Version 0.2.3 ()}{
+
+\itemize{
+\item add product of normals distribution.
+}
+}
+
 \section{\sadists{} Version 0.2.2 (2016-03-03) }{
 
 \itemize{
 \item work around bad \code{rchisq} when \eqn{df=0=ncp} (?)
-\item Incompatibilities in vignette with ggplot2 release.
+\item incompatibilities in vignette with ggplot2 release.
 }
 }
 

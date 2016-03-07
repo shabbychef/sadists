@@ -283,3 +283,20 @@ testf(list(d = dprodchisqpow, p = pprodchisqpow, q = qprodchisqpow,
 
 <img src="github_extra/figure/prodchisqpow-1.png" title="plot of chunk prodchisqpow" alt="plot of chunk prodchisqpow" width="700px" height="600px" />
 
+## Product of independent normals
+
+This distribution is the product of independent 
+normal variates. Warning: when the coefficient of variation is
+large for some of the factors, this approximation can be _terrible_.
+
+
+```r
+require(sadists)
+mu <- c(100, -50, -10)
+sigma <- c(10, 5, 10)
+testf(list(d = dprodnormal, p = pprodnormal, q = qprodnormal, 
+    r = rprodnormal), nobs = 2^14, mu, sigma)
+```
+
+<img src="github_extra/figure/prodnormal-1.png" title="plot of chunk prodnormal" alt="plot of chunk prodnormal" width="700px" height="600px" />
+

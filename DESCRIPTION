@@ -38,6 +38,7 @@ Collate:
     'moments.r'
     'prodchisqpow.r'
     'proddnf.r'
+    'prodnormal.r'
     'runExample.r'
     'sadists.r'
     'sumchisqpow.r'

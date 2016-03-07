@@ -30,6 +30,7 @@ gamrat <- function(a,b) {
 	return(exp(lgamrat(a,b)))
 }
 
+# eventually this will go away b/c rchisq was fixed in 3.2?
 # rchisq is currently broken for df=0,ncp=0
 # this is a not-recycled chisquare generator
 # which irons over the df=0,ncp=0 case.

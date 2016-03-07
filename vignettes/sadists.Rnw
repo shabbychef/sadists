@@ -666,6 +666,28 @@ ncp2 <- c(0,1.5,5)
 testf(list(d=dproddnf,p=pproddnf,q=qproddnf,r=rproddnf),nobs=2^14,df1,df2,ncp1,ncp2)
 @
 %UNFOLD
+\section{Product of normal variates}%FOLDUP
+
+Let $Z_j \sim \mathcal{N}\left(\mu_{j},\sigma_{j}^2\right)$ 
+be independent normal variates with means $\mu_{j}$ and
+variances $\sigma^2_{j}$.
+Then
+$$
+Y = \prod_j X_j
+$$
+follows a product of normals distribution. 
+This is not a common distribution. 
+When the coefficients of variation, $\sigma_j / \mu_j$ are large
+for some of the variates, the approximations given in this package
+tend to break down.
+
+<<'prodnormal',echo=TRUE,eval=TRUE,fig.cap="Confirming the dpqr functions of the product of normals distribution.">>=
+require(sadists)
+mu <- c(100,20,5)
+sigma <- c(10,2,0.2)
+testf(list(d=dprodnormal,p=pprodnormal,q=qprodnormal,r=rprodnormal),nobs=2^14,mu,sigma)
+@
+%UNFOLD
 %\section{Sum of generalized gamma variates}%FOLDUP
 
 %Let $X_i \sim G\left(a_i, d_i, p_i\right)$ 

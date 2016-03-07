@@ -204,6 +204,14 @@ test_that("Product of doubly non-central F variates",{
 	# sentinel
 	expect_true(TRUE)
 })
+test_that("Product of normal variates",{
+	set.char.seed('9e5b942b-4b6b-4508-a2c2-7451ed5b1f4c')
+	mu <- c(10,-50,-10)
+	sigma <- c(1,5,2)
+	test_dpqr(list(d=dprodnormal,p=pprodnormal,q=qprodnormal,r=rprodnormal),nobs=nobs_chk,mu,sigma)
+	# sentinel
+	expect_true(TRUE)
+})
 
 #UNFOLD
 
