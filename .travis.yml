@@ -18,8 +18,8 @@ r_github_packages :
 
 warnings_are_errors : true
 
-apt_packages:
-  - qpdf
+#apt_packages:
+#- qpdf
 
 r_build_args : " --compact-vignettes=gs+qpdf"
 
