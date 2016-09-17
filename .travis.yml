@@ -1,23 +1,25 @@
 # see https://docs.travis-ci.com/user/languages/r
-
-sudo: required
+# and http://blog.rstudio.org/2016/03/09/r-on-travis-ci/
 
 language: r
 
-r_packages :
-  - PDQutils
+sudo: false
 
-r_binary_packages :
-  - hypergeo
-  - orthopolynom
+cache : packages
+
+r:
+  - oldrel
+  - release
+  - devel
 
 r_github_packages :
+  - shabbychef/PDQutils
   - jimhester/covr
 
 warnings_are_errors : true
 
-apt_packages:
-  - qpdf
+#apt_packages:
+#- qpdf
 
 r_build_args : " --compact-vignettes=gs+qpdf"
 
