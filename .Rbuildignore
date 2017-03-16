@@ -11,6 +11,7 @@ aux$
 log$
 out$
 cache
+README.Rmd
 m4
 Makefile
 man-roxygen

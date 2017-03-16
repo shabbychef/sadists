@@ -6,6 +6,7 @@
 [![codecov.io](http://codecov.io/github/shabbychef/sadists/coverage.svg?branch=master)](http://codecov.io/github/shabbychef/sadists?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/sadists)](http://cran.rstudio.com/package=sadists) 
 [![Downloads](http://cranlogs.r-pkg.org/badges/sadists?color=brightgreen)](http://www.r-pkg.org/pkg/sadists)
+[![Total](http://cranlogs.r-pkg.org/badges/grand-total/sadists?color=green)](http://www.r-pkg.org/pkg/sadists)
 
 Some Additional Distributions apparently not available in R.
 
@@ -101,7 +102,7 @@ testf(list(d = dsumchisqpow, p = psumchisqpow, q = qsumchisqpow,
     r = rsumchisqpow), nobs = 2^14, wts, df, ncp, pow)
 ```
 
-<img src="github_extra/figure/sumchisqpow-1.png" title="plot of chunk sumchisqpow" alt="plot of chunk sumchisqpow" width="700px" height="600px" />
+<img src="tools/figure/sumchisqpow-1.png" title="plot of chunk sumchisqpow" alt="plot of chunk sumchisqpow" width="700px" height="600px" />
 
 
 ## K-prime distribution
@@ -121,7 +122,7 @@ testf(list(d = dkprime, p = pkprime, q = qkprime, r = rkprime),
     nobs = 2^14, v1, v2, a, b)
 ```
 
-<img src="github_extra/figure/kprime-1.png" title="plot of chunk kprime" alt="plot of chunk kprime" width="700px" height="600px" />
+<img src="tools/figure/kprime-1.png" title="plot of chunk kprime" alt="plot of chunk kprime" width="700px" height="600px" />
 
 ## Lambda prime distribution
 
@@ -137,7 +138,7 @@ testf(list(d = dlambdap, p = plambdap, q = qlambdap,
     r = rlambdap), nobs = 2^14, df, ts)
 ```
 
-<img src="github_extra/figure/lambdap-1.png" title="plot of chunk lambdap" alt="plot of chunk lambdap" width="700px" height="600px" />
+<img src="tools/figure/lambdap-1.png" title="plot of chunk lambdap" alt="plot of chunk lambdap" width="700px" height="600px" />
 
 ## Upsilon distribution
 
@@ -153,7 +154,7 @@ testf(list(d = dupsilon, p = pupsilon, q = qupsilon,
     r = rupsilon), nobs = 2^14, df, ts)
 ```
 
-<img src="github_extra/figure/upsilon-1.png" title="plot of chunk upsilon" alt="plot of chunk upsilon" width="700px" height="600px" />
+<img src="tools/figure/upsilon-1.png" title="plot of chunk upsilon" alt="plot of chunk upsilon" width="700px" height="600px" />
 
 ## Doubly non-central t distribution
 
@@ -170,7 +171,7 @@ testf(list(d = ddnt, p = pdnt, q = qdnt, r = rdnt),
     nobs = 2^14, df, ncp1, ncp2)
 ```
 
-<img src="github_extra/figure/dnt-1.png" title="plot of chunk dnt" alt="plot of chunk dnt" width="700px" height="600px" />
+<img src="tools/figure/dnt-1.png" title="plot of chunk dnt" alt="plot of chunk dnt" width="700px" height="600px" />
 
 ## Doubly non-central F distribution
 
@@ -188,7 +189,7 @@ testf(list(d = ddnf, p = pdnf, q = qdnf, r = rdnf),
     nobs = 2^14, df1, df2, ncp1, ncp2)
 ```
 
-<img src="github_extra/figure/dnf-1.png" title="plot of chunk dnf" alt="plot of chunk dnf" width="700px" height="600px" />
+<img src="tools/figure/dnf-1.png" title="plot of chunk dnf" alt="plot of chunk dnf" width="700px" height="600px" />
 
 ## Doubly non-central Beta distribution
 
@@ -207,7 +208,7 @@ testf(list(d = ddnbeta, p = pdnbeta, q = qdnbeta, r = rdnbeta),
     nobs = 2^14, df1, df2, ncp1, ncp2)
 ```
 
-<img src="github_extra/figure/dnbeta-1.png" title="plot of chunk dnbeta" alt="plot of chunk dnbeta" width="700px" height="600px" />
+<img src="tools/figure/dnbeta-1.png" title="plot of chunk dnbeta" alt="plot of chunk dnbeta" width="700px" height="600px" />
 
 ## Doubly non-central Eta distribution
 
@@ -225,7 +226,7 @@ testf(list(d = ddneta, p = pdneta, q = qdneta, r = rdneta),
     nobs = 2^14, df, ncp1, ncp2)
 ```
 
-<img src="github_extra/figure/dneta-1.png" title="plot of chunk dneta" alt="plot of chunk dneta" width="700px" height="600px" />
+<img src="tools/figure/dneta-1.png" title="plot of chunk dneta" alt="plot of chunk dneta" width="700px" height="600px" />
 
 ## Weighted sum of logs of (non-central) chi-squares 
 
@@ -242,7 +243,7 @@ testf(list(d = dsumlogchisq, p = psumlogchisq, q = qsumlogchisq,
     r = rsumlogchisq), nobs = 2^14, wts, df, ncp)
 ```
 
-<img src="github_extra/figure/sumlogchisq-1.png" title="plot of chunk sumlogchisq" alt="plot of chunk sumlogchisq" width="700px" height="600px" />
+<img src="tools/figure/sumlogchisq-1.png" title="plot of chunk sumlogchisq" alt="plot of chunk sumlogchisq" width="700px" height="600px" />
 
 ## Product of doubly non-central F variates
 
@@ -262,7 +263,7 @@ testf(list(d = dproddnf, p = pproddnf, q = qproddnf,
     r = rproddnf), nobs = 2^14, df1, df2, ncp1, ncp2)
 ```
 
-<img src="github_extra/figure/proddnf-1.png" title="plot of chunk proddnf" alt="plot of chunk proddnf" width="700px" height="600px" />
+<img src="tools/figure/proddnf-1.png" title="plot of chunk proddnf" alt="plot of chunk proddnf" width="700px" height="600px" />
 
 ## Product of (non-central) chi-squares to power
 
@@ -281,7 +282,7 @@ testf(list(d = dprodchisqpow, p = pprodchisqpow, q = qprodchisqpow,
     r = rprodchisqpow), nobs = 2^14, df, ncp, pow)
 ```
 
-<img src="github_extra/figure/prodchisqpow-1.png" title="plot of chunk prodchisqpow" alt="plot of chunk prodchisqpow" width="700px" height="600px" />
+<img src="tools/figure/prodchisqpow-1.png" title="plot of chunk prodchisqpow" alt="plot of chunk prodchisqpow" width="700px" height="600px" />
 
 ## Product of independent normals
 
@@ -298,5 +299,5 @@ testf(list(d = dprodnormal, p = pprodnormal, q = qprodnormal,
     r = rprodnormal), nobs = 2^14, mu, sigma)
 ```
 
-<img src="github_extra/figure/prodnormal-1.png" title="plot of chunk prodnormal" alt="plot of chunk prodnormal" width="700px" height="600px" />
+<img src="tools/figure/prodnormal-1.png" title="plot of chunk prodnormal" alt="plot of chunk prodnormal" width="700px" height="600px" />
 

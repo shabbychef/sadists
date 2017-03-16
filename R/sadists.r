@@ -162,9 +162,10 @@ NULL
 #'
 #' \newcommand{\sadists}{\href{https://github.com/shabbychef/sadists}}
 #'
-#' @section \sadists{} Version 0.2.3 ():
+#' @section \sadists{} Version 0.2.3 (2017-03-25):
 #' \itemize{
 #' \item add product of normals distribution.
+#' \item move github figures to location CRAN understands.
 #' }
 #'
 #' @section \sadists{} Version 0.2.2 (2016-03-03) :
