@@ -4,8 +4,8 @@
 
 [![Build Status](https://travis-ci.org/shabbychef/sadists.png)](https://travis-ci.org/shabbychef/sadists)
 [![codecov.io](http://codecov.io/github/shabbychef/sadists/coverage.svg?branch=master)](http://codecov.io/github/shabbychef/sadists?branch=master)
-[![CRAN](http://www.r-pkg.org/badges/version/sadists)](http://cran.rstudio.com/package=sadists) 
-[![Downloads](http://cranlogs.r-pkg.org/badges/sadists?color=brightgreen)](http://www.r-pkg.org/pkg/sadists)
+[![CRAN](http://www.r-pkg.org/badges/version/sadists)](https://cran.r-project.org/package=sadists)
+[![Downloads](http://cranlogs.r-pkg.org/badges/sadists?color=green)](http://www.r-pkg.org/pkg/sadists)
 [![Total](http://cranlogs.r-pkg.org/badges/grand-total/sadists?color=green)](http://www.r-pkg.org/pkg/sadists)
 
 Some Additional Distributions apparently not available in R.
