@@ -13,10 +13,10 @@ Title: Some Additional Distributions
 BugReports: https://github.com/shabbychef/PKG_NAME()/issues
 Description: Provides the density, distribution, quantile and generation functions of some obscure probability 
     distributions, including the doubly non-central t, F, Beta, and Eta distributions; 
-    Lecoutre's lambda-prime and K-prime; the upsilon distribution; the (weighted) sum of 
+    the lambda-prime and K-prime; the upsilon distribution; the (weighted) sum of 
     non-central chi-squares to a power; the (weighted) sum of log non-central chi-squares;
     the product of non-central chi-squares to powers; the product of doubly non-central
-	F variates.
+    F variables; the product of independent normals.
 Depends: 
     R (>= 3.0.2)
 Imports:
@@ -24,7 +24,7 @@ Imports:
     hypergeo,
     orthopolynom
 Suggests: 
-	shiny,
+    shiny,
     testthat, 
     ggplot2, 
     xtable,
