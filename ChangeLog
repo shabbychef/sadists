@@ -1,5 +1,11 @@
 
+2016-03-19 Steven E. Pav <shabbychef@gmail.com>
+* 0.2.3 on CRAN
+* product of normals
+* move github figures to location CRAN understands.
+
 2016-03-03 Steven E. Pav <shabbychef@gmail.com>
+* 0.2.2 on CRAN
 * ggplot2 incompatibilities
 
 2015-08-25 Steven E. Pav <shabbychef@gmail.com>
