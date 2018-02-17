@@ -32,7 +32,8 @@
 #' @details
 #'
 #' Suppose \eqn{Z}{Z} is a normal with mean \eqn{\delta_1}{delta_1},
-#' independent of \eqn{X \sim \chi^2\left(\delta_2,\nu_2\right)}{X ~ X^2(delta_2,v_2)},
+#' and standard deviation 1, independent of 
+#' \eqn{X \sim \chi^2\left(\delta_2,\nu_2\right)}{X ~ X^2(delta_2,v_2)},
 #' a non-central chi-square with \eqn{\nu_2}{v_2} degrees of freedom
 #' and non-centrality parameter \eqn{\delta_2}{delta_2}. Then
 #' \deqn{Y = \frac{Z}{\sqrt{Z^2 + X}}}{Y = Z/sqrt(Z^2 + X)}
@@ -59,6 +60,8 @@
 #' We do \emph{not} recycle this versus the \code{x,q,p,n}.
 #' @param ncp1,ncp2 the non-centrality parameters for the numerator and denominator.
 #' We do \emph{not} recycle these versus the \code{x,q,p,n}.
+#' Note that the sign of \code{ncp1} is important, while
+#' \code{ncp2} should be non-negative.
 #'
 #' @return \code{ddneta} gives the density, \code{pdneta} gives the 
 #' distribution function, \code{qdneta} gives the quantile function, 

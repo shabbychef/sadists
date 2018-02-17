@@ -579,7 +579,8 @@ The doubly non-central Eta distribution is to the doubly non-central Beta what
 the doubly non-central t is to the doubly non-central F. 
 Let $X_2 \sim \chi^2_{\nu_2}\left(\delta_2\right)$ be a non-central
 chi-square variate, with non-centrality parameter $\delta_2$ and $\nu_2$
-degrees of freedom. Let $X_2$ be independent of $Z$, a standard normal. Then
+degrees of freedom. Let $X_2$ be independent of $Z$, which is normal with mean
+$\delta_1$ and unit standard deviation. Then
 $$
 Y = \frac{Z}{\sqrt{Z^2 + X_2}}
 $$
