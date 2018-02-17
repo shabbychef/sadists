@@ -61,7 +61,7 @@
 #' @param ncp1,ncp2 the non-centrality parameters for the numerator and denominator.
 #' We do \emph{not} recycle these versus the \code{x,q,p,n}.
 #' Note that the sign of \code{ncp1} is important, while
-#' \code{ncp2} should be non-negative.
+#' \code{ncp2} must be non-negative.
 #'
 #' @return \code{ddneta} gives the density, \code{pdneta} gives the 
 #' distribution function, \code{qdneta} gives the quantile function, 
@@ -96,6 +96,7 @@
 #' @rdname ddneta
 #' @export 
 ddneta <- function(x, df, ncp1, ncp2, log = FALSE, order.max=6) {
+	# use a trigonometric transformation to a doubly non-central t.
 	xF <- sqrt(df) * x / sqrt(1-x^2)
 	retval <- ddnt(xF,df=df,ncp1=ncp1,ncp2=ncp2,log=log,order.max=order.max)
 	if (log) {

@@ -137,9 +137,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Lesser General Public License for more details.
 }
-\author{
-Steven E. Pav \email{shabbychef@gmail.com}
-}
+
 \references{
 Paolella, Marc. Intermediate Probability: A Computational Approach.
 Wiley, 2007.
@@ -157,5 +155,7 @@ Walck, C. "HAndbook on Statistical Distributions for experimentalists."
 1996. 
 \url{http://www.stat.rice.edu/~dobelman/textfiles/DistributionsHandbook.pdf}
 }
+\author{
+Steven E. Pav \email{shabbychef@gmail.com}
+}
 \keyword{package}
-

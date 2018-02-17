@@ -43,11 +43,10 @@ are available.
 runExample(launch.browser=TRUE)
 }
 }
-\author{
-Steven E. Pav \email{shabbychef@gmail.com}
-}
 \references{
 Attali, D. "Supplementing your R package with a shiny app."
 \url{http://deanattali.com/2015/04/21/r-package-shiny-app/}
 }
-
+\author{
+Steven E. Pav \email{shabbychef@gmail.com}
+}
