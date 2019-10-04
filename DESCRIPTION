@@ -22,6 +22,7 @@ Imports:
     hypergeo,
     orthopolynom
 Suggests: 
+    SharpeR,
     shiny,
     testthat, 
     ggplot2, 
@@ -47,3 +48,4 @@ Collate:
     'sumlogchisq.r'
     'upsilon.r'
     'utils.r'
+RoxygenNote: 6.1.1

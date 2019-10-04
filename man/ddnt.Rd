@@ -80,7 +80,7 @@ rvs <- rdnt(128, 20, 1, 1)
 dvs <- ddnt(rvs, 20, 1, 1)
 pvs.H0 <- pdnt(rvs, 20, 0, 1)
 pvs.HA <- pdnt(rvs, 20, 1, 1)
-\dontrun{
+\donttest{
 plot(ecdf(pvs.H0))
 plot(ecdf(pvs.HA))
 }

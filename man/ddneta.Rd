@@ -83,16 +83,16 @@ to the usual R idiom for dpqr functions.
 \examples{
 rv <- rdneta(500, df=100,ncp1=1.5,ncp2=12)
 d1 <- ddneta(rv, df=100,ncp1=1.5,ncp2=12)
-\dontrun{
+\donttest{
 plot(rv,d1)
 }
 p1 <- ddneta(rv, df=100,ncp1=1.5,ncp2=12)
 # should be nearly uniform:
-\dontrun{
+\donttest{
 plot(ecdf(p1))
 }
 q1 <- qdneta(ppoints(length(rv)), df=100,ncp1=1.5,ncp2=12)
-\dontrun{
+\donttest{
 qqplot(x=rv,y=q1)
 }
 }

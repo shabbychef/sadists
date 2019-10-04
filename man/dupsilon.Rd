@@ -87,39 +87,40 @@ mydf <- c(100,30,50)
 myt <- c(-1,3,5)
 rv <- rupsilon(500, df=mydf, t=myt)
 d1 <- dupsilon(rv, df=mydf, t=myt)
-\dontrun{
+\donttest{
 plot(rv,d1)
 }
 p1 <- pupsilon(rv, df=mydf, t=myt)
 # should be nearly uniform:
-\dontrun{
+\donttest{
 plot(ecdf(p1))
 }
 q1 <- qupsilon(ppoints(length(rv)),df=mydf,t=myt)
-\dontrun{
+\donttest{
 qqplot(x=rv,y=q1)
 }
-\dontrun{
-require(SharpeR)
-ope <- 252
-n.sim <- 500
-n.term <- 3
-set.seed(234234)
-pp <- replicate(n.sim,{
-  # these are population parameters 
-  a <- rnorm(n.term) 
-  psi <- 6 * rnorm(length(a)) / sqrt(ope)
-  b <- sum(a * psi)
-  df <- 100 + ceiling(200 * runif(length(psi)))
-  comm <- 1 / sqrt(sum(a^2 / df))
-  cdf <- df - 1
-  # now independent draws from the SR distribution:
-  x <- rsr(length(df), df, zeta=psi, ope=1)
-  # now compute a p-value under the true null
-  pupsilon(comm * b,df=cdf,t=comm*a*x) 
+\donttest{
+if (require(SharpeR)) {
+  ope <- 252
+  n.sim <- 500
+  n.term <- 3
+  set.seed(234234)
+  pp <- replicate(n.sim,{
+    # these are population parameters 
+    a <- rnorm(n.term) 
+    psi <- 6 * rnorm(length(a)) / sqrt(ope)
+    b <- sum(a * psi)
+    df <- 100 + ceiling(200 * runif(length(psi)))
+    comm <- 1 / sqrt(sum(a^2 / df))
+    cdf <- df - 1
+    # now independent draws from the SR distribution:
+    x <- rsr(length(df), df, zeta=psi, ope=1)
+    # now compute a p-value under the true null
+    pupsilon(comm * b,df=cdf,t=comm*a*x) 
   })
-# ought to be uniform:
-plot(ecdf(pp)) 
+  # ought to be uniform:
+  plot(ecdf(pp)) 
+}
 }
 }
 \references{

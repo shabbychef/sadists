@@ -106,16 +106,16 @@ dnf_tprob <- function(df1,df2,ncp1,ncp2) {
 #'
 #' rv <- rproddnf(500, df1=df1,df2=df2,ncp1=ncp1,ncp2=ncp2)
 #' d1 <- dproddnf(rv, df1=df1,df2=df2,ncp1=ncp1,ncp2=ncp2)
-#' \dontrun{
+#' \donttest{
 #' plot(rv,d1)
 #' }
 #' p1 <- pproddnf(rv, df1=df1,df2=df2,ncp1=ncp1,ncp2=ncp2)
 #' # should be nearly uniform:
-#' \dontrun{
+#' \donttest{
 #' plot(ecdf(p1))
 #' }
 #' q1 <- qproddnf(ppoints(length(rv)), df1=df1,df2=df2,ncp1=ncp1,ncp2=ncp2)
-#' \dontrun{
+#' \donttest{
 #' qqplot(x=rv,y=q1)
 #' }
 #' @name proddnf
