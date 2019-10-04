@@ -26,3 +26,5 @@ LICENSE
 ^.drat_*
 ^.check_tmp
 rpkg_make
+Rd2.pdf
+.Rd2pdf*

@@ -26,6 +26,9 @@ convoluted_build.sh
 #DESCRIPTION
 #man/
 
+Rd2.pdf
+.Rd2pdf*
+
 # generated as part of the 'local' vignette build
 sadists.tex
 sadists.log
