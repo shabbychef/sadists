@@ -360,7 +360,7 @@ testf <- function(dpqr,nobs,...) {
 	text.size <- 6   # sigh
 
 	# http://stackoverflow.com/a/5688125/164611
-	p1 <- qplot(rv, geom = 'blank') +   
+	p1 <- ggplot(data, aes(x=draws)) + 
 		geom_line(aes(y = ..density.., colour = 'Empirical'), stat = 'density') +  
 		stat_function(fun = function(x) { dpqr$d(x,...) }, aes(colour = 'Theoretical')) +                       
 		geom_histogram(aes(y = ..density..), alpha = 0.3) +                        

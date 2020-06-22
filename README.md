@@ -50,7 +50,7 @@ testf <- function(dpqr, nobs, ...) {
     text.size <- 8  # sigh
     
     # http://stackoverflow.com/a/5688125/164611
-    p1 <- qplot(rv, geom = "blank") + geom_line(aes(y = ..density.., 
+    p1 <- ggplot(data, aes(x = draws)) + geom_line(aes(y = ..density.., 
         colour = "Empirical"), stat = "density") + 
         stat_function(fun = function(x) {
             dpqr$d(x, ...)

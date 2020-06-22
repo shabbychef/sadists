@@ -31,6 +31,7 @@ Suggests:
     testthat, 
     ggplot2, 
     xtable,
+    formatR,
     knitr
 URL: https://github.com/shabbychef/PKG_NAME()
 VignetteBuilder: knitr

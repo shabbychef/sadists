@@ -3,7 +3,6 @@
 \docType{package}
 \name{sadists}
 \alias{sadists}
-\alias{sadists-package}
 \title{Some Additional Distributions}
 \description{
 Some Additional Distributions.
