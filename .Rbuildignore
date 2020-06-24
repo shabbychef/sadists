@@ -28,3 +28,4 @@ LICENSE
 rpkg_make
 Rd2.pdf
 .Rd2pdf*
+nohup.out

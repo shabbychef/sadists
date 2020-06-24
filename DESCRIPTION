@@ -5,7 +5,7 @@ Authors@R: c(person(c("Steven", "E."), "Pav",
     email="shabbychef@gmail.com",
     comment = c(ORCID = "0000-0002-4197-6195")))
 Version: 0.2.3.3000
-Date: 2020-06-21
+Date: 2020-06-23
 License: LGPL-3
 Title: Some Additional Distributions
 BugReports: https://github.com/shabbychef/sadists/issues

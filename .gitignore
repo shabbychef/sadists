@@ -37,3 +37,4 @@ sadists.log
 *.bbl
 *.blg
 cache/
+nohup.out

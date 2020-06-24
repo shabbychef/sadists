@@ -1,5 +1,10 @@
 
-2016-03-19 Steven E. Pav <shabbychef@gmail.com>
+2020-06-24 Steven E. Pav <shabbychef@gmail.com>
+* 0.2.4 on CRAN
+* CRAN emergency release
+* no new functionality
+
+2017-03-19 Steven E. Pav <shabbychef@gmail.com>
 * 0.2.3 on CRAN
 * product of normals
 * move github figures to location CRAN understands.

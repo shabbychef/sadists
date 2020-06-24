@@ -8,6 +8,13 @@ History of the 'sadists' package.
 
 \newcommand{\sadists}{\href{https://github.com/shabbychef/sadists}}
 }
+\section{\sadists{} Version 0.2.4 (2020-06-24)}{
+
+\itemize{
+\item CRAN emergency release.
+}
+}
+
 \section{\sadists{} Version 0.2.3 (2017-03-19)}{
 
 \itemize{
