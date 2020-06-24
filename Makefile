@@ -10,8 +10,9 @@
 PKG_NAME 					:= sadists
 VMAJOR 						 = 0
 VMINOR 						 = 2
-VPATCH  					 = 3
-VDEV 							 = .3000
+VPATCH  					 = 4
+#VDEV 							 = .3000
+VDEV 							 = 
 
 undefine RPKG_USES_RCPP
 
