@@ -37,7 +37,7 @@ require(sadists)
 
 # sadists
 
-[![Build Status](https://travis-ci.org/shabbychef/sadists.png)](https://travis-ci.org/shabbychef/sadists)
+[![Build Status](https://github.com/shabbychef/sadists/workflows/R-CMD-check/badge.svg)](https://github.com/shabbychef/sadists/actions)
 [![codecov.io](http://codecov.io/github/shabbychef/sadists/coverage.svg?branch=master)](http://codecov.io/github/shabbychef/sadists?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/sadists)](https://cran.r-project.org/package=sadists)
 [![Downloads](http://cranlogs.r-pkg.org/badges/sadists?color=green)](http://www.r-pkg.org/pkg/sadists)
