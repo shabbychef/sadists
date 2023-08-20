@@ -3,6 +3,8 @@
 \docType{package}
 \name{sadists}
 \alias{sadists}
+\alias{_PACKAGE}
+\alias{sadists-package}
 \title{Some Additional Distributions}
 \description{
 Some Additional Distributions.
@@ -154,7 +156,18 @@ Walck, C. "HAndbook on Statistical Distributions for experimentalists."
 1996. 
 \url{http://www.stat.rice.edu/~dobelman/textfiles/DistributionsHandbook.pdf}
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/shabbychef/sadists}
+  \item Report bugs at \url{https://github.com/shabbychef/sadists/issues}
+}
+
+}
 \author{
 Steven E. Pav \email{shabbychef@gmail.com}
+
+\strong{Maintainer}: Steven E. Pav \email{shabbychef@gmail.com} (\href{https://orcid.org/0000-0002-4197-6195}{ORCID})
+
 }
 \keyword{package}
