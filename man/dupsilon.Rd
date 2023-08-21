@@ -133,7 +133,7 @@ Journal of Statistical Planning and Inference 79  (1999): 93--105.
 
 Pav, Steven. "Inference on the Sharpe ratio via the upsilon distribution.'
 Arxiv (2015). 
-\url{http://arxiv.org/abs/1505.00829}
+\url{https://arxiv.org/abs/1505.00829}
 }
 \seealso{
 lambda-prime distribution functions, 

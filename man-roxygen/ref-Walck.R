@@ -1,6 +1,6 @@
 #' @references  
 #'
-#' Walck, C. "HAndbook on Statistical Distributions for experimentalists."
+#' Walck, C. "Handbook on Statistical Distributions for experimentalists."
 #' 1996. 
-#' \url{http://www.stat.rice.edu/~dobelman/textfiles/DistributionsHandbook.pdf}
+#' \url{https://www.stat.rice.edu/~dobelman/textfiles/DistributionsHandbook.pdf}
 #'

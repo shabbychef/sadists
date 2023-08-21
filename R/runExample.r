@@ -44,7 +44,7 @@
 #' @references
 #'
 #' Attali, D. "Supplementing your R package with a shiny app."
-#' \url{http://deanattali.com/2015/04/21/r-package-shiny-app/}
+#' \url{https://deanattali.com/2015/04/21/r-package-shiny-app/}
 #'
 #' @export 
 #' @examples 
