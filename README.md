@@ -6,7 +6,7 @@
 [![codecov.io](http://codecov.io/github/shabbychef/sadists/coverage.svg?branch=master)](https://app.codecov.io/github/shabbychef/sadists?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/sadists)](https://cran.r-project.org/package=sadists)
 [![Downloads](http://cranlogs.r-pkg.org/badges/sadists?color=green)](https://www.r-pkg.org:443/pkg/sadists)
-[![Total](http://cranlogs.r-pkg.org/badges/grand-total/sadists?color=green)](http://www.r-pkg.org/pkg/sadists)
+[![Total](http://cranlogs.r-pkg.org/badges/grand-total/sadists?color=green)](https://www.r-pkg.org:443/pkg/sadists)
 
 Some Additional Distributions apparently not available in R.
 
@@ -126,7 +126,7 @@ testf(list(d = dkprime, p = pkprime, q = qkprime, r = rkprime),
 
 ## Lambda prime distribution
 
-A [Lambda prime](http://arxiv.org/abs/1003.4890v1) random variable is the sum of a standard
+A [Lambda prime](https://arxiv.org/abs/1003.4890v1) random variable is the sum of a standard
 normal and an independent, scaled central chi random variable.
 
 
