@@ -141,7 +141,7 @@ GNU Lesser General Public License for more details.
 \references{
 Paolella, Marc. Intermediate Probability: A Computational Approach.
 Wiley, 2007.
-\url{https://www.wiley.com/WileyCDA/WileyTitle/productCd-0470026375.html}
+\url{https://onlinelibrary.wiley.com/doi/book/10.1002/9780470035061}
 
 Lecoutre, Bruno. "Two Useful distributions for Bayesian predictive
 procedures under normal models." Journal of Statistical Planning and
