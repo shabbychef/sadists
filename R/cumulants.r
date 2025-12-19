@@ -34,8 +34,21 @@ norm_cumuls <- function(mean=0,sd=1,order.max=3) {
 
 # compute the 1 through order.max raw cumulants of
 # the (non-central) chi-square to the pow power distribution.
-chipow_cumuls <- function(df,ncp=0,pow=1,order.max=3) {
-	retval <- moment2cumulant(chipow_moms(df,ncp=ncp,pow=pow,order.max=order.max))
+chipow_cumuls <- function(df,ncp=0,pow=1,order.max=3,log=FALSE) {
+	if (all(pow==1)) {
+		# compute directly, which is more accurate
+		orders <- seq_len(order.max)
+		if (log) {
+			retval <- (orders-1) * log(2) + lgamma(orders) + log(df + orders*ncp)
+		} else {
+			retval <- 2^(orders-1) * gamma(orders) * (df + orders*ncp)
+		}
+	} else {
+		retval <- moment2cumulant(chipow_moms(df,ncp=ncp,pow=pow,order.max=order.max))
+		if (log) {
+			retval <- log(retval)
+		}
+	}
 	return(retval)
 }
 
