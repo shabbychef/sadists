@@ -11,11 +11,14 @@ runExample(port=NULL,launch.browser=TRUE,
 \item{port}{The TCP port that the application should listen on. If the
 \code{port} is not specified, and the \code{shiny.port} option is set (with
 \code{options(shiny.port = XX)}), then that port will be used. Otherwise,
-use a random port.}
+use a random port between 3000:8000, excluding ports that are blocked
+by Google Chrome for being considered unsafe: 3659, 4045, 5060,
+5061, 6000, 6566, 6665:6669 and 6697. Up to twenty random
+ports will be tried.}
 
 \item{launch.browser}{If true, the system's default web browser will be
 launched automatically after the app is started. Defaults to true in
-interactive sessions only. This value of this parameter can also be a
+interactive sessions only. The value of this parameter can also be a
 function to call with the application's URL.}
 
 \item{host}{The IPv4 address that the application should listen on. Defaults
@@ -45,7 +48,7 @@ runExample(launch.browser=TRUE)
 }
 \references{
 Attali, D. "Supplementing your R package with a shiny app."
-\url{http://deanattali.com/2015/04/21/r-package-shiny-app/}
+\url{https://deanattali.com/2015/04/21/r-package-shiny-app/}
 }
 \author{
 Steven E. Pav \email{shabbychef@gmail.com}

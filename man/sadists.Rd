@@ -2,6 +2,7 @@
 % Please edit documentation in R/sadists.r
 \docType{package}
 \name{sadists}
+\alias{sadists-package}
 \alias{sadists}
 \title{Some Additional Distributions}
 \description{
@@ -140,7 +141,7 @@ GNU Lesser General Public License for more details.
 \references{
 Paolella, Marc. Intermediate Probability: A Computational Approach.
 Wiley, 2007.
-\url{http://www.wiley.com/WileyCDA/WileyTitle/productCd-0470026375.html}
+\url{https://www.wiley.com/WileyCDA/WileyTitle/productCd-0470026375.html}
 
 Lecoutre, Bruno. "Two Useful distributions for Bayesian predictive
 procedures under normal models." Journal of Statistical Planning and
@@ -148,13 +149,24 @@ Inference 79, no. 1 (1999): 93-105.
 
 Poitevineau, Jacques, and Lecoutre, Bruno. "Implementing Bayesian predictive
 procedures: The K-prime and K-square distributions." Computational Statistics 
-and Data Analysis 54, no. 3 (2010): 724-731.  \url{http://arxiv.org/abs/1003.4890v1}
+and Data Analysis 54, no. 3 (2010): 724-731.  \url{https://arxiv.org/abs/1003.4890v1}
 
-Walck, C. "HAndbook on Statistical Distributions for experimentalists."
+Walck, C. "Handbook on Statistical Distributions for experimentalists."
 1996. 
-\url{http://www.stat.rice.edu/~dobelman/textfiles/DistributionsHandbook.pdf}
+\url{https://www.stat.rice.edu/~dobelman/textfiles/DistributionsHandbook.pdf}
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/shabbychef/sadists}
+  \item Report bugs at \url{https://github.com/shabbychef/sadists/issues}
+}
+
 }
 \author{
 Steven E. Pav \email{shabbychef@gmail.com}
+
+\strong{Maintainer}: Steven E. Pav \email{shabbychef@gmail.com} (\href{https://orcid.org/0000-0002-4197-6195}{ORCID})
+
 }
 \keyword{package}

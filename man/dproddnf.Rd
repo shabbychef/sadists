@@ -106,7 +106,7 @@ qqplot(x=rv,y=q1)
 }
 \references{
 Pav, Steven. Moments of the log non-central chi-square distribution.
-\url{http://arxiv.org/abs/1503.06266}
+\url{https://arxiv.org/abs/1503.06266}
 }
 \seealso{
 The sum of log of chi-squares distribution,

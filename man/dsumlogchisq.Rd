@@ -90,7 +90,7 @@ pvs <- qsumlogchisq(ppoints(length(rvs)), wts, df, ncp)
 }
 \references{
 Pav, Steven. Moments of the log non-central chi-square distribution.
-\url{http://arxiv.org/abs/1503.06266}
+\url{https://arxiv.org/abs/1503.06266}
 }
 \seealso{
 The product of chi-squares to a power,

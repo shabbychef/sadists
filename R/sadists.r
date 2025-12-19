@@ -162,6 +162,11 @@ NULL
 #'
 #' \newcommand{\sadists}{\href{https://github.com/shabbychef/sadists}}
 #'
+#' @section \sadists{} Version 0.2.5 (2025-12-25):
+#' \itemize{
+#' \item fix issues with high df chisquare moments, closing #16
+#' }
+#'
 #' @section \sadists{} Version 0.2.4 (2020-06-23):
 #' \itemize{
 #' \item CRAN emergency release.

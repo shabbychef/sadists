@@ -23,8 +23,8 @@
 
 # see also:
 #
-# http://www.statsresearch.co.nz/robert/QF.htm
-# http://www.jstor.org/stable/2347725
+# https://www.statsresearch.co.nz/robert/QF.htm
+# https://www.jstor.org/stable/2347725
 # Pan's algo
 
 # compute the moments of the doubly non-central

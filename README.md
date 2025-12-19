@@ -3,10 +3,10 @@
 # sadists
 
 [![Build Status](https://github.com/shabbychef/sadists/workflows/R-CMD-check/badge.svg)](https://github.com/shabbychef/sadists/actions)
-[![codecov.io](http://codecov.io/github/shabbychef/sadists/coverage.svg?branch=master)](http://codecov.io/github/shabbychef/sadists?branch=master)
-[![CRAN](http://www.r-pkg.org/badges/version/sadists)](https://cran.r-project.org/package=sadists)
-[![Downloads](http://cranlogs.r-pkg.org/badges/sadists?color=green)](http://www.r-pkg.org/pkg/sadists)
-[![Total](http://cranlogs.r-pkg.org/badges/grand-total/sadists?color=green)](http://www.r-pkg.org/pkg/sadists)
+[![codecov.io](https://codecov.io/github/shabbychef/sadists/graph/badge.svg?token=aUUQLyasWG)](https://app.codecov.io/github/shabbychef/sadists)
+[![CRAN](https://www.r-pkg.org/badges/version/sadists)](https://cran.r-project.org/package=sadists)
+[![Downloads](https://cranlogs.r-pkg.org/badges/sadists)](https://r-pkg.org/pkg/sadists)
+[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/sadists?color=brightgreen)](https://r-pkg.org/pkg/sadists)
 
 Some Additional Distributions apparently not available in R.
 
@@ -16,7 +16,7 @@ Some Additional Distributions apparently not available in R.
 
 This package can be installed from CRAN,
 via [drat](https://github.com/eddelbuettel/drat "drat"), or
-from [github](https://www.github.com/shabbychef/sadists "sadists"):
+from [github](https://github.com/shabbychef/sadists "sadists"):
 
 
 ```r
@@ -49,7 +49,7 @@ testf <- function(dpqr, nobs, ...) {
         ...))
     text.size <- 8  # sigh
     
-    # http://stackoverflow.com/a/5688125/164611
+	  # https://stackoverflow.com/a/5688125/164611
     p1 <- ggplot(data, aes(x = draws)) + geom_line(aes(y = ..density.., 
         colour = "Empirical"), stat = "density") + 
         stat_function(fun = function(x) {
@@ -126,7 +126,7 @@ testf(list(d = dkprime, p = pkprime, q = qkprime, r = rkprime),
 
 ## Lambda prime distribution
 
-A [Lambda prime](http://arxiv.org/abs/1003.4890v1) random variable is the sum of a standard
+A [Lambda prime](https://arxiv.org/abs/1003.4890v1) random variable is the sum of a standard
 normal and an independent, scaled central chi random variable.
 
 
@@ -158,7 +158,7 @@ testf(list(d = dupsilon, p = pupsilon, q = qupsilon,
 
 ## Doubly non-central t distribution
 
-The [doubly non-central t distribution](http://www.math.wm.edu/~leemis/chart/UDR/PDFs/Doublynoncentralt.pdf)
+The [doubly non-central t distribution](https://www.math.wm.edu/~leemis/chart/UDR/PDFs/Doublynoncentralt.pdf)
 generalizes the t distribution to the case where the denominator chi-square is non-central.
 
 
@@ -193,7 +193,7 @@ testf(list(d = ddnf, p = pdnf, q = qdnf, r = rdnf),
 
 ## Doubly non-central Beta distribution
 
-The [doubly non-central Beta distribution](http://www.jstor.org/stable/25051626)
+The [doubly non-central Beta distribution](https://www.jstor.org/stable/25051626)
 can be viewed as a transformation of the doubly non-central F 
 distribution. 
 

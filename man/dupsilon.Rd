@@ -130,10 +130,6 @@ Journal of Modern Applied Statistical Methods 6, no. 1 (2007): 107--116.
 
 Lecoutre, Bruno. "Two useful distributions for Bayesian predictive procedures under normal models."
 Journal of Statistical Planning and Inference 79  (1999): 93--105.
-
-Pav, Steven. "Inference on the Sharpe ratio via the upsilon distribution.'
-Arxiv (2015). 
-\url{http://arxiv.org/abs/1505.00829}
 }
 \seealso{
 lambda-prime distribution functions, 
