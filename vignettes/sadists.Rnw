@@ -715,7 +715,6 @@ testf(list(d=dprodnormal,p=pprodnormal,q=qprodnormal,r=rprodnormal),nobs=2^14,mu
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % bibliography%FOLDUP
-\nocite{markowitz1952portfolio,markowitz1999early,markowitz2012foundations}
 %\bibliographystyle{jss}
 %\bibliographystyle{siam}
 %\bibliographystyle{ieeetr}
