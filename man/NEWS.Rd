@@ -8,6 +8,13 @@ History of the 'sadists' package.
 
 \newcommand{\sadists}{\href{https://github.com/shabbychef/sadists}}
 }
+\section{\sadists{} Version 0.2.6 (2026-07-14)}{
+
+\itemize{
+\item fix missing vignette references.
+}
+}
+
 \section{\sadists{} Version 0.2.5 (2025-12-25)}{
 
 \itemize{
