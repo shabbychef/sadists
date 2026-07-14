@@ -10,7 +10,7 @@
 PKG_NAME 					:= sadists
 VMAJOR 						 = 0
 VMINOR 						 = 2
-VPATCH  					 = 5
+VPATCH  					 = 6
 #VDEV 							 = .3000
 VDEV 							 = 
 
