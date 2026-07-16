@@ -5,7 +5,7 @@ divert(0)dnl
 Package: PKG_NAME()
 Maintainer: Steven E. Pav <shabbychef@gmail.com>
 Authors@R: c(person(c("Steven", "E."), "Pav", 
-    role=c("aut","cre"),
+    role=c("aut","cre","cph"),
     email="shabbychef@gmail.com",
     comment = c(ORCID = "0000-0002-4197-6195")))
 Version: VERSION()
