@@ -166,7 +166,7 @@ Useful links:
 \author{
 Steven E. Pav \email{shabbychef@gmail.com}
 
-\strong{Maintainer}: Steven E. Pav \email{shabbychef@gmail.com} (\href{https://orcid.org/0000-0002-4197-6195}{ORCID})
+\strong{Maintainer}: Steven E. Pav \email{shabbychef@gmail.com} (\href{https://orcid.org/0000-0002-4197-6195}{ORCID}) [copyright holder]
 
 }
 \keyword{package}
